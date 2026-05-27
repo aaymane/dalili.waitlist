@@ -18,26 +18,7 @@ export default function EmailCapture() {
   const [error,  setError]  = useState('');
   const [status, setStatus] = useState('idle'); // idle | loading | success
 
-  // ── Rotating gradient border
-  useEffect(() => {
-    let angle = 0;
-    let raf;
-    const animate = () => {
-      angle = (angle + 0.36) % 360;
-      if (borderRef.current) {
-        borderRef.current.style.background =
-          `conic-gradient(from ${angle.toFixed(1)}deg,` +
-          `rgba(1,77,248,0) 0%,` +
-          `rgba(1,77,248,0) 52%,` +
-          `rgba(77,143,255,0.9) 66%,` +
-          `rgba(140,210,255,0.55) 70%,` +
-          `rgba(1,77,248,0) 80%)`;
-      }
-      raf = requestAnimationFrame(animate);
-    };
-    raf = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(raf);
-  }, []);
+  // Rotating border handled by CSS class .waitlist-border-anim (no JS RAF needed)
 
   // ── Card scroll entrance
   useEffect(() => {
@@ -55,37 +36,27 @@ export default function EmailCapture() {
     return () => ctx.revert();
   }, []);
 
-  // ── Magnetic button effect
+  // ── Magnetic button effect — direct transform in event handler, no RAF loop
   useEffect(() => {
     const btn = btnRef.current;
     if (!btn || window.innerWidth < 768) return;
-    let bx = 0, by = 0, raf;
 
     const onMove = (e) => {
       const r  = btn.getBoundingClientRect();
       const dx = e.clientX - (r.left + r.width / 2);
       const dy = e.clientY - (r.top  + r.height / 2);
       const d  = Math.hypot(dx, dy);
-      const maxR = 80;
-      if (d < maxR) {
-        bx = dx * 0.35;
-        by = dy * 0.35;
+      if (d < 80) {
+        btn.style.transform = `translate(${(dx * 0.35).toFixed(1)}px, ${(dy * 0.35).toFixed(1)}px)`;
       } else {
-        bx = 0;
-        by = 0;
+        btn.style.transform = 'translate(0px, 0px)';
       }
     };
-    const onLeave = () => { bx = 0; by = 0; };
-    const loop = () => {
-      if (btn) btn.style.transform = `translate(${bx.toFixed(1)}px, ${by.toFixed(1)}px)`;
-      raf = requestAnimationFrame(loop);
-    };
+    const onLeave = () => { btn.style.transform = 'translate(0px, 0px)'; };
 
     window.addEventListener('mousemove', onMove, { passive: true });
     window.addEventListener('mouseleave', onLeave);
-    raf = requestAnimationFrame(loop);
     return () => {
-      cancelAnimationFrame(raf);
       window.removeEventListener('mousemove', onMove);
       window.removeEventListener('mouseleave', onLeave);
     };
@@ -173,9 +144,10 @@ export default function EmailCapture() {
         ref={cardRef}
         style={{ position: 'relative', zIndex: 1, width: 'min(100%, 580px)' }}
       >
-        {/* Rotating gradient border layer */}
+        {/* Rotating gradient border layer — animated via CSS class (compositor thread) */}
         <div
           ref={borderRef}
+          className="waitlist-border-anim"
           style={{
             position: 'absolute',
             inset: 0,
@@ -195,8 +167,8 @@ export default function EmailCapture() {
           background: 'rgba(4,8,28,0.96)',
           border: '1px solid rgba(1,77,248,0.14)',
           borderRadius: 24,
-          backdropFilter: 'blur(32px)',
-          WebkitBackdropFilter: 'blur(32px)',
+          backdropFilter: 'blur(16px)',
+          WebkitBackdropFilter: 'blur(16px)',
           boxShadow: '0 40px 100px rgba(0,0,0,0.55), 0 0 100px rgba(1,77,248,0.06)',
           overflow: 'hidden',
         }}>
@@ -350,7 +322,7 @@ export default function EmailCapture() {
                       cursor: status === 'loading' ? 'wait' : 'pointer',
                       whiteSpace: 'nowrap',
                       boxShadow: '0 8px 32px rgba(1,77,248,0.35)',
-                      transition: 'filter .2s ease, box-shadow .2s ease',
+                      transition: 'filter .2s ease, box-shadow .2s ease, transform .15s ease',
                       willChange: 'transform',
                     }}
                     onMouseEnter={e => {

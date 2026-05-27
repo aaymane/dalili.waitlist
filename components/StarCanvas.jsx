@@ -2,12 +2,20 @@
 
 import { useEffect, useRef } from 'react';
 
-// Three depth layers: far / mid / near — reduced for perf
+// Three depth layers: far / mid / near
 const LAYERS = [
-  { count: 900,  rMin: 0.15, rMax: 0.7,  twinkleAmp: 0.25, parallax: 0.012 },
-  { count: 350,  rMin: 0.35, rMax: 1.2,  twinkleAmp: 0.40, parallax: 0.030 },
-  { count: 150,  rMin: 0.6,  rMax: 2.0,  twinkleAmp: 0.55, parallax: 0.055 },
+  { count: 700,  rMin: 0.15, rMax: 0.7,  twinkleAmp: 0.25, parallax: 0.012 },
+  { count: 260,  rMin: 0.35, rMax: 1.2,  twinkleAmp: 0.40, parallax: 0.030 },
+  { count: 100,  rMin: 0.6,  rMax: 2.0,  twinkleAmp: 0.55, parallax: 0.055 },
 ];
+
+// Pre-built color table: 32 opacity levels per color string → zero GC in draw loop
+const COLOR_STEPS = 32;
+function buildColorTable(colorRgb) {
+  return Array.from({ length: COLOR_STEPS }, (_, i) =>
+    `rgba(${colorRgb},${(i / (COLOR_STEPS - 1)).toFixed(3)})`
+  );
+}
 
 const WARM = ['255,248,230', '255,252,210', '255,255,255'];
 const COOL = ['210,228,255', '195,220,255', '220,240,255', '255,255,255'];
@@ -49,7 +57,7 @@ export default function StarCanvas() {
     const ctx     = canvas.getContext('2d');
     const isMobile = window.innerWidth < 768;
     const reduced  = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const factor   = isMobile ? 0.4 : 1;
+    const factor   = isMobile ? 0.25 : 1;
 
     let W = 0, H = 0;
     let nebulaCache = null;
@@ -77,19 +85,20 @@ export default function StarCanvas() {
       }, { passive: true });
     }
 
-    // Build star layers
+    // Build star layers — pre-cache color strings to avoid GC in draw loop
     const layers = LAYERS.map((cfg) => ({
       ...cfg,
       stars: Array.from({ length: Math.floor(cfg.count * factor) }, () => {
         const palette = Math.random() < 0.55 ? COOL : WARM;
+        const color   = palette[Math.floor(Math.random() * palette.length)];
         return {
-          x:     Math.random(),
-          y:     Math.random(),
-          r:     cfg.rMin + Math.random() * (cfg.rMax - cfg.rMin),
-          base:  0.25 + Math.random() * 0.75,
-          speed: (0.6 + Math.random() * 4.5) * 0.0009,
-          phase: Math.random() * Math.PI * 2,
-          color: palette[Math.floor(Math.random() * palette.length)],
+          x:      Math.random(),
+          y:      Math.random(),
+          r:      cfg.rMin + Math.random() * (cfg.rMax - cfg.rMin),
+          base:   0.25 + Math.random() * 0.75,
+          speed:  (0.6 + Math.random() * 4.5) * 0.0009,
+          phase:  Math.random() * Math.PI * 2,
+          colors: buildColorTable(color), // pre-built: no string alloc in draw loop
         };
       }),
     }));
@@ -171,7 +180,7 @@ export default function StarCanvas() {
 
           ctx.beginPath();
           ctx.arc(sx, sy, s.r, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(${s.color},${opacity.toFixed(3)})`;
+          ctx.fillStyle = s.colors[Math.round(opacity * (COLOR_STEPS - 1))];
           ctx.fill();
         }
       }

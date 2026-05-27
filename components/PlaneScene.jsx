@@ -171,17 +171,18 @@ function DustParticles({ count = 150 }) {
 
 // ── Root export ───────────────────────────────────────────────
 export default function PlaneScene() {
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
   return (
     <Canvas
       camera={{ position: [0, 0, 12], fov: 52 }}
-      gl={{ alpha: true, antialias: true, powerPreference: 'high-performance' }}
-      dpr={[1, 1.5]}
+      gl={{ alpha: true, antialias: !isMobile, powerPreference: 'high-performance' }}
+      dpr={isMobile ? [1, 1] : [1, 1.5]}
       style={{ background: 'transparent', display: 'block', width: '100%', height: '100%', willChange: 'transform' }}
     >
       <Suspense fallback={null}>
         <PlaneMesh />
         <EngineLights />
-        <DustParticles />
+        {!isMobile && <DustParticles />}
         <ambientLight intensity={0.08} color="#1a3060" />
       </Suspense>
     </Canvas>

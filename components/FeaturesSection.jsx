@@ -180,7 +180,7 @@ export default function FeaturesSection() {
                 background: card.bg,
                 border: `1px solid ${card.border}`,
                 borderRadius: 20,
-                backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)',
+                backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)',
                 boxShadow: `0 20px 60px rgba(0,0,0,0.35), 0 0 40px ${card.glow}`,
                 position: 'relative', overflow: 'hidden',
                 cursor: 'default', transformStyle: 'preserve-3d',
