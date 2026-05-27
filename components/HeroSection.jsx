@@ -255,7 +255,11 @@ export default function HeroSection({ revealed = false }) {
           <PlaneCinematic />
         </div>
 
-        {/* ── TEXT LAYER */}
+        {/* ── TEXT LAYER
+            hero-text-offset: CSS-only upward shift on mobile so content
+            sits at ~35% from top instead of 50% — prevents the visual void
+            when the plane has flown away. Does NOT touch GSAP transforms. */}
+        <div className="hero-text-offset" style={{ position: 'relative', zIndex: 10, width: '100%' }}>
         <div
           ref={textRef}
           className="hero-text-wrap"
@@ -342,6 +346,7 @@ export default function HeroSection({ revealed = false }) {
             {' '}internationaux à chaque étape de leur aventure.
           </p>
         </div>
+        </div>{/* /hero-text-offset */}
 
         {/* Scroll cue */}
         <div ref={cueRef} className="scroll-cue" style={{

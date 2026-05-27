@@ -271,6 +271,9 @@ input[type="email"]:focus {
   }
 
   /* ── Hero text ───────────────────────────────────────────── */
+  /* Shift text block upward so it sits at ~35% from top instead of 50%
+     — eliminates the visual void above the badge after the plane flies out */
+  .hero-text-offset { transform: translateY(-10vh); }
   .hero-text-wrap  { padding: 0 16px !important; }
   .hero-badge      { padding: 6px 14px !important; margin-bottom: 18px !important; max-width: 90vw !important; }
   .hero-badge-text { font-size: 0.5rem !important; letter-spacing: 0.12em !important; }
