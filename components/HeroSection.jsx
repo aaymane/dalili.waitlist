@@ -139,6 +139,20 @@ export default function HeroSection({ revealed = false }) {
         },
       );
 
+      // ── Chips fade OUT before text arrives — fully gone by 200px scroll (text starts ~287px)
+      const chipEls = Array.from(section.querySelectorAll('.hero-chip-wrap'));
+      if (chipEls.length) {
+        gsap.to(chipEls, {
+          opacity: 0, y: -18, ease: 'power2.in',
+          scrollTrigger: {
+            trigger: section,
+            start: 'top top',
+            end: `+=${mobile ? 200 : 320}`,
+            scrub: true,   // locked to scroll (no lag) — reliable disappear
+          },
+        });
+      }
+
       // Per-character curtain reveal
       linesRef.current.forEach((line, i) => {
         if (!line) return;

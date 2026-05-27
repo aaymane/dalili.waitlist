@@ -237,18 +237,17 @@ body {
   .hero-chip-wrap-2 { left: 5%;  top: 71%; animation: chipFloat2 4.2s ease-in-out infinite 2.0s; }
 }
 
-/* Mobile: two stacked centered chips in the empty space below the plane */
+/* Mobile: asymmetric diagonal — chip-0 right, chip-1 left, creates depth */
 @media (max-width: 767px) {
   .hero-chip-wrap-0 {
-    left: 50%;
-    top: 56%;
-    transform: translateX(-50%);
+    left: auto;
+    right: 4%;
+    top: 48%;
     animation: chipFloat0 4.5s ease-in-out infinite;
   }
   .hero-chip-wrap-1 {
-    left: 50%;
-    top: 69%;
-    transform: translateX(-50%);
+    left: 4%;
+    top: 63%;
     animation: chipFloat1 3.9s ease-in-out infinite 1.2s;
   }
   .hero-chip-wrap-2 { display: none; }
