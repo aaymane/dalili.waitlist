@@ -109,6 +109,7 @@ export default function FeaturesSection() {
   return (
     <section
       ref={sectionRef}
+      className="features-section"
       style={{
         padding: 'clamp(80px,12vw,160px) clamp(16px,5vw,80px)',
         position: 'relative', overflow: 'hidden',
@@ -163,7 +164,7 @@ export default function FeaturesSection() {
         </div>
 
         {/* Cards */}
-        <div style={{
+        <div className="features-grid" style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
           gap: 'clamp(16px,2.5vw,28px)',

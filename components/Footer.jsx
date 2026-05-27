@@ -67,11 +67,11 @@ export default function Footer() {
       }} />
 
       {/* Bottom row */}
-      <div style={{
+      <div className="footer-bottom" style={{
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        padding: '0 clamp(24px, 5vw, 60px)',
+        padding: '0 clamp(16px, 5vw, 60px)',
         flexWrap: 'wrap',
         gap: 12,
       }}>
@@ -106,7 +106,7 @@ export default function Footer() {
           © {new Date().getFullYear()} Dalili. Tous droits réservés.
         </p>
 
-        <div style={{ display: 'flex', gap: 24 }}>
+        <div className="footer-links" style={{ display: 'flex', gap: 24 }}>
           {['Mentions légales', 'Confidentialité'].map(link => (
             <a
               key={link}

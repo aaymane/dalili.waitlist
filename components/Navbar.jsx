@@ -12,7 +12,7 @@ export default function Navbar() {
       if (window.scrollY > 50) {
         navRef.current.style.backdropFilter = 'blur(20px)';
         navRef.current.style.webkitBackdropFilter = 'blur(20px)';
-        navRef.current.style.background = 'rgba(1,5,16,0.8)';
+        navRef.current.style.background = 'rgba(1,5,16,0.85)';
         navRef.current.style.borderBottom = '1px solid rgba(255,255,255,0.06)';
       } else {
         navRef.current.style.backdropFilter = 'none';
@@ -28,6 +28,7 @@ export default function Navbar() {
   return (
     <nav
       ref={navRef}
+      className="navbar"
       style={{
         position: 'fixed',
         top: 0,
@@ -68,6 +69,7 @@ export default function Navbar() {
       {/* CTA */}
       <a
         href="#early-access"
+        className="navbar-cta"
         style={{
           display: 'inline-flex',
           alignItems: 'center',
@@ -82,6 +84,7 @@ export default function Navbar() {
           textDecoration: 'none',
           transition: 'opacity 0.2s ease, transform 0.2s ease',
           pointerEvents: 'auto',
+          whiteSpace: 'nowrap',
         }}
         onMouseEnter={e => { e.currentTarget.style.opacity = '0.85'; e.currentTarget.style.transform = 'scale(1.03)'; }}
         onMouseLeave={e => { e.currentTarget.style.opacity = '1'; e.currentTarget.style.transform = 'scale(1)'; }}

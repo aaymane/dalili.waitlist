@@ -10,10 +10,10 @@ gsap.registerPlugin(ScrollTrigger);
 const PlaneScene = dynamic(() => import('./PlaneScene'), { ssr: false });
 
 const LINES = [
-  { text: 'TON',     color: '#ffffff',               size: 'clamp(5.5rem,13.5vw,16rem)', ls: '0.02em' },
-  { text: 'GUIDE',   color: '#ffffff',               size: 'clamp(5.5rem,13.5vw,16rem)', ls: '0.02em' },
-  { text: 'POUR LA', color: 'rgba(255,255,255,0.5)', size: 'clamp(2.6rem,6.5vw,7.5rem)',  ls: '0.06em' },
-  { text: 'FRANCE.', color: '#014df8',               size: 'clamp(5rem,12vw,14rem)',      ls: '0.02em' },
+  { text: 'TON',     color: '#ffffff',               size: 'clamp(3.8rem,13.5vw,16rem)', ls: '0.02em' },
+  { text: 'GUIDE',   color: '#ffffff',               size: 'clamp(3.8rem,13.5vw,16rem)', ls: '0.02em' },
+  { text: 'POUR LA', color: 'rgba(255,255,255,0.5)', size: 'clamp(1.9rem,6.5vw,7.5rem)',  ls: '0.06em' },
+  { text: 'FRANCE.', color: '#014df8',               size: 'clamp(3.5rem,12vw,14rem)',    ls: '0.02em' },
 ];
 
 const SECTION_VH = 420;
@@ -31,11 +31,12 @@ export default function HeroSection({ revealed = false }) {
   useEffect(() => {
     const W = window.innerWidth;
     const H = window.innerHeight;
+    const mobile = W < 768;
     if (planeRef.current) {
-      // Start off-screen: top-right corner
       gsap.set(planeRef.current, {
         xPercent: -50, yPercent: -50,
-        x:  W * 0.85, y: -H * 0.65,
+        x:  mobile ? W * 0.5  : W * 0.85,
+        y:  mobile ? -H * 0.5 : -H * 0.65,
         rotate: -6, opacity: 0,
       });
     }
@@ -50,29 +51,32 @@ export default function HeroSection({ revealed = false }) {
     const text    = textRef.current;
     if (!section || !plane || !text) return;
 
-    const W = window.innerWidth;
-    const H = window.innerHeight;
+    const W      = window.innerWidth;
+    const H      = window.innerHeight;
+    const mobile = W < 768;
 
-    // 1. Plane enters from off-screen top-right → lands at visible top-right
+    // 1. Plane enters from off-screen → lands at visible position
     gsap.to(plane, {
       xPercent: -50, yPercent: -50,
-      x:  W * 0.28, y: -H * 0.18,
-      rotate: 5, opacity: 1,
+      x:      mobile ? W * 0.5  : W * 0.28,
+      y:      mobile ? -H * 0.08 : -H * 0.18,
+      rotate: mobile ? 2 : 5,
+      opacity: 1,
       duration: 1.7, ease: 'power3.out',
       onComplete: () => {
-        // 2. Scroll-driven diagonal: top-right → bottom-left
+        // 2. Scroll-driven diagonal exit
         gsap.context(() => {
           gsap.to(plane, {
             xPercent: -50, yPercent: -50,
-            x: -W * 0.62,
-            y:  H * 0.38,
+            x:      mobile ? -W * 0.6 : -W * 0.62,
+            y:      mobile ?  H * 0.2 :  H * 0.38,
             rotate: -4,
             opacity: 0,
             ease: 'none',
             scrollTrigger: {
               trigger: section,
               start: 'top top',
-              end: '58% bottom',
+              end:   '58% bottom',
               scrub: 2.2,
             },
           });
@@ -80,10 +84,9 @@ export default function HeroSection({ revealed = false }) {
       },
     });
 
-    // 3. Text & character animations (scroll-linked)
+    // 3. Text & character animations
     const ctx = gsap.context(() => {
 
-      // Text container fades in as plane exits
       gsap.fromTo(text,
         { opacity: 0 },
         {
@@ -97,7 +100,6 @@ export default function HeroSection({ revealed = false }) {
         },
       );
 
-      // Badge / subtitle / scroll-cue slide up
       gsap.fromTo(
         [badgeRef.current, subRef.current, cueRef.current].filter(Boolean),
         { y: 28, opacity: 0 },
@@ -112,24 +114,19 @@ export default function HeroSection({ revealed = false }) {
         },
       );
 
-      // 4. Per-character curtain reveal — each line staggered in sequence
+      // Per-character curtain reveal
       linesRef.current.forEach((line, i) => {
         if (!line) return;
         const chars = line.querySelectorAll('.hero-char');
         if (!chars.length) return;
 
-        // Start: characters hidden below clip box
         gsap.set(chars, { yPercent: 115, opacity: 0 });
 
-        // Stagger into view from left, scrubbed to scroll
         gsap.to(chars, {
           yPercent: 0,
           opacity: 1,
           ease: 'power3.out',
-          stagger: {
-            each: 0.032,
-            from: 'start',
-          },
+          stagger: { each: 0.032, from: 'start' },
           scrollTrigger: {
             trigger: section,
             start: `${33 + i * 5}% center`,
@@ -144,7 +141,7 @@ export default function HeroSection({ revealed = false }) {
     return () => ctx.revert();
   }, [revealed]);
 
-  // ── Mouse parallax — 3D tilt on text block
+  // ── Mouse parallax — desktop only
   useEffect(() => {
     if (typeof window !== 'undefined' && window.innerWidth < 768) return;
     let tx = 0, ty = 0, cx = 0, cy = 0, raf;
@@ -195,21 +192,26 @@ export default function HeroSection({ revealed = false }) {
           pointerEvents: 'none', zIndex: 1, filter: 'blur(2px)',
         }} />
 
-        {/* ── PLANE wrapper — left/top 50% + GSAP xPercent/yPercent = centered */}
-        <div ref={planeRef} style={{
-          position: 'absolute',
-          left: '50%', top: '50%',
-          width: 'clamp(520px, 68vw, 980px)',
-          height: 'clamp(320px, 42.5vw, 612px)',
-          zIndex: 4, pointerEvents: 'none',
-          willChange: 'transform',
-        }}>
+        {/* ── PLANE wrapper */}
+        <div
+          ref={planeRef}
+          className="hero-plane-wrap"
+          style={{
+            position: 'absolute',
+            left: '50%', top: '50%',
+            width: 'clamp(520px, 68vw, 980px)',
+            height: 'clamp(320px, 42.5vw, 612px)',
+            zIndex: 4, pointerEvents: 'none',
+            willChange: 'transform',
+          }}
+        >
           <PlaneScene />
         </div>
 
-        {/* ── TEXT LAYER (scroll-revealed) */}
+        {/* ── TEXT LAYER */}
         <div
           ref={textRef}
+          className="hero-text-wrap"
           style={{
             position: 'relative', zIndex: 10,
             textAlign: 'center',
@@ -220,7 +222,7 @@ export default function HeroSection({ revealed = false }) {
           }}
         >
           {/* Badge */}
-          <div ref={badgeRef} style={{
+          <div ref={badgeRef} className="hero-badge" style={{
             display: 'inline-flex', marginBottom: 36,
             padding: '7px 22px',
             border: '1px solid rgba(255,255,255,0.12)',
@@ -239,7 +241,7 @@ export default function HeroSection({ revealed = false }) {
             </span>
           </div>
 
-          {/* Title — per-character cascade reveal */}
+          {/* Title */}
           <h1 style={{
             margin: '0 0 32px',
             fontFamily: 'var(--font-bebas)',
@@ -269,7 +271,7 @@ export default function HeroSection({ revealed = false }) {
           </h1>
 
           {/* Subtitle */}
-          <p ref={subRef} style={{
+          <p ref={subRef} className="hero-subtitle" style={{
             fontFamily: 'var(--font-dm-sans)',
             fontWeight: 300,
             fontSize: 'clamp(0.9rem, 1.3vw, 1.1rem)',
@@ -282,7 +284,7 @@ export default function HeroSection({ revealed = false }) {
         </div>
 
         {/* Scroll cue */}
-        <div ref={cueRef} style={{
+        <div ref={cueRef} className="scroll-cue" style={{
           position: 'absolute', bottom: 44, left: '50%',
           transform: 'translateX(-50%)',
           display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10,

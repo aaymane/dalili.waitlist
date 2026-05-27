@@ -100,6 +100,7 @@ export default function EmailCapture() {
     <section
       id="early-access"
       ref={sectionRef}
+      className="email-section"
       style={{
         minHeight: '100vh',
         display: 'grid',
@@ -279,7 +280,7 @@ export default function EmailCapture() {
                   position: 'absolute', width: 1, height: 1, overflow: 'hidden', clip: 'rect(0,0,0,0)',
                 }}>Email</label>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: 12 }}>
+                <div className="email-form-row" style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: 12 }}>
                   <input
                     id="ec-email"
                     ref={inputRef}
