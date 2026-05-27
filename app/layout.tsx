@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Montserrat, Open_Sans, Bebas_Neue, DM_Sans } from "next/font/google";
+import { Montserrat, Bebas_Neue, DM_Sans } from "next/font/google";
 import dynamic from "next/dynamic";
 import "./globals.css";
 
@@ -10,15 +10,7 @@ const montserrat = Montserrat({
   variable: "--font-montserrat",
   weight: ["300", "400", "500", "600", "700", "800", "900"],
   display: "swap",
-  preload: false,
-});
-
-const openSans = Open_Sans({
-  subsets: ["latin"],
-  variable: "--font-open-sans",
-  weight: ["300", "400", "500", "600", "700"],
-  display: "swap",
-  preload: false,
+  preload: true,
 });
 
 const bebasNeue = Bebas_Neue({
@@ -26,7 +18,7 @@ const bebasNeue = Bebas_Neue({
   variable: "--font-bebas",
   weight: "400",
   display: "swap",
-  preload: false,
+  preload: true,
 });
 
 const dmSans = DM_Sans({
@@ -47,7 +39,13 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   title: "DALILI — Ton arrivée en France commence ici",
   description:
-    "DALILI accompagne les étudiants internationaux à leur arrivée en France : mentors, hôtes, communauté, démarches.",
+    "DALILI accompagne les étudiants internationaux à leur arrivée en France : mentors, communauté et démarches simplifiées.",
+  openGraph: {
+    title: "DALILI — Ton arrivée en France commence ici",
+    description:
+      "L'application qui accompagne les étudiants internationaux à chaque étape de leur aventure en France.",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
@@ -56,9 +54,16 @@ export default function RootLayout({
   return (
     <html
       lang="fr"
-      className={`${montserrat.variable} ${openSans.variable} ${bebasNeue.variable} ${dmSans.variable}`}
+      className={`${montserrat.variable} ${bebasNeue.variable} ${dmSans.variable}`}
     >
       <body className="bg-[#010510] text-white antialiased overflow-x-hidden">
+        {/* Skip to main content — screen readers & keyboard users */}
+        <a
+          href="#main-content"
+          className="skip-link"
+        >
+          Aller au contenu principal
+        </a>
         <CustomCursor />
         {children}
       </body>

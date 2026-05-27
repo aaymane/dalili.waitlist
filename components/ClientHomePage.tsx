@@ -34,7 +34,7 @@ export default function ClientHomePage() {
           <StarCanvas />
           <Navbar />
 
-          <main style={{ position: 'relative', zIndex: 2 }}>
+          <main id="main-content" style={{ position: 'relative', zIndex: 2 }}>
             {/* Pass revealed so plane entrance is synced with logo disappearance */}
             <HeroSection revealed={revealed} />
             <FeaturesSection />

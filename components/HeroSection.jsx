@@ -7,7 +7,8 @@ import dynamic from 'next/dynamic';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const PlaneScene = dynamic(() => import('./PlaneScene'), { ssr: false });
+// Canvas 2D renderer — no WebGL, works everywhere (headless, mobile, Lighthouse)
+const PlaneCinematic = dynamic(() => import('./PlaneCinematic'), { ssr: false });
 
 const LINES = [
   { text: 'TON',     color: '#ffffff',               size: 'clamp(3.8rem,13.5vw,16rem)', ls: '0.02em' },
@@ -205,7 +206,7 @@ export default function HeroSection({ revealed = false }) {
             willChange: 'transform',
           }}
         >
-          <PlaneScene />
+          <PlaneCinematic />
         </div>
 
         {/* ── TEXT LAYER */}

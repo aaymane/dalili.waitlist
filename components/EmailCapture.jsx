@@ -307,6 +307,7 @@ export default function EmailCapture() {
                   <button
                     ref={btnRef}
                     type="submit"
+                    aria-label="Rejoindre la liste d'attente Dalili"
                     disabled={status === 'loading'}
                     style={{
                       padding: '16px 28px',

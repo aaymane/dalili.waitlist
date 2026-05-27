@@ -10,6 +10,28 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 
+/* ─── Skip to content link (accessibility) ──────────────────── */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 16px;
+  z-index: 99999;
+  padding: 12px 20px;
+  background: #014df8;
+  color: #fff;
+  font-family: var(--font-montserrat);
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-radius: 0 0 8px 8px;
+  text-decoration: none;
+  transition: top 0.2s ease;
+}
+.skip-link:focus {
+  top: 0;
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
 html {
   scroll-behavior: auto !important;
 }

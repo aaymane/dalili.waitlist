@@ -204,7 +204,7 @@ export default function FeaturesSection() {
                   fontSize: '1.6rem',
                   filter: `drop-shadow(0 0 12px ${card.iconGlow})`,
                 }}>
-                  {card.icon}
+                  <span aria-hidden="true">{card.icon}</span>
                 </div>
                 <span style={{
                   fontFamily: 'var(--font-montserrat)',
