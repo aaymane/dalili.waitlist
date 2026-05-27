@@ -1,5 +1,7 @@
 'use client';
 
+import Image from 'next/image';
+
 const ROW1_ITEMS = [
   'DALILI', '✦', 'TON GUIDE EN FRANCE', '✦', 'MENTORS', '✦',
   'COMMUNAUTÉ', '✦', 'DÉMARCHES', '✦', 'IOS & ANDROID', '✦',
@@ -75,7 +77,7 @@ export default function Footer() {
       }}>
         {/* Logo mark */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <img
+          <Image
             src="/dalili-logo.svg"
             alt="DALILI"
             width={24}

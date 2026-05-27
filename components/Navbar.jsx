@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import Image from 'next/image';
 
 export default function Navbar() {
   const navRef = useRef(null);
@@ -45,7 +46,7 @@ export default function Navbar() {
     >
       {/* Logo */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-        <img
+        <Image
           src="/dalili-logo.svg"
           alt="DALILI"
           data-navbar-logo="true"
