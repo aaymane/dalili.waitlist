@@ -75,10 +75,13 @@ export default function CustomCursor() {
 
   return (
     <>
+      {/* Both elements start off-screen via transform so they're never visible
+          if the pointer:fine check fails (touch / mobile / in-app browser). */}
       <div ref={dotRef} aria-hidden="true" style={{
         position:"fixed",top:0,left:0,width:6,height:6,
         background:"#4d8fff",borderRadius:"50%",zIndex:10001,
         pointerEvents:"none",willChange:"transform",
+        transform:"translate(-300px,-300px)",
         transition:"width .2s ease,height .2s ease,background .2s ease",
         boxShadow:"0 0 10px rgba(77,143,255,0.9),0 0 20px rgba(77,143,255,0.4)",
       }}/>
@@ -86,6 +89,7 @@ export default function CustomCursor() {
         position:"fixed",top:0,left:0,width:38,height:38,
         border:"1px solid rgba(77,143,255,0.35)",borderRadius:"50%",
         zIndex:10000,pointerEvents:"none",willChange:"transform",
+        transform:"translate(-300px,-300px)",
       }}/>
     </>
   );
