@@ -108,6 +108,7 @@ export default function HeroSection({ revealed = false }) {
     const mobile = W < 768;
 
     // 1. Plane swoops in from off-screen (1.7s entrance)
+    //    onComplete: set up scroll exit AFTER entrance so they never conflict
     gsap.to(plane, {
       xPercent: -50, yPercent: -50,
       x:      mobile ? 0       : W * 0.26,
@@ -115,6 +116,22 @@ export default function HeroSection({ revealed = false }) {
       rotate: mobile ? 2 : 5,
       opacity: 1,
       duration: 1.7, ease: 'power3.out',
+      onComplete: () => {
+        // Scroll-driven diagonal exit — set up AFTER entrance so there's no tween conflict
+        gsap.to(plane, {
+          xPercent: -50, yPercent: -50,
+          x:       mobile ? -W * 0.7 : -W * 0.62,
+          y:       mobile ?  H * 0.25 :  H * 0.38,
+          rotate: -6, opacity: 0,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: section,
+            start: 'top top',
+            end:   '55% bottom',
+            scrub: 2,
+          },
+        });
+      },
     });
 
     // 2. Cards spring in — parallel with plane landing (delay 1.2s so they appear as plane arrives)
@@ -158,24 +175,8 @@ export default function HeroSection({ revealed = false }) {
       });
     });
 
-    // 3. All scroll-based animations in one context for proper cleanup
+    // 3. Text + chip/skyline scroll animations in context for proper cleanup
     const ctx = gsap.context(() => {
-
-      // Plane scroll-driven exit — overwrite entrance if user scrolls early
-      gsap.to(plane, {
-        xPercent: -50, yPercent: -50,
-        x:       mobile ? -W * 0.7 : -W * 0.62,
-        y:       mobile ?  H * 0.25 :  H * 0.38,
-        rotate: -6, opacity: 0,
-        ease: 'none',
-        overwrite: 'auto',
-        scrollTrigger: {
-          trigger: section,
-          start: 'top top',
-          end:   '55% bottom',
-          scrub: 2,
-        },
-      });
 
       // Text container fades in
       gsap.fromTo(text,
