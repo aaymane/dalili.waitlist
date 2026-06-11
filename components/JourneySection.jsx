@@ -119,7 +119,7 @@ export default function JourneySection() {
     <section
       ref={sectionRef}
       style={{
-        padding: 'clamp(80px,12vw,160px) 0',
+        padding: 'clamp(44px,6vw,88px) 0',
         position: 'relative',
         overflow: 'hidden',
       }}

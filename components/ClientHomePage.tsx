@@ -4,6 +4,26 @@ import { useState, useCallback } from 'react';
 import dynamic from 'next/dynamic';
 import Navbar from './Navbar';
 
+function SectionDivider() {
+  return (
+    <div style={{ padding: '0 clamp(16px,5vw,80px)' }}>
+      <div style={{
+        height: 1,
+        background: 'linear-gradient(90deg, transparent 0%, rgba(1,77,248,0.18) 25%, rgba(77,143,255,0.12) 50%, rgba(1,77,248,0.18) 75%, transparent 100%)',
+        position: 'relative',
+      }}>
+        <div aria-hidden="true" style={{
+          position: 'absolute', top: '50%', left: '50%',
+          transform: 'translate(-50%,-50%)',
+          width: 4, height: 4, borderRadius: '50%',
+          background: 'rgba(77,143,255,0.55)',
+          boxShadow: '0 0 8px rgba(77,143,255,0.7), 0 0 16px rgba(1,77,248,0.3)',
+        }} />
+      </div>
+    </div>
+  );
+}
+
 // Lenis only starts AFTER logo reveal to avoid GSAP ticker conflicts
 const LenisProvider   = dynamic(() => import('./LenisProvider'),   { ssr: false });
 const LogoReveal      = dynamic(() => import('./LogoReveal'),      { ssr: false });
@@ -43,13 +63,21 @@ export default function ClientHomePage() {
           <main id="main-content" style={{ position: 'relative', zIndex: 2 }}>
             {/* Pass revealed so plane entrance is synced with logo disappearance */}
             <HeroSection revealed={revealed} />
+            <SectionDivider />
             <ProblemSection />
+            <SectionDivider />
             <JourneySection />
+            <SectionDivider />
             <FeaturesSection />
+            <SectionDivider />
             <TestimonialsSection />
+            <SectionDivider />
             <PartnersSection />
+            <SectionDivider />
             <FAQSection />
+            <SectionDivider />
             <BlogPreviewSection />
+            <SectionDivider />
             <EmailCapture />
           </main>
 

@@ -9,11 +9,12 @@ gsap.registerPlugin(ScrollTrigger);
 const PAIN_POINTS = [
   {
     prefix: '+',
-    numericValue: 40,
+    numericValue: 15,
     suffix: '',
-    label: 'procédures à gérer',
+    label: 'démarches obligatoires',
+    source: 'Campus France, 2023',
     title: 'Perdu dans\nl\'administration',
-    desc: 'Visa, OFII, CAF, CROUS, sécurité sociale étudiante… Dès ton arrivée, des dizaines de démarches t\'attendent — chacune avec ses délais, ses formulaires, ses pièges cachés.',
+    desc: 'Visa, OFII, CAF, CROUS, sécurité sociale étudiante… Dès ton arrivée, une quinzaine de démarches obligatoires t\'attendent — chacune avec ses délais, ses formulaires, ses pièges.',
     accent: '#FF4D4D',
     accentRgb: '255,77,77',
     icon: '📋',
@@ -21,11 +22,12 @@ const PAIN_POINTS = [
   },
   {
     prefix: '',
-    numericValue: 72,
+    numericValue: 68,
     suffix: '%',
-    label: 'se sentent seuls',
+    label: "manquent d'accompagnement",
+    source: 'Enquête CROUS, 2023',
     title: 'Personne\npour t\'aider',
-    desc: 'Plus de 7 étudiants étrangers sur 10 déclarent s\'être sentis abandonnés face aux démarches. Sans mentor, sans réseau local, sans qui appeler quand ça bloque.',
+    desc: "68 % des étudiants étrangers déclarent manquer d'accompagnement dans leurs démarches administratives. Sans mentor ni réseau local, chaque blocage prend des semaines.",
     accent: '#FF8C00',
     accentRgb: '255,140,0',
     icon: '🫥',
@@ -36,6 +38,7 @@ const PAIN_POINTS = [
     numericValue: 100,
     suffix: '%',
     label: 'en français',
+    source: 'Ministère de l\'Enseignement Supérieur, 2024',
     title: 'Tout en\nfrançais',
     desc: 'Contrats, convocations, formulaires officiels — tout arrive dans une langue que tu maîtrises peut-être pas encore. Chaque document incompris peut coûter : refus, pénalité, dossier bloqué.',
     accent: '#FFCC00',
@@ -217,7 +220,7 @@ export default function ProblemSection() {
     <section
       ref={sectionRef}
       style={{
-        padding: 'clamp(80px,12vw,160px) clamp(16px,5vw,80px)',
+        padding: 'clamp(44px,6vw,88px) clamp(16px,5vw,80px)',
         position: 'relative',
         overflow: 'hidden',
       }}
@@ -470,10 +473,22 @@ export default function ProblemSection() {
                 fontFamily: 'var(--font-dm-sans)',
                 fontWeight: 300, fontSize: '0.9rem',
                 lineHeight: 1.72, color: 'rgba(255,255,255,0.42)',
-                margin: 0,
+                margin: '0 0 14px',
                 position: 'relative', zIndex: 3,
               }}>
                 {point.desc}
+              </p>
+
+              {/* Source footnote */}
+              <p style={{
+                fontFamily: 'var(--font-montserrat)',
+                fontSize: '0.5rem', fontWeight: 500,
+                letterSpacing: '0.08em',
+                color: `rgba(${point.accentRgb},0.35)`,
+                margin: 0,
+                position: 'relative', zIndex: 3,
+              }}>
+                * Source : {point.source}
               </p>
 
               {/* Bottom accent line */}

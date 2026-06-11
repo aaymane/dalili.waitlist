@@ -8,10 +8,10 @@ const ARTICLES = [
     category: 'Banque',
     accentRgb: '34,197,94',
     accent: '#22C55E',
-    // Two blob colors for the mesh header
-    blob1: 'rgba(34,197,94,0.38)',
-    blob2: 'rgba(1,77,248,0.14)',
-    icon: '🏦',
+    // Pure-CSS cover: dark forest base + green diagonal gradient + scanlines
+    coverBase: 'linear-gradient(145deg, #041a0d 0%, #021208 45%, #010a10 100%)',
+    coverGlow: 'radial-gradient(ellipse at 25% 60%, rgba(34,197,94,0.30) 0%, transparent 58%)',
+    coverGlow2: 'radial-gradient(ellipse at 80% 30%, rgba(1,77,248,0.10) 0%, transparent 50%)',
     title: "Comment ouvrir un compte bancaire en France sans adresse fixe",
     excerpt: "C'est l'un des premiers obstacles des étudiants internationaux. Sans compte, impossible de signer un bail ou de toucher les aides. On t'explique les vraies solutions qui fonctionnent.",
     readTime: '6 min',
@@ -22,9 +22,10 @@ const ARTICLES = [
     category: 'Logement',
     accentRgb: '239,179,112',
     accent: '#EFB370',
-    blob1: 'rgba(239,179,112,0.38)',
-    blob2: 'rgba(255,80,50,0.12)',
-    icon: '📋',
+    // Pure-CSS cover: dark amber/brown base + warm radial glow
+    coverBase: 'linear-gradient(145deg, #1a0e04 0%, #0d0802 45%, #08050e 100%)',
+    coverGlow: 'radial-gradient(ellipse at 30% 55%, rgba(239,179,112,0.28) 0%, transparent 56%)',
+    coverGlow2: 'radial-gradient(ellipse at 75% 25%, rgba(255,80,40,0.08) 0%, transparent 50%)',
     title: "CAF étudiant étranger : délais, documents et erreurs à éviter",
     excerpt: "L'aide au logement peut atteindre 200 €/mois — mais beaucoup d'étudiants ratent le délai ou font des erreurs dans le dossier. Le guide complet pour ne rien rater.",
     readTime: '8 min',
@@ -35,9 +36,10 @@ const ARTICLES = [
     category: 'Visa',
     accentRgb: '77,143,255',
     accent: '#4d8fff',
-    blob1: 'rgba(77,143,255,0.4)',
-    blob2: 'rgba(124,58,237,0.16)',
-    icon: '🛂',
+    // Pure-CSS cover: deep navy base + blue luminance gradient
+    coverBase: 'linear-gradient(145deg, #030b22 0%, #020616 45%, #010410 100%)',
+    coverGlow: 'radial-gradient(ellipse at 28% 60%, rgba(77,143,255,0.32) 0%, transparent 58%)',
+    coverGlow2: 'radial-gradient(ellipse at 78% 28%, rgba(124,58,237,0.12) 0%, transparent 50%)',
     title: "Visa étudiant France : tout ce qu'il faut savoir avant de partir",
     excerpt: "VLS-TS, Campus France, validation OFII... Le parcours visa est semé d'obstacles. Ce guide recense toutes les étapes dans l'ordre, avec les délais réels à anticiper.",
     readTime: '10 min',
@@ -79,7 +81,7 @@ export default function BlogPreviewSection() {
     <section
       ref={sectionRef}
       style={{
-        padding: 'clamp(80px,12vw,160px) clamp(16px,5vw,80px)',
+        padding: 'clamp(44px,6vw,88px) clamp(16px,5vw,80px)',
         position: 'relative',
         overflow: 'hidden',
       }}
@@ -214,59 +216,72 @@ export default function BlogPreviewSection() {
                 }}
               />
 
-              {/* ── Gradient mesh header ── */}
+              {/* ── CSS gradient cover ── */}
               <div style={{
-                height: 'clamp(140px,18vw,176px)',
+                height: 'clamp(148px,18vw,184px)',
                 position: 'relative',
                 overflow: 'hidden',
-                background: `rgba(${article.accentRgb},0.04)`,
+                background: article.coverBase,
                 flexShrink: 0,
               }}>
-                {/* Blob 1 — upper-left */}
-                <div aria-hidden="true" style={{
-                  position: 'absolute',
-                  top: '-30%', left: '-15%',
-                  width: '65%', height: '200%',
-                  background: `radial-gradient(ellipse at 40% 45%, ${article.blob1} 0%, transparent 58%)`,
-                  filter: 'blur(18px)',
-                }} />
-                {/* Blob 2 — lower-right */}
-                <div aria-hidden="true" style={{
-                  position: 'absolute',
-                  bottom: '-40%', right: '-10%',
-                  width: '60%', height: '180%',
-                  background: `radial-gradient(ellipse at 60% 55%, ${article.blob2} 0%, transparent 55%)`,
-                  filter: 'blur(22px)',
-                }} />
-
-                {/* Dot-grid overlay — cinematic detail */}
+                {/* Primary radial glow — left-centre */}
                 <div aria-hidden="true" style={{
                   position: 'absolute', inset: 0,
-                  backgroundImage: [
-                    'radial-gradient(circle, rgba(255,255,255,0.12) 1px, transparent 1px)',
-                  ].join(','),
-                  backgroundSize: '24px 24px',
-                  maskImage: 'linear-gradient(to bottom, transparent, rgba(0,0,0,0.5) 40%, transparent)',
-                  WebkitMaskImage: 'linear-gradient(to bottom, transparent, rgba(0,0,0,0.5) 40%, transparent)',
+                  background: article.coverGlow,
                 }} />
-
-                {/* Scan line — thin horizontal rule for the space aesthetic */}
+                {/* Secondary radial glow — right-top */}
                 <div aria-hidden="true" style={{
-                  position: 'absolute', bottom: 0, left: 0, right: 0, height: 1,
-                  background: `linear-gradient(90deg, transparent, rgba(${article.accentRgb},0.45), transparent)`,
+                  position: 'absolute', inset: 0,
+                  background: article.coverGlow2,
                 }} />
 
-                {/* Large ghost icon — subtle */}
+                {/* Horizontal scanlines for cinematic texture */}
+                <div aria-hidden="true" style={{
+                  position: 'absolute', inset: 0,
+                  backgroundImage: 'repeating-linear-gradient(0deg, rgba(255,255,255,0.018) 0px, rgba(255,255,255,0.018) 1px, transparent 1px, transparent 5px)',
+                }} />
+
+                {/* Large typographic category name — centrepiece */}
                 <div aria-hidden="true" style={{
                   position: 'absolute', inset: 0,
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: 'clamp(3rem,5vw,4rem)',
-                  opacity: 0.12,
-                  filter: 'blur(2px)',
-                  userSelect: 'none',
+                  overflow: 'hidden',
                 }}>
-                  {article.icon}
+                  <span style={{
+                    fontFamily: 'var(--font-bebas)',
+                    fontSize: 'clamp(4.5rem,9vw,8rem)',
+                    letterSpacing: '0.12em',
+                    color: `rgba(${article.accentRgb},0.13)`,
+                    userSelect: 'none',
+                    whiteSpace: 'nowrap',
+                    lineHeight: 1,
+                    transform: 'rotate(-4deg) translateY(4px)',
+                    display: 'block',
+                  }}>
+                    {article.category.toUpperCase()}
+                  </span>
                 </div>
+
+                {/* Diagonal accent line */}
+                <div aria-hidden="true" style={{
+                  position: 'absolute',
+                  top: '50%', left: '-5%',
+                  width: '110%', height: 1,
+                  background: `linear-gradient(90deg, transparent, rgba(${article.accentRgb},0.18), transparent)`,
+                  transform: 'rotate(-6deg)',
+                }} />
+
+                {/* Bottom fade into card body */}
+                <div aria-hidden="true" style={{
+                  position: 'absolute', bottom: 0, left: 0, right: 0, height: '45%',
+                  background: 'linear-gradient(to bottom, transparent, rgba(1,4,16,0.75))',
+                }} />
+
+                {/* Bottom accent scan line */}
+                <div aria-hidden="true" style={{
+                  position: 'absolute', bottom: 0, left: 0, right: 0, height: 1,
+                  background: `linear-gradient(90deg, transparent, rgba(${article.accentRgb},0.5), transparent)`,
+                }} />
 
                 {/* Hover brightness overlay */}
                 <motion.div
@@ -274,7 +289,7 @@ export default function BlogPreviewSection() {
                   variants={headerOverlayVariants}
                   style={{
                     position: 'absolute', inset: 0,
-                    background: `rgba(${article.accentRgb},0.06)`,
+                    background: `rgba(${article.accentRgb},0.05)`,
                     pointerEvents: 'none',
                   }}
                 />

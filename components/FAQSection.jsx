@@ -21,7 +21,7 @@ export default function FAQSection() {
     <section
       ref={sectionRef}
       style={{
-        padding: 'clamp(80px,12vw,160px) clamp(16px,5vw,80px)',
+        padding: 'clamp(44px,6vw,88px) clamp(16px,5vw,80px)',
         position: 'relative',
         overflow: 'hidden',
       }}

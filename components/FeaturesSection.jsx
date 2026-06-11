@@ -198,7 +198,7 @@ export default function FeaturesSection() {
       ref={sectionRef}
       className="features-section"
       style={{
-        padding: 'clamp(80px,12vw,160px) clamp(16px,5vw,80px)',
+        padding: 'clamp(44px,6vw,88px) clamp(16px,5vw,80px)',
         position: 'relative', overflow: 'hidden',
       }}
     >
@@ -236,13 +236,13 @@ export default function FeaturesSection() {
             lineHeight: 0.9, letterSpacing: '0.04em',
             color: '#fff', margin: 0,
           }}>
-            {'DALILI'.split('').map((ch, i) => (
+            {'CE QUE DALILI'.split('').map((ch, i) => (
               <span key={i} className="char-wrap" style={{ display: 'inline-block', overflow: 'hidden', verticalAlign: 'bottom' }}>
                 <span className="feat-char" style={{ display: 'inline-block' }}>{ch}</span>
               </span>
             ))}
             <br />
-            {'T\'ACCOMPAGNE'.split('').map((ch, i) => (
+            {'FAIT POUR TOI'.split('').map((ch, i) => (
               <span key={i} className="char-wrap" style={{ display: 'inline-block', overflow: 'hidden', verticalAlign: 'bottom' }}>
                 <span className="feat-char" style={{ display: 'inline-block', color: 'rgba(255,255,255,0.5)' }}>{ch}</span>
               </span>

@@ -260,7 +260,7 @@ export default function EmailCapture() {
                 letterSpacing: '0.04em',
                 color: '#fff',
               }}>
-                Rejoins<br />l&apos;avant-première
+                Prêt à partir<br />sans stress ?
               </h2>
 
               <p style={{
@@ -271,7 +271,7 @@ export default function EmailCapture() {
                 lineHeight: 1.7,
                 color: 'rgba(255,255,255,0.42)',
               }}>
-                Sois parmi les premiers à recevoir Dalili et rejoindre notre communauté d&apos;étudiants internationaux.
+                Rejoins 200+ étudiants qui se préparent à vivre en France avec Dalili.
               </p>
 
               <form onSubmit={handleSubmit} noValidate>
