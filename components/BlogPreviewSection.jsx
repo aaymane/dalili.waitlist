@@ -1,6 +1,7 @@
 'use client';
 
 import { useRef } from 'react';
+import Link from 'next/link';
 import { motion, useInView } from 'framer-motion';
 
 const ARTICLES = [
@@ -16,7 +17,7 @@ const ARTICLES = [
     excerpt: "C'est l'un des premiers obstacles des étudiants internationaux. Sans compte, impossible de signer un bail ou de toucher les aides. On t'explique les vraies solutions qui fonctionnent.",
     readTime: '6 min',
     date: '28 mai 2025',
-    slug: 'ouvrir-compte-bancaire-france-sans-adresse',
+    slug: 'comment-ouvrir-compte-bancaire-france-sans-adresse-fixe',
   },
   {
     category: 'Logement',
@@ -30,7 +31,7 @@ const ARTICLES = [
     excerpt: "L'aide au logement peut atteindre 200 €/mois — mais beaucoup d'étudiants ratent le délai ou font des erreurs dans le dossier. Le guide complet pour ne rien rater.",
     readTime: '8 min',
     date: '14 mai 2025',
-    slug: 'caf-etudiant-etranger-delais-documents',
+    slug: 'caf-etudiant-etranger-delais-documents-erreurs',
   },
   {
     category: 'Visa',
@@ -44,7 +45,7 @@ const ARTICLES = [
     excerpt: "VLS-TS, Campus France, validation OFII... Le parcours visa est semé d'obstacles. Ce guide recense toutes les étapes dans l'ordre, avec les délais réels à anticiper.",
     readTime: '10 min',
     date: '2 mai 2025',
-    slug: 'visa-etudiant-france-guide-complet',
+    slug: 'visa-etudiant-france-tout-savoir-avant-partir',
   },
 ];
 
@@ -145,26 +146,28 @@ export default function BlogPreviewSection() {
           </div>
 
           {/* Right: see-all CTA */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={inView ? { opacity: 1 } : {}}
-            transition={{ delay: 0.35, duration: 0.6 }}
-            style={{
-              display: 'flex', alignItems: 'center', gap: 8,
-              paddingBottom: 4,
-              cursor: 'default',
-            }}
-          >
-            <span style={{
-              fontFamily: 'var(--font-montserrat)',
-              fontSize: '0.65rem', fontWeight: 700,
-              letterSpacing: '0.16em', textTransform: 'uppercase',
-              color: 'rgba(77,143,255,0.65)',
-            }}>
-              Voir tous les articles
-            </span>
-            <span style={{ color: 'rgba(77,143,255,0.5)', fontSize: '0.8rem' }}>→</span>
-          </motion.div>
+          <Link href="/blog" style={{ textDecoration: 'none' }}>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={inView ? { opacity: 1 } : {}}
+              transition={{ delay: 0.35, duration: 0.6 }}
+              style={{
+                display: 'flex', alignItems: 'center', gap: 8,
+                paddingBottom: 4,
+                cursor: 'pointer',
+              }}
+            >
+              <span style={{
+                fontFamily: 'var(--font-montserrat)',
+                fontSize: '0.65rem', fontWeight: 700,
+                letterSpacing: '0.16em', textTransform: 'uppercase',
+                color: 'rgba(77,143,255,0.65)',
+              }}>
+                Voir tous les articles
+              </span>
+              <span style={{ color: 'rgba(77,143,255,0.5)', fontSize: '0.8rem' }}>→</span>
+            </motion.div>
+          </Link>
         </motion.div>
 
         {/* ── Cards grid ── */}
@@ -180,8 +183,12 @@ export default function BlogPreviewSection() {
           }}
         >
           {ARTICLES.map((article) => (
-            <motion.article
+            <Link
               key={article.slug}
+              href={`/blog/${article.slug}`}
+              style={{ textDecoration: 'none', display: 'block' }}
+            >
+            <motion.article
               variants={itemVariants}
               initial="rest"
               whileHover="hover"
@@ -192,7 +199,7 @@ export default function BlogPreviewSection() {
                 borderColor: `rgba(${article.accentRgb},0.18)`,
                 borderRadius: 22,
                 overflow: 'hidden',
-                cursor: 'default',
+                cursor: 'pointer',
                 display: 'flex', flexDirection: 'column',
                 backdropFilter: 'blur(18px)',
                 WebkitBackdropFilter: 'blur(18px)',
@@ -447,6 +454,7 @@ export default function BlogPreviewSection() {
                 </div>
               </div>
             </motion.article>
+            </Link>
           ))}
         </motion.div>
 
