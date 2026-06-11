@@ -6,6 +6,7 @@ const FROM     = "Dalili <onboarding@resend.dev>";
 const ADMIN    = "boyayman388@gmail.com";
 
 export async function POST(request: NextRequest) {
+  console.log("ENV KEY:", process.env.RESEND_API_KEY ? "FOUND: " + process.env.RESEND_API_KEY.slice(0, 10) : "MISSING");
   try {
     const body   = await request.json();
     const email  = String(body.email  ?? "").trim().toLowerCase();
@@ -19,7 +20,6 @@ export async function POST(request: NextRequest) {
     }
 
     const apiKey = process.env.RESEND_API_KEY;
-    console.log("KEY:", apiKey?.slice(0, 10));
     if (!apiKey) {
       console.error("[subscribe] RESEND_API_KEY is not set");
       return NextResponse.json({ ok: false, error: "Erreur serveur." }, { status: 500 });
