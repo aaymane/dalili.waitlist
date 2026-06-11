@@ -66,9 +66,9 @@ export default function HeroSection({ revealed = false }) {
   const badgeRef          = useRef(null);
   const subRef            = useRef(null);
   const chipsRef          = useRef([]);
-  const skylineWrap       = useRef(null); // fades out before text appears
-  const horizonGlow       = useRef(null); // the blue ellipse following the plane — fades on scroll
-  const immediateTitleRef = useRef(null); // always-visible title in left half on desktop
+  const skylineWrap  = useRef(null); // fades out before text appears
+  const horizonGlow  = useRef(null); // the blue ellipse following the plane — fades on scroll
+  const heroBadgeRef = useRef(null); // "Bientôt disponible" pill above the cards
 
   // ── Set section height + initial hidden state before paint
   useEffect(() => {
@@ -93,8 +93,8 @@ export default function HeroSection({ revealed = false }) {
         rotate: -8, opacity: 0,
       });
     }
-    if (textRef.current) gsap.set(textRef.current, { opacity: 0 });
-    if (immediateTitleRef.current) gsap.set(immediateTitleRef.current, { opacity: 0, y: 18 });
+    if (textRef.current)   gsap.set(textRef.current,   { opacity: 0 });
+    if (heroBadgeRef.current) gsap.set(heroBadgeRef.current, { opacity: 0, y: 10 });
   }, []);
 
   // ── Entrance + scroll animations (run once logo disappears)
@@ -136,12 +136,12 @@ export default function HeroSection({ revealed = false }) {
       },
     });
 
-    // 2a. Immediate title fades in on desktop — synced with plane arrival
-    if (!mobile && immediateTitleRef.current) {
-      gsap.to(immediateTitleRef.current, {
+    // 2a. Badge pill fades in on desktop — appears as plane arrives
+    if (!mobile && heroBadgeRef.current) {
+      gsap.to(heroBadgeRef.current, {
         opacity: 1, y: 0,
-        duration: 0.9, ease: 'power2.out',
-        delay: 0.7,
+        duration: 0.8, ease: 'power2.out',
+        delay: 0.9,
       });
     }
 
@@ -222,9 +222,9 @@ export default function HeroSection({ revealed = false }) {
       // FIX: fromTo with explicit opacity:1 → scrub reversal correctly restores cards on scroll-back
       const chipEls    = Array.from(section.querySelectorAll('.hero-chip-wrap'));
       const fadeTargets = chipEls.filter(Boolean);
-      if (skylineWrap.current)       fadeTargets.push(skylineWrap.current);
-      if (horizonGlow.current)       fadeTargets.push(horizonGlow.current);
-      if (immediateTitleRef.current) fadeTargets.push(immediateTitleRef.current);
+      if (skylineWrap.current)  fadeTargets.push(skylineWrap.current);
+      if (horizonGlow.current)  fadeTargets.push(horizonGlow.current);
+      if (heroBadgeRef.current) fadeTargets.push(heroBadgeRef.current);
 
       if (fadeTargets.length) {
         gsap.fromTo(fadeTargets,
@@ -466,34 +466,36 @@ export default function HeroSection({ revealed = false }) {
         </div>
         </div>{/* /hero-text-offset */}
 
-        {/* ── Immediate title — visible on load, desktop only, left half above cards ── */}
+        {/* ── "Bientôt disponible" badge above the left card column ── */}
         <div
-          ref={immediateTitleRef}
-          className="hero-immediate-title"
-          aria-hidden="false"
-          style={{ pointerEvents: 'none', userSelect: 'none' }}
+          ref={heroBadgeRef}
+          className="hero-cards-badge"
+          aria-hidden="true"
         >
-          <h1 style={{
-            fontFamily: 'var(--font-bebas)',
-            fontWeight: 400, lineHeight: 0.92,
-            margin: '0 0 18px',
+          <div style={{
+            display: 'inline-flex', alignItems: 'center', gap: 8,
+            padding: '7px 16px',
+            border: '1px solid rgba(77,143,255,0.28)',
+            borderRadius: 100,
+            background: 'rgba(1,77,248,0.07)',
+            backdropFilter: 'blur(10px)',
+            WebkitBackdropFilter: 'blur(10px)',
+            boxShadow: '0 0 20px rgba(1,77,248,0.18), inset 0 1px 0 rgba(255,255,255,0.05)',
           }}>
-            <span style={{ display: 'block', fontSize: 'clamp(3rem,5.8vw,8rem)', color: '#ffffff', letterSpacing: '0.01em' }}>TON</span>
-            <span style={{ display: 'block', fontSize: 'clamp(3rem,5.8vw,8rem)', color: '#ffffff', letterSpacing: '0.01em' }}>GUIDE</span>
-            <span style={{ display: 'block', fontSize: 'clamp(1.5rem,2.8vw,3.8rem)', color: 'rgba(255,255,255,0.45)', letterSpacing: '0.04em' }}>POUR LA</span>
-            <span style={{ display: 'block', fontSize: 'clamp(2.6rem,5.2vw,7.2rem)', color: '#014df8', letterSpacing: '0.01em' }}>FRANCE.</span>
-          </h1>
-          <p style={{
-            fontFamily: 'var(--font-dm-sans)',
-            fontWeight: 300,
-            fontSize: 'clamp(0.8rem,1vw,0.95rem)',
-            color: 'rgba(255,255,255,0.4)',
-            lineHeight: 1.75,
-            margin: 0,
-            maxWidth: '34vw',
-          }}>
-            Visa, logement, CAF, banque —<br />on t&apos;accompagne pas à pas.
-          </p>
+            <div style={{
+              width: 5, height: 5, borderRadius: '50%',
+              background: '#4d8fff',
+              boxShadow: '0 0 8px #4d8fff, 0 0 18px rgba(77,143,255,0.55)',
+              animation: 'badgeGlow 3s ease-in-out infinite',
+            }} />
+            <span style={{
+              fontFamily: 'var(--font-montserrat)',
+              fontSize: '0.52rem', fontWeight: 700,
+              letterSpacing: '0.18em', textTransform: 'uppercase',
+              color: 'rgba(77,143,255,0.85)',
+              whiteSpace: 'nowrap',
+            }}>✦ Bientôt disponible</span>
+          </div>
         </div>
 
         {/* ── Dalili app notification cards — floating product UI fragments

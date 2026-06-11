@@ -226,19 +226,19 @@ body {
   50%       { transform: translateY(-8px); }
 }
 
-/* Immediate title — desktop left half, above the cards */
-.hero-immediate-title {
-  display: none; /* hidden on mobile — scroll-driven centered title serves that */
+/* "Bientôt disponible" badge — desktop only, above the card column */
+.hero-cards-badge {
+  display: none;
 }
-
 @media (min-width: 768px) {
-  .hero-immediate-title {
+  .hero-cards-badge {
     display: block;
     position: absolute;
-    left: 4%;
-    top: 10%;
-    width: 40%;
-    z-index: 8;
+    left: 40px;
+    top: calc(35% - 52px);
+    z-index: 9;
+    pointer-events: none;
+    user-select: none;
   }
 }
 
@@ -249,11 +249,11 @@ body {
   pointer-events: none;
 }
 
-/* Desktop: left column, plane is right — GSAP handles all motion */
+/* Desktop: tight vertical left column — stacked with 20px gap */
 @media (min-width: 768px) {
-  .hero-chip-wrap-0 { left: 6%;  top: 36%; }
-  .hero-chip-wrap-1 { left: 10%; top: 54%; }
-  .hero-chip-wrap-2 { left: 5%;  top: 69%; }
+  .hero-chip-wrap-0 { left: 40px; top: 35%; }
+  .hero-chip-wrap-1 { left: 40px; top: calc(35% + 140px); }
+  .hero-chip-wrap-2 { left: 40px; top: calc(35% + 280px); }
 }
 
 /* Mobile: alternating right-left-right diagonal */
