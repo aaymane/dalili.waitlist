@@ -9,6 +9,7 @@ const LenisProvider   = dynamic(() => import('./LenisProvider'),   { ssr: false 
 const LogoReveal      = dynamic(() => import('./LogoReveal'),      { ssr: false });
 const StarCanvas      = dynamic(() => import('./StarCanvas'),      { ssr: false });
 const HeroSection     = dynamic(() => import('./HeroSection'),     { ssr: false }) as React.ComponentType<{ revealed: boolean }>;
+const ProblemSection  = dynamic(() => import('./ProblemSection'),  { ssr: false });
 const FeaturesSection = dynamic(() => import('./FeaturesSection'), { ssr: false });
 const EmailCapture    = dynamic(() => import('./EmailCapture'),    { ssr: false });
 const Footer          = dynamic(() => import('./Footer'),          { ssr: false });
@@ -37,6 +38,7 @@ export default function ClientHomePage() {
           <main id="main-content" style={{ position: 'relative', zIndex: 2 }}>
             {/* Pass revealed so plane entrance is synced with logo disappearance */}
             <HeroSection revealed={revealed} />
+            <ProblemSection />
             <FeaturesSection />
             <EmailCapture />
           </main>
