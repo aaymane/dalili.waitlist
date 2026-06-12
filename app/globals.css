@@ -226,7 +226,7 @@ body {
   50%       { transform: translateY(-8px); }
 }
 
-/* "Bientôt disponible" badge — desktop only, above the phone column */
+/* "Bientôt disponible" badge — desktop only, above the left phone column */
 .hero-cards-badge {
   display: none;
 }
@@ -234,24 +234,29 @@ body {
   .hero-cards-badge {
     display: block;
     position: absolute;
-    left: 50%;
-    top: calc(50% - 350px);
-    transform: translateX(-50%);
+    left: 24px;
+    top: calc(50% - 370px);
     z-index: 9;
     pointer-events: none;
     user-select: none;
   }
 }
 
-/* ── Phone mockup column positioning ─────────────────────────── */
-/* Phones are 640px wide (two 280px phones + 32px gap).
-   Center the block horizontally, vertically centered in viewport. */
+/* ── Left-panel phone wrapper ────────────────────────────────── */
+/* Fixed 480px column anchored to the left edge.
+   Container inside uses position:relative + height:600px so the
+   absolutely-positioned phones don't collapse it.
+   480px ensures the stacked phones overlap correctly:
+     back  (240px): left = 5% = 24px  → right edge 264px
+     front (270px): left = calc(95%-270px) = 186px → right edge 456px
+     overlap zone: 186–264px (78px) */
 .hero-phones-wrap {
   display: none;
-  left: 50%;
+  left: 24px;
   top: 50%;
-  transform: translate(-50%, -50%);
+  transform: translateY(-50%);
   z-index: 8;
+  width: 480px;
 }
 @media (min-width: 768px) {
   .hero-phones-wrap {
@@ -259,14 +264,11 @@ body {
   }
 }
 
-/* 3D floating keyframes for DALILIPhones */
-@keyframes phonesRotateY {
-  from { transform: perspective(1000px) rotateY(-8deg); }
-  to   { transform: perspective(1000px) rotateY(8deg);  }
-}
-@keyframes phonesFloat {
-  from { transform: translateY(0px);   }
-  to   { transform: translateY(-12px); }
+/* Float keyframe — translateY only so it never conflicts with
+   the rotate/scale CSS transitions on the inner phone div. */
+@keyframes phoneFloat {
+  0%, 100% { transform: translateY(0px);   }
+  50%       { transform: translateY(-14px); }
 }
 
 /* Outer wrapper: absolute position + float animation */
