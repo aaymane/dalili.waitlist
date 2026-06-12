@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Montserrat, Bebas_Neue, DM_Sans } from "next/font/google";
 import "./globals.css";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://dalili-waitlist.vercel.app";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://dalili.study";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
