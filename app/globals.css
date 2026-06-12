@@ -226,7 +226,7 @@ body {
   50%       { transform: translateY(-8px); }
 }
 
-/* "Bientôt disponible" badge — desktop only, above the card column */
+/* "Bientôt disponible" badge — desktop only, above the phone column */
 .hero-cards-badge {
   display: none;
 }
@@ -235,11 +235,35 @@ body {
     display: block;
     position: absolute;
     left: 40px;
-    top: calc(35% - 52px);
+    top: calc(50% - 192px);
     z-index: 9;
     pointer-events: none;
     user-select: none;
   }
+}
+
+/* ── Phone mockup column positioning ─────────────────────────── */
+.hero-phones-wrap {
+  display: none;
+  left: 40px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 8;
+}
+@media (min-width: 768px) {
+  .hero-phones-wrap {
+    display: block;
+  }
+}
+
+/* 3D floating keyframes for DALILIPhones */
+@keyframes phonesRotateY {
+  from { transform: perspective(1000px) rotateY(-8deg); }
+  to   { transform: perspective(1000px) rotateY(8deg);  }
+}
+@keyframes phonesFloat {
+  from { transform: translateY(0px);   }
+  to   { transform: translateY(-12px); }
 }
 
 /* Outer wrapper: absolute position + float animation */

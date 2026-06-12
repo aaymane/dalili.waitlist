@@ -4,51 +4,12 @@ import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import dynamic from 'next/dynamic';
+import DALILIPhones from './DALILIPhones';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const PlaneCinematic = dynamic(() => import('./PlaneCinematic'), { ssr: false });
 const ParisSkyline   = dynamic(() => import('./ParisSkyline'),   { ssr: false });
-
-// Dalili app notification cards — real product UI fragments
-const DALILI_CARDS = [
-  {
-    id: 'visa',
-    icon: '🛂',
-    category: 'Visa Étudiant',
-    title: 'ACCORDÉ',
-    detail: 'Long séjour · 12 mois',
-    progress: 100,
-    accent: '#22C55E',
-    accentRgb: '34,197,94',
-    statusLabel: 'Validé',
-    statusColor: '#22C55E',
-  },
-  {
-    id: 'mentor',
-    icon: '👩‍🎓',
-    category: 'Dalili Mentor',
-    title: 'Sarah M.',
-    detail: 'Paris 3 · Droit européen',
-    accent: '#EFB370',
-    accentRgb: '239,179,112',
-    statusLabel: 'En ligne',
-    statusColor: '#22C55E',
-    isOnline: true,
-  },
-  {
-    id: 'caf',
-    icon: '📋',
-    category: 'CAF · CROUS',
-    title: 'Mon Dossier',
-    detail: '2 pièces restantes',
-    progress: 78,
-    accent: '#4d8fff',
-    accentRgb: '77,143,255',
-    statusLabel: '78%',
-    statusColor: '#4d8fff',
-  },
-];
 
 // Mobile-first sizes: clamp(mobile, fluid, desktop) — bigger on mobile
 const LINES = [
@@ -65,10 +26,9 @@ export default function HeroSection({ revealed = false }) {
   const linesRef          = useRef([]);
   const badgeRef          = useRef(null);
   const subRef            = useRef(null);
-  const chipsRef          = useRef([]);
   const skylineWrap  = useRef(null); // fades out before text appears
   const horizonGlow  = useRef(null); // the blue ellipse following the plane — fades on scroll
-  const heroBadgeRef = useRef(null); // "Bientôt disponible" pill above the cards
+  const heroBadgeRef = useRef(null); // "Bientôt disponible" pill above the phones
 
   // ── Set section height + initial hidden state before paint
   useEffect(() => {
@@ -145,48 +105,7 @@ export default function HeroSection({ revealed = false }) {
       });
     }
 
-    // 2. Cards spring in — parallel with plane landing (delay 1.2s so they appear as plane arrives)
-    //    FIX: moved OUT of onComplete so cards never miss early scrollers
-    //    Outer wrap: spring x/scale/rotateZ | Inner chip: opacity + 3D wobble
-    chipsRef.current.forEach((chip, i) => {
-      if (!chip) return;
-      const wrap      = chip.parentElement;
-      const fromRight = i % 2 === 0;
-      const entryDelay = 1.2 + i * 0.28;
-
-      // Spring entrance (x/scale/rotateZ only — opacity stays at 1 for scroll-fade)
-      gsap.fromTo(wrap,
-        { x: fromRight ? 80 : -80, scale: 0.82, rotateZ: fromRight ? 6 : -6 },
-        { x: 0, scale: 1, rotateZ: 0,
-          duration: 0.95, ease: 'back.out(1.6)',
-          delay: entryDelay,
-        }
-      );
-      // Inner chip fade in
-      gsap.to(chip, { opacity: 1, duration: 0.6, ease: 'power2.out', delay: entryDelay + 0.15 });
-
-      // Continuous float (y on outer wrap — composites with x spring)
-      gsap.to(wrap, {
-        y: -(8 + i * 2),
-        duration: 4 + i * 0.65,
-        ease: 'sine.inOut',
-        yoyo: true, repeat: -1,
-        delay: entryDelay + 0.8,
-      });
-
-      // 3D wobble on inner chip (composes with its opacity)
-      gsap.to(chip, {
-        rotateX: fromRight ?  6 : -5,
-        rotateY: fromRight ? -9 :  8,
-        z: 16,
-        duration: 3.8 + i * 0.9,
-        ease: 'sine.inOut',
-        yoyo: true, repeat: -1,
-        delay: entryDelay + 0.5,
-      });
-    });
-
-    // 3. Text + chip/skyline scroll animations in context for proper cleanup
+    // 3. Text + phones/skyline scroll animations in context for proper cleanup
     const ctx = gsap.context(() => {
 
       // Text container fades in
@@ -218,8 +137,8 @@ export default function HeroSection({ revealed = false }) {
         },
       );
 
-      // ── Chips + skyline + horizon glow fade OUT before text arrives
-      // FIX: fromTo with explicit opacity:1 → scrub reversal correctly restores cards on scroll-back
+      // ── Phones + skyline + horizon glow fade OUT before text arrives
+      // fromTo with explicit opacity:1 → scrub reversal correctly restores on scroll-back
       const chipEls    = Array.from(section.querySelectorAll('.hero-chip-wrap'));
       const fadeTargets = chipEls.filter(Boolean);
       if (skylineWrap.current)  fadeTargets.push(skylineWrap.current);
@@ -498,127 +417,10 @@ export default function HeroSection({ revealed = false }) {
           </div>
         </div>
 
-        {/* ── Dalili app notification cards — floating product UI fragments
-            Outer: CSS position + GSAP spring entrance + float
-            Inner (ref): GSAP opacity + 3D rotateX/Y wobble             */}
-        {DALILI_CARDS.map((card, i) => (
-          <div
-            key={card.id}
-            className={`hero-chip-wrap hero-chip-wrap-${i}`}
-            aria-hidden="true"
-            style={{ perspective: '700px' }}
-          >
-            <div
-              ref={el => { chipsRef.current[i] = el; }}
-              className="hero-chip"
-              style={{
-                opacity: 0,
-                transformStyle: 'preserve-3d',
-                padding: '12px 16px',
-                background: 'linear-gradient(145deg, rgba(1,10,35,0.96) 0%, rgba(1,5,20,0.92) 100%)',
-                border: `1px solid rgba(${card.accentRgb},0.22)`,
-                borderLeft: `3px solid rgba(${card.accentRgb},0.95)`,
-                borderRadius: 20,
-                backdropFilter: 'blur(24px)',
-                WebkitBackdropFilter: 'blur(24px)',
-                boxShadow: [
-                  '0 16px 48px rgba(0,0,0,0.65)',
-                  `0 0 32px rgba(${card.accentRgb},0.12)`,
-                  'inset 0 1px 0 rgba(255,255,255,0.08)',
-                  'inset 0 -1px 0 rgba(0,0,0,0.4)',
-                ].join(', '),
-                minWidth: 200,
-                maxWidth: 230,
-                position: 'relative',
-                overflow: 'hidden',
-              }}
-            >
-              {/* Shimmer sweep */}
-              <div className={`chip-shimmer chip-shimmer-${i}`} aria-hidden="true" style={{
-                position: 'absolute', top: 0, left: 0,
-                width: '55%', height: '100%',
-                background: 'linear-gradient(105deg, transparent 25%, rgba(255,255,255,0.06) 50%, transparent 75%)',
-                pointerEvents: 'none',
-              }} />
-
-              {/* ── Header row: icon + category + status */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 9 }}>
-                <div style={{
-                  width: 28, height: 28, borderRadius: 8, flexShrink: 0,
-                  background: `rgba(${card.accentRgb},0.15)`,
-                  border: `1px solid rgba(${card.accentRgb},0.3)`,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: '0.95rem',
-                  boxShadow: `0 0 12px rgba(${card.accentRgb},0.25)`,
-                }}>
-                  <span style={{ lineHeight: 1 }}>{card.icon}</span>
-                </div>
-
-                <span style={{
-                  fontFamily: 'var(--font-montserrat)', fontWeight: 700,
-                  fontSize: '0.58rem', letterSpacing: '0.14em',
-                  color: 'rgba(255,255,255,0.42)', textTransform: 'uppercase',
-                  flex: 1,
-                }}>{card.category}</span>
-
-                {/* Status badge */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: 4, flexShrink: 0 }}>
-                  {card.isOnline && (
-                    <div className="dalili-status-dot" style={{
-                      width: 5, height: 5, borderRadius: '50%',
-                      background: card.statusColor, flexShrink: 0,
-                    }} />
-                  )}
-                  <span style={{
-                    fontFamily: 'var(--font-montserrat)', fontWeight: 700,
-                    fontSize: '0.56rem', letterSpacing: '0.06em',
-                    color: card.statusColor, textTransform: 'uppercase',
-                  }}>{card.statusLabel}</span>
-                </div>
-              </div>
-
-              {/* ── Divider */}
-              <div style={{
-                height: 1,
-                background: `linear-gradient(90deg, rgba(${card.accentRgb},0.4), transparent)`,
-                marginBottom: 9,
-              }} />
-
-              {/* ── Title + detail */}
-              <div style={{
-                fontFamily: 'var(--font-montserrat)', fontWeight: 700,
-                fontSize: '0.92rem', color: '#fff', lineHeight: 1.15,
-                letterSpacing: '0.02em', marginBottom: 4,
-              }}>{card.title}</div>
-              <div style={{
-                fontFamily: 'var(--font-dm-sans)', fontSize: '0.62rem',
-                color: 'rgba(255,255,255,0.38)', letterSpacing: '0.03em',
-              }}>{card.detail}</div>
-
-              {/* ── Progress bar (visa + CAF cards) */}
-              {card.progress !== undefined && (
-                <div style={{ marginTop: 10 }}>
-                  <div style={{
-                    height: 3, borderRadius: 2,
-                    background: 'rgba(255,255,255,0.07)',
-                    overflow: 'hidden',
-                  }}>
-                    <div
-                      className={`dalili-progress dalili-progress-${i}`}
-                      style={{
-                        height: '100%', borderRadius: 2,
-                        background: `linear-gradient(90deg, rgba(${card.accentRgb},0.7), rgba(${card.accentRgb},1))`,
-                        boxShadow: `0 0 8px rgba(${card.accentRgb},0.8)`,
-                        transformOrigin: 'left center',
-                        width: `${card.progress}%`,
-                      }}
-                    />
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-        ))}
+        {/* ── Phone mockup — replaces card column; hero-chip-wrap keeps scroll-fade ── */}
+        <div className="hero-chip-wrap hero-phones-wrap" aria-hidden="true">
+          <DALILIPhones />
+        </div>
 
         {/* Paris skyline — fades out on scroll before text appears (no overlap ever) */}
         <div ref={skylineWrap}>
