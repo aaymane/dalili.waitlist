@@ -164,8 +164,8 @@ export default function DALILIPhones() {
       const vw = window.innerWidth;
       const vh = window.innerHeight;
       setBp(vw < 768 ? 'mobile' : vw < 1024 ? 'tablet' : 'desktop');
-      const byWidth  = Math.min(260, Math.floor(vw * 0.65));
-      const byHeight = Math.floor((vh * 0.55) / RATIO); // phone height ≤ 55vh
+      const byWidth  = Math.min(200, Math.floor(vw * 0.5));  // fits 220px container
+      const byHeight = Math.floor((vh * 0.55) / RATIO);       // never taller than 55vh
       setMobileW(Math.min(byWidth, byHeight));
     };
     update();
@@ -246,13 +246,11 @@ export default function DALILIPhones() {
         onTouchEnd={onTouchEnd}
         style={{
           width: '100%',
-          padding: '24px 16px 16px',
+          padding: '8px 8px 8px',
           boxSizing: 'border-box',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          maxHeight: '70vh',
-          overflow: 'hidden',
           pointerEvents: 'auto',
         }}
       >
@@ -287,7 +285,7 @@ export default function DALILIPhones() {
 
         {/* Badge — the hero-section badge is hidden on mobile via CSS,
             so we render it here to keep it in the natural document flow */}
-        <div style={{ marginTop: 24 }}>
+        <div style={{ marginTop: 12 }}>
           <BadgePill />
         </div>
       </div>
