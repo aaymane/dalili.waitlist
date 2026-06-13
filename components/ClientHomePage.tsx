@@ -24,9 +24,9 @@ function SectionDivider() {
   );
 }
 
-// Lenis only starts AFTER logo reveal to avoid GSAP ticker conflicts
+// Lenis only starts AFTER intro animation to avoid GSAP ticker conflicts
 const LenisProvider   = dynamic(() => import('./LenisProvider'),   { ssr: false });
-const LogoReveal      = dynamic(() => import('./LogoReveal'),      { ssr: false });
+const IntroAnimation  = dynamic(() => import('./IntroAnimation'),  { ssr: false }) as React.ComponentType<{ onComplete: () => void }>;
 const StarCanvas      = dynamic(() => import('./StarCanvas'),      { ssr: false });
 const HeroSection     = dynamic(() => import('./HeroSection'),     { ssr: false }) as React.ComponentType<{ revealed: boolean }>;
 const ProblemSection  = dynamic(() => import('./ProblemSection'),  { ssr: false });
@@ -48,7 +48,7 @@ export default function ClientHomePage() {
 
   return (
     <>
-      <LogoReveal onComplete={handleRevealComplete} />
+      <IntroAnimation onComplete={handleRevealComplete} />
 
       {/* Lenis enabled only after logo reveal (avoids freeze/conflict) */}
       <LenisProvider enabled={revealed}>
