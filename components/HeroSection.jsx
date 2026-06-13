@@ -77,7 +77,7 @@ export default function HeroSection({ revealed = false }) {
         xPercent: -50, yPercent: -50,
         x: W * 0.26, y: -H * 0.18,
         rotate: 5, opacity: 1,
-        duration: 1.0, ease: 'power3.out',
+        duration: 1.7, ease: 'power3.out',
         onComplete: () => {
           gsap.to(plane, {
             xPercent: -50, yPercent: -50,
@@ -136,15 +136,10 @@ export default function HeroSection({ revealed = false }) {
       );
 
       if (!mobile) {
-        // Desktop: phones + skyline + horizon glow fade OUT before text arrives
-        const chipEls    = Array.from(section.querySelectorAll('.hero-chip-wrap'));
-        const fadeTargets = chipEls.filter(Boolean);
-        if (skylineWrap.current)  fadeTargets.push(skylineWrap.current);
-        if (horizonGlow.current)  fadeTargets.push(horizonGlow.current);
-        if (heroBadgeRef.current) fadeTargets.push(heroBadgeRef.current);
-
-        if (fadeTargets.length) {
-          gsap.fromTo(fadeTargets,
+        // Skyline + horizon glow + badge → fade early (background elements)
+        const bgFade = [skylineWrap.current, horizonGlow.current, heroBadgeRef.current].filter(Boolean);
+        if (bgFade.length) {
+          gsap.fromTo(bgFade,
             { opacity: 1 },
             {
               opacity: 0,
@@ -154,6 +149,26 @@ export default function HeroSection({ revealed = false }) {
                 start: 'top top',
                 end: '+= 320',
                 scrub: true,
+              },
+            }
+          );
+        }
+
+        // Phones → fade + drift upward as the plane sweeps past them.
+        // Plane reaches the phone column (left ~18% of screen) at roughly 60% of vh scrolled.
+        const chipEls = Array.from(section.querySelectorAll('.hero-chip-wrap'));
+        if (chipEls.length) {
+          gsap.fromTo(chipEls,
+            { opacity: 1, y: 0 },
+            {
+              opacity: 0,
+              y: -36,
+              ease: 'power2.inOut',
+              scrollTrigger: {
+                trigger: section,
+                start: `top top+=${Math.round(H * 0.58)}`,
+                end:   `top top+=${Math.round(H * 0.92)}`,
+                scrub: 1.5,
               },
             }
           );
