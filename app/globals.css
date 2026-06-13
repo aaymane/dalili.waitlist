@@ -254,27 +254,29 @@ body {
   }
 }
 
-/* ── Phone mockup wrapper — responsive left panel ────────────────
-   Mobile  (<768):  220px, right-aligned, z-index 3 (below plane).
-   Tablet  (768-1023): 420px left column, stacked layout.
-   Desktop (1024+):    480px left column, stacked layout.         */
+/* ── Phone mockup wrapper ────────────────────────────────────────
+   Mobile  (<768):  in document flow, 160px centered, z-index 1.
+   Tablet  (768-1023): absolutely positioned 420px left column.
+   Desktop (1024+):    480px left column.                        */
 .hero-phones-wrap {
-  /* Mobile default — small, right side, below the plane */
-  display: block;
-  left: auto;
-  right: 16px;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 3; /* plane is z-index:4, phone stays behind it on mobile */
-  width: 220px;
-  min-height: auto;
+  /* Mobile: relative so it participates in flex-column flow */
+  position: relative;
+  width: 160px;
+  margin: 0 auto;
+  z-index: 1; /* behind plane (z-index:4) and text (z-index:10) */
+  pointer-events: none;
 }
 @media (min-width: 768px) {
   .hero-phones-wrap {
+    position: absolute;
     left: 24px;
     right: auto;
+    top: 50%;
+    transform: translateY(-50%);
     width: 420px;
     z-index: 8;
+    margin: 0;
+    pointer-events: none;
   }
 }
 @media (min-width: 1024px) {
@@ -290,9 +292,8 @@ body {
   50%       { transform: translateY(-14px); }
 }
 
-/* Outer wrapper: absolute position + float animation */
+/* Scroll-fade selector — no positioning needed here (phones-wrap handles it) */
 .hero-chip-wrap {
-  position: absolute;
   z-index: 8;
   pointer-events: none;
 }
@@ -416,10 +417,25 @@ input[type="email"]:focus {
     height: min(60vw, 262px) !important;
   }
 
-  /* ── Hero text ───────────────────────────────────────────── */
-  /* Shift text block upward so it sits at ~35% from top instead of 50%
-     — eliminates the visual void above the badge after the plane flies out */
-  .hero-text-offset { transform: translateY(-5vh); }
+  /* ── Hero sticky inner — flex-column so phone sits in flow ─── */
+  .hero-sticky-inner {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 16px;
+    gap: 24px;
+    box-sizing: border-box;
+  }
+
+  /* ── Hero text — absolute so it doesn't push phone in flex flow ─ */
+  /* Keeps the existing -5vh upward nudge for when text reveals.     */
+  .hero-text-offset {
+    position: absolute !important;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    transform: translateY(calc(-50% - 5vh));
+  }
   .hero-text-wrap  { padding: 0 16px !important; }
   .hero-badge      { padding: 6px 14px !important; margin-bottom: 18px !important; max-width: 90vw !important; }
   .hero-badge-text { font-size: 0.5rem !important; letter-spacing: 0.12em !important; }

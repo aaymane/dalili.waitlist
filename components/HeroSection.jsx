@@ -248,7 +248,7 @@ export default function HeroSection({ revealed = false }) {
       className="hero-section"
       style={{ position: 'relative', height: '420vh' /* overridden by JS on mobile */ }}
     >
-      <div style={{
+      <div className="hero-sticky-inner" style={{
         position: 'sticky', top: 0, height: '100vh',
         overflow: 'hidden',
         display: 'flex', alignItems: 'center', justifyContent: 'center',

@@ -164,7 +164,7 @@ export default function DALILIPhones() {
       const vw = window.innerWidth;
       const vh = window.innerHeight;
       setBp(vw < 768 ? 'mobile' : vw < 1024 ? 'tablet' : 'desktop');
-      const byWidth  = Math.min(200, Math.floor(vw * 0.5));  // fits 220px container
+      const byWidth  = Math.min(160, Math.floor(vw * 0.42)); // fits 160px container
       const byHeight = Math.floor((vh * 0.55) / RATIO);       // never taller than 55vh
       setMobileW(Math.min(byWidth, byHeight));
     };
@@ -246,7 +246,7 @@ export default function DALILIPhones() {
         onTouchEnd={onTouchEnd}
         style={{
           width: '100%',
-          padding: '8px 8px 8px',
+          padding: '4px 4px 4px',
           boxSizing: 'border-box',
           display: 'flex',
           flexDirection: 'column',
