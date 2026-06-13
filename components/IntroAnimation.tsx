@@ -37,7 +37,7 @@ function computeSizes(): Sizes {
   const vw   = window.innerWidth;
   const vh   = window.innerHeight;
   const vmin = Math.min(vw, vh);
-  const logo = Math.round(Math.min(vmin * 0.40, 200));
+  const logo = Math.round(Math.min(vmin * 0.28, 200));
   return {
     logo,
     shock:  Math.round(vmin * 0.88),
