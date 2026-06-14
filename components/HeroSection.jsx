@@ -168,8 +168,8 @@ export default function HeroSection({ revealed = false }) {
             immediateRender: false,
             scrollTrigger: {
               trigger: section,
-              start: `top top+=${Math.round(H * 0.58)}`,
-              end:   `top top+=${Math.round(H * 0.92)}`,
+              start: `top top-=${Math.round(H * 0.58)}`,
+              end:   `top top-=${Math.round(H * 0.92)}`,
               scrub: 1.5,
             },
           });
