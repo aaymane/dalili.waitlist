@@ -197,6 +197,21 @@ export default function ChecklistPage() {
         <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
       ))}
 
+      <style>{`
+        .ck-hero { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,auto); gap: clamp(40px,5vw,80px); align-items: start; margin-bottom: clamp(72px,8vw,110px); }
+        .ck-pdf  { width: clamp(200px,26vw,300px); flex-shrink: 0; }
+        .ck-phase-divider { flex: 1; height: 1px; margin-left: 8px; }
+        .ck-download-btn  { display: inline-flex; align-items: center; gap: 12px; }
+        .ck-mid-cta-btn   { display: inline-flex; align-items: center; gap: 12px; }
+        @media (max-width: 680px) {
+          .ck-hero { grid-template-columns: 1fr; gap: 0; }
+          .ck-pdf  { display: none; }
+          .ck-phase-divider { display: none; }
+          .ck-download-btn  { width: 100%; justify-content: center; }
+          .ck-mid-cta-btn   { width: 100%; justify-content: center; }
+        }
+      `}</style>
+
       {/* Ambient glow */}
       <div aria-hidden="true" style={{ position: 'fixed', inset: 0, pointerEvents: 'none', overflow: 'hidden', zIndex: 0 }}>
         <div style={{ position: 'absolute', top: '-20vh', left: '50%', transform: 'translateX(-50%)', width: '80vw', height: '60vh', background: 'radial-gradient(ellipse at center, rgba(1,77,248,0.12) 0%, transparent 70%)', borderRadius: '50%' }} />
@@ -207,7 +222,7 @@ export default function ChecklistPage() {
         <div style={{ maxWidth: 1120, margin: '0 auto', padding: '0 clamp(16px,4vw,40px)' }}>
 
           {/* Breadcrumb */}
-          <nav aria-label="Fil d'Ariane" style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 52, flexWrap: 'wrap' }}>
+          <nav aria-label="Fil d'Ariane" style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 'clamp(28px,4vw,52px)', flexWrap: 'wrap' }}>
             {[{ label: 'Accueil', href: '/' }, { label: 'Checklist', href: null }].map((item, i, arr) => (
               <span key={i} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                 {item.href
@@ -220,7 +235,7 @@ export default function ChecklistPage() {
           </nav>
 
           {/* ── HERO ── */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1fr) minmax(0,auto)', gap: 'clamp(40px,5vw,80px)', alignItems: 'start', marginBottom: 'clamp(72px,8vw,110px)' }}>
+          <div className="ck-hero">
             <div>
               <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 24, padding: '6px 18px', border: '1px solid rgba(1,77,248,0.35)', borderRadius: 100, background: 'rgba(1,77,248,0.08)' }}>
                 <span style={{ width: 6, height: 6, borderRadius: 3, background: '#4d8fff', display: 'inline-block', flexShrink: 0 }} />
@@ -259,8 +274,8 @@ export default function ChecklistPage() {
                 <a
                   href="/api/checklist"
                   download="checklist-arrivee-france-dalili-2026.pdf"
+                  className="ck-download-btn"
                   style={{
-                    display: 'inline-flex', alignItems: 'center', gap: 12,
                     padding: 'clamp(14px,2vw,18px) clamp(28px,3.5vw,44px)',
                     background: 'linear-gradient(135deg, #014DF8 0%, #0066ff 100%)',
                     borderRadius: 14, textDecoration: 'none',
@@ -283,7 +298,7 @@ export default function ChecklistPage() {
             </div>
 
             {/* PDF Preview card */}
-            <div style={{ width: 'clamp(200px,26vw,300px)', flexShrink: 0 }}>
+            <div className="ck-pdf">
               <div style={{
                 background: '#0a0f1e',
                 border: '1px solid rgba(1,77,248,0.28)',
@@ -342,7 +357,7 @@ export default function ChecklistPage() {
                         {phase.title}
                       </h2>
                     </div>
-                    <div style={{ flex: 1, height: 1, background: `linear-gradient(90deg, rgba(${phase.accent},0.25), transparent)`, marginLeft: 8 }} />
+                    <div className="ck-phase-divider" style={{ background: `linear-gradient(90deg, rgba(${phase.accent},0.25), transparent)` }} />
                   </div>
 
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%,480px),1fr))', gap: '6px 10px' }}>
@@ -383,7 +398,8 @@ export default function ChecklistPage() {
             <a
               href="/api/checklist"
               download="checklist-arrivee-france-dalili-2026.pdf"
-              style={{ display: 'inline-flex', alignItems: 'center', gap: 12, padding: '16px 40px', background: '#014DF8', borderRadius: 14, textDecoration: 'none', fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.86rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#fff', boxShadow: '0 0 40px rgba(1,77,248,0.4)' }}
+              className="ck-mid-cta-btn"
+              style={{ padding: '16px 40px', background: '#014DF8', borderRadius: 14, textDecoration: 'none', fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.86rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#fff', boxShadow: '0 0 40px rgba(1,77,248,0.4)' }}
             >
               <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true">
                 <path d="M7.5 1v8.5M7.5 9.5L4.5 6.5M7.5 9.5l3-3" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
