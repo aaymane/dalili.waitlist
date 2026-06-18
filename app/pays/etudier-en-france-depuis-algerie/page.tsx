@@ -87,10 +87,10 @@ export default function AlgeriePage() {
             </div>
             <table style={{ width: '100%', borderCollapse: 'collapse' }}>
               <tbody>
-                <Row label="Alger (siège)" value="7 bis, rue Abou Nouas, Hydra, Alger — 023 48 64 64" />
-                <Row label="Oran (antenne)" value="Campus France Oran, Résidence Les Andalous, Oran — 041 41 68 00" />
-                <Row label="Constantine (antenne)" value="Contact via le siège d'Alger pour Constantine" />
-                <Row label="Ambassade de France à Alger" value="25, chemin Abdelkader Gadouche, Hydra, Alger — 023 98 96 00" />
+                <Row label="Campus France Algérie (Alger)" value="25 chemin Sfindja, Alger — +213 21 92 19 07" />
+                <Row label="Campus France Oran" value="Villa Saïd, Bd Colonel Lotfi, Oran" />
+                <Row label="Ambassade de France à Alger" value="25 chemin Abdelkader Gadouche, Hydra, Alger" />
+                <Row label="Consulat de France à Oran" value="8 rue Lotfi, Oran" />
                 <Row label="VFS Global (biométrie visa)" value="Alger, Oran, Constantine, Annaba, Sidi Bel Abbès, Tizi Ouzou, Ouargla" />
                 <Row label="Site Campus France Algérie" value="algerie.campusfrance.org" />
               </tbody>
@@ -170,6 +170,24 @@ export default function AlgeriePage() {
             </div>
           </section>
 
+          {/* Restriction de travail — spécifique Algérie */}
+          <section style={{ marginBottom: 48 }}>
+            <div style={{ display: 'inline-flex', marginBottom: 16, padding: '4px 14px', border: '1px solid rgba(239,68,68,0.3)', borderRadius: 100, background: 'rgba(239,68,68,0.06)' }}>
+              <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.56rem', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(239,68,68,0.85)' }}>⚠️ Point important — Droit au travail</span>
+            </div>
+            <div style={{ padding: 24, background: 'rgba(239,68,68,0.04)', border: '1px solid rgba(239,68,68,0.18)', borderRadius: 16 }}>
+              <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.875rem', color: 'rgba(255,255,255,0.72)', lineHeight: 1.75, margin: '0 0 12px' }}>
+                <strong style={{ color: '#fff' }}>Les étudiants algériens ont un droit au travail limité à 50% du temps légal</strong>, contre 60% pour la plupart des autres nationalités (soit environ 774 heures par an au lieu de 964 heures).
+              </p>
+              <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.875rem', color: 'rgba(255,255,255,0.72)', lineHeight: 1.75, margin: '0 0 12px' }}>
+                Cette restriction découle de la <strong style={{ color: '#4d8fff' }}>Convention bilatérale franco-algérienne de 1968</strong>, qui régit le droit au séjour et au travail des ressortissants algériens en France. Cette convention prime sur le droit commun des étrangers.
+              </p>
+              <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.875rem', color: 'rgba(255,255,255,0.55)', lineHeight: 1.75, margin: 0 }}>
+                <strong style={{ color: 'rgba(255,255,255,0.85)' }}>Impact budgétaire concret :</strong> si un étudiant de nationalité marocaine peut travailler jusqu&apos;à ~18h/semaine, un étudiant algérien est limité à ~15h/semaine. Prévoyez cette différence dans votre budget prévisionnel.
+              </p>
+            </div>
+          </section>
+
           {/* Liens officiels */}
           <section style={{ marginBottom: 48 }}>
             <div style={{ display: 'inline-flex', marginBottom: 16, padding: '4px 14px', border: '1px solid rgba(77,143,255,0.22)', borderRadius: 100, background: 'rgba(77,143,255,0.05)' }}>
@@ -194,10 +212,22 @@ export default function AlgeriePage() {
             </div>
           </section>
 
+          {/* Checklist CTA */}
+          <div style={{ margin: '0 0 40px', padding: 24, background: 'linear-gradient(135deg, rgba(1,77,248,0.12) 0%, rgba(1,4,16,0.95) 70%)', border: '1px solid rgba(1,77,248,0.25)', borderRadius: 16, display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16 }}>
+            <div>
+              <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.55rem', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(77,143,255,0.75)', margin: '0 0 6px' }}>Ressource gratuite</p>
+              <p style={{ fontFamily: 'var(--font-dm-sans)', fontWeight: 500, fontSize: '0.95rem', color: '#fff', margin: '0 0 4px' }}>📋 Checklist Complète Arrivée en France 2026</p>
+              <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.8rem', color: 'rgba(255,255,255,0.4)', margin: 0 }}>32 points essentiels avant et après ton arrivée — PDF gratuit</p>
+            </div>
+            <Link href="/checklist" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '10px 22px', background: '#014DF8', borderRadius: 8, textDecoration: 'none', fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: '#fff', whiteSpace: 'nowrap', flexShrink: 0 }}>
+              Télécharger PDF →
+            </Link>
+          </div>
+
           <RelatedArticles articles={[
+            { slug: 'visa-etudiant-france-algerie-2026', title: 'Visa étudiant France depuis l\'Algérie : guide complet 2026' },
             { slug: 'visa-etudiant-france-tout-savoir-avant-partir', title: 'Visa étudiant France : tout ce qu\'il faut savoir avant de partir' },
             { slug: 'trouver-logement-france-depuis-etranger', title: 'Trouver un logement en France depuis l\'étranger' },
-            { slug: 'budget-mensuel-etudiant-etranger-france-2026', title: 'Budget étudiant étranger en France 2026' },
           ]} />
         </div>
       </main>

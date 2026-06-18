@@ -34,5 +34,11 @@ export const BLUR_DATA: Record<string, string> = {
   "/images/blog/visale-refuse.png": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAEElEQVR42mNk+M9Qz0AEAAIqAR5e/UrDAAAAAElFTkSuQmCC",
   "/images/blog/refus-visa-france.png": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAEElEQVR42mNk+M9Qz0AEAAIqAR5e/UrDAAAAAElFTkSuQmCC",
   "/images/blog/droits-etudiant-etranger.png": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAEElEQVR42mNk+M9Qz0AEAAIqAR5e/UrDAAAAAElFTkSuQmCC",
-  "/images/blog/litige-universite.png": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAEElEQVR42mNk+M9Qz0AEAAIqAR5e/UrDAAAAAElFTkSuQmCC"
+  "/images/blog/litige-universite.png": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAEElEQVR42mNk+M9Qz0AEAAIqAR5e/UrDAAAAAElFTkSuQmCC",
+  "/images/blog/algerie-visa.png": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAEElEQVR42mNk+M9Qz0AEAAIqAR5e/UrDAAAAAElFTkSuQmCC",
+  "/images/blog/algerie-campusfrance.png": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAEElEQVR42mNk+M9Qz0AEAAIqAR5e/UrDAAAAAElFTkSuQmCC",
+  "/images/blog/algerie-temoignages.png": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAEElEQVR42mNk+M9Qz0AEAAIqAR5e/UrDAAAAAElFTkSuQmCC",
+  "/images/blog/senegal-visa.png": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAEElEQVR42mNk+M9Qz0AEAAIqAR5e/UrDAAAAAElFTkSuQmCC",
+  "/images/blog/senegal-campusfrance.png": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAEElEQVR42mNk+M9Qz0AEAAIqAR5e/UrDAAAAAElFTkSuQmCC",
+  "/images/blog/senegal-budget.png": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAEElEQVR42mNk+M9Qz0AEAAIqAR5e/UrDAAAAAElFTkSuQmCC"
 };

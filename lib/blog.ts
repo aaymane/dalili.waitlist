@@ -28,6 +28,8 @@ export const CLUSTER_DEFINITIONS: Record<string, { label: string; description: s
   'vie-etudiante': { label: 'Vie Étudiante',         description: 'Université, transport, vie en France', color: '#06B6D4', accentRgb: '6,182,212' },
   'sante':         { label: 'Santé',                 description: 'Sécurité sociale, médecin traitant', color: '#F43F5E', accentRgb: '244,63,94' },
   'demarches':     { label: 'Démarches',             description: 'Titre de séjour, OFII, renouvellement', color: '#A855F7', accentRgb: '168,85,247' },
+  'algerie':       { label: 'Depuis l\'Algérie',     description: 'Campus France Algérie, visa, vie étudiante', color: '#34D399', accentRgb: '52,211,153' },
+  'senegal':       { label: 'Depuis le Sénégal',     description: 'Campus France Sénégal, visa, bourses', color: '#FB923C', accentRgb: '251,146,60' },
 };
 
 export const CLUSTER_MAP: Record<string, string> = {
@@ -58,6 +60,14 @@ export const CLUSTER_MAP: Record<string, string> = {
   'contester-refus-visa-campus-france':                 'visa',
   'droits-etudiant-etranger-france-guide-complet':      'vie-etudiante',
   'litige-universite-etudiant-etranger':                'vie-etudiante',
+  // Algérie cluster
+  'visa-etudiant-france-algerie-2026':                  'algerie',
+  'campusfrance-algerie-guide-entretien-2026':          'algerie',
+  'etudier-france-algerien-temoignage-conseils':        'algerie',
+  // Sénégal cluster
+  'visa-etudiant-france-senegal-2026':                  'senegal',
+  'campusfrance-senegal-guide-inscription-dakar':       'senegal',
+  'budget-etudiant-senegalais-france-2026':             'senegal',
 };
 
 export interface Heading {

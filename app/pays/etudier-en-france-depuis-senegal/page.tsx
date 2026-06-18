@@ -77,9 +77,9 @@ export default function SenegalPage() {
             </div>
             <table style={{ width: '100%', borderCollapse: 'collapse' }}>
               <tbody>
-                <Row label="Campus France Sénégal (Dakar)" value="Av. Cheikh Anta Diop, Institut Français de Dakar — (221) 33 823 07 59" />
-                <Row label="Consulat général de France à Dakar" value="1, rue El Hadji Amadou Assane Ndoye, Dakar — (221) 33 839 51 00" />
-                <Row label="Ambassade de France à Dakar" value="1, rue El Hadji Amadou Assane Ndoye, Dakar — (221) 33 839 51 00" />
+                <Row label="Campus France Sénégal (Dakar)" value="2, place de l'Indépendance, Dakar — +221 33 889 44 20" />
+                <Row label="Ambassade de France à Dakar" value="1 rue El Hadj Amadou Assane Ndoye, Dakar" />
+                <Row label="Consulat général de France à Dakar" value="1 rue El Hadj Amadou Assane Ndoye, Dakar — +221 33 839 51 00" />
                 <Row label="Site Campus France Sénégal" value="senegal.campusfrance.org" />
               </tbody>
             </table>
@@ -199,9 +199,21 @@ export default function SenegalPage() {
             </div>
           </section>
 
+          {/* Checklist CTA */}
+          <div style={{ margin: '0 0 40px', padding: 24, background: 'linear-gradient(135deg, rgba(1,77,248,0.12) 0%, rgba(1,4,16,0.95) 70%)', border: '1px solid rgba(1,77,248,0.25)', borderRadius: 16, display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16 }}>
+            <div>
+              <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.55rem', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(77,143,255,0.75)', margin: '0 0 6px' }}>Ressource gratuite</p>
+              <p style={{ fontFamily: 'var(--font-dm-sans)', fontWeight: 500, fontSize: '0.95rem', color: '#fff', margin: '0 0 4px' }}>📋 Checklist Complète Arrivée en France 2026</p>
+              <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.8rem', color: 'rgba(255,255,255,0.4)', margin: 0 }}>32 points essentiels avant et après ton arrivée — PDF gratuit</p>
+            </div>
+            <Link href="/checklist" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '10px 22px', background: '#014DF8', borderRadius: 8, textDecoration: 'none', fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: '#fff', whiteSpace: 'nowrap', flexShrink: 0 }}>
+              Télécharger PDF →
+            </Link>
+          </div>
+
           <RelatedArticles articles={[
+            { slug: 'visa-etudiant-france-senegal-2026', title: 'Visa étudiant France depuis le Sénégal : guide complet 2026' },
             { slug: 'visa-etudiant-france-tout-savoir-avant-partir', title: 'Visa étudiant France : tout ce qu\'il faut savoir avant de partir' },
-            { slug: 'trouver-logement-france-depuis-etranger', title: 'Trouver un logement en France depuis l\'étranger' },
             { slug: 'budget-mensuel-etudiant-etranger-france-2026', title: 'Budget étudiant étranger en France 2026' },
           ]} />
         </div>

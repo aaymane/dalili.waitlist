@@ -9,7 +9,6 @@ import rehypeSlug from 'rehype-slug';
 import { getAllPosts, getRawPost, extractHeadings, extractFaqItems, getRelatedPosts, getClusterArticles, CATEGORY_COLORS, CLUSTER_MAP, formatDate } from '@/lib/blog';
 import mdxComponents, { Callout } from '@/components/blog/MdxComponents';
 import ClusterLinks from '@/components/blog/ClusterLinks';
-import NextReading from '@/components/blog/NextReading';
 import WaitlistCTA from '@/components/blog/WaitlistCTA';
 import { notFound } from 'next/navigation';
 
@@ -70,10 +69,9 @@ export default async function ArticlePage({ params }: { params: { slug: string }
   const cat      = CATEGORY_COLORS[fm.category] ?? CATEGORY_COLORS.Visa;
   const headings = extractHeadings(mdxSource);
 
-  const related       = getRelatedPosts(params.slug, 3);
-  const clusterSlug   = CLUSTER_MAP[params.slug];
+  const related         = getRelatedPosts(params.slug, 3);
+  const clusterSlug     = CLUSTER_MAP[params.slug];
   const clusterArticles = clusterSlug ? getClusterArticles(clusterSlug, params.slug) : [];
-  const nextReading   = getRelatedPosts(params.slug, 3);
 
   // MdxComponents.jsx infers each component's parameter type from destructuring,
   // making optional HTML attributes (children, id, href) appear required.
@@ -337,7 +335,6 @@ export default async function ArticlePage({ params }: { params: { slug: string }
           <article className="article-prose">
             {content}
             <ClusterLinks currentSlug={params.slug} articles={clusterArticles} />
-            <NextReading articles={nextReading} />
           </article>
 
           {/* Sidebar */}
