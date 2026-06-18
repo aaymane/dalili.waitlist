@@ -70,6 +70,15 @@ export const metadata: Metadata = {
   verification: {
     google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || "6051ba04f9f38498",
   },
+  icons: {
+    icon: [
+      { url: '/icon.svg', type: 'image/svg+xml' },
+    ],
+    apple: [
+      { url: '/apple-icon.svg', type: 'image/svg+xml' },
+    ],
+    shortcut: '/icon.svg',
+  },
   openGraph: {
     title: "Dalili — Guide des étudiants internationaux en France",
     description:
