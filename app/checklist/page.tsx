@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Plane, Home, ClipboardList, CreditCard, Banknote, BookOpen, MapPin } from 'lucide-react';
+import DownloadBtn from '@/components/checklist/DownloadBtn';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://dalili.study';
 
@@ -271,26 +272,7 @@ export default function ChecklistPage() {
 
               {/* CTA */}
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 14, alignItems: 'center' }}>
-                <a
-                  href="/api/checklist"
-                  download="checklist-arrivee-france-dalili-2026.pdf"
-                  className="ck-download-btn"
-                  style={{
-                    padding: 'clamp(14px,2vw,18px) clamp(28px,3.5vw,44px)',
-                    background: 'linear-gradient(135deg, #014DF8 0%, #0066ff 100%)',
-                    borderRadius: 14, textDecoration: 'none',
-                    fontFamily: 'var(--font-montserrat)', fontWeight: 700,
-                    fontSize: 'clamp(0.75rem,1.1vw,0.9rem)', letterSpacing: '0.1em', textTransform: 'uppercase',
-                    color: '#fff',
-                    boxShadow: '0 0 48px rgba(1,77,248,0.4), 0 2px 0 rgba(255,255,255,0.08) inset',
-                  }}
-                >
-                  <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true">
-                    <path d="M7.5 1v8.5M7.5 9.5L4.5 6.5M7.5 9.5l3-3" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                    <path d="M1.5 12.5h12" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" />
-                  </svg>
-                  Télécharger — Gratuit
-                </a>
+                <DownloadBtn />
                 <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.7rem', color: 'rgba(255,255,255,0.2)' }}>
                   PDF · 3 pages A4 · Partage libre
                 </span>
@@ -395,18 +377,7 @@ export default function ChecklistPage() {
             <p style={{ fontFamily: 'var(--font-dm-sans)', fontWeight: 300, fontSize: '0.86rem', color: 'rgba(255,255,255,0.32)', margin: '0 0 30px', maxWidth: 460, marginLeft: 'auto', marginRight: 'auto' }}>
               Partage ce PDF dans tes groupes WhatsApp, Facebook et Discord — aide les autres étudiants à ne rien oublier.
             </p>
-            <a
-              href="/api/checklist"
-              download="checklist-arrivee-france-dalili-2026.pdf"
-              className="ck-mid-cta-btn"
-              style={{ padding: '16px 40px', background: '#014DF8', borderRadius: 14, textDecoration: 'none', fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.86rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#fff', boxShadow: '0 0 40px rgba(1,77,248,0.4)' }}
-            >
-              <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true">
-                <path d="M7.5 1v8.5M7.5 9.5L4.5 6.5M7.5 9.5l3-3" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                <path d="M1.5 12.5h12" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" />
-              </svg>
-              Télécharger gratuitement
-            </a>
+            <DownloadBtn label="Télécharger gratuitement" size="large" />
           </div>
 
           {/* ── FAQ ── */}

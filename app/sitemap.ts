@@ -1,148 +1,134 @@
 import { MetadataRoute } from 'next';
 import { getAllPosts } from '@/lib/blog';
+import { getAllUniversitySlugs } from '@/lib/universities';
+import { getAllCitySlugs } from '@/lib/cities';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://dalili.study';
 
+// Articles qui méritent une priorité 0.8 (piliers SEO)
 const HIGH_PRIORITY_SLUGS = new Set([
+  // TCF Maroc
   'tcf-maroc-2026-guide-complet',
   'comment-preparer-tcf-30-jours-etudiant-maroc',
   'calendrier-tcf-maroc-2026-dates-sessions',
+  // Visa & Campus France
+  'visa-etudiant-france-maroc-2026',
+  'visa-etudiant-france-algerie-2026',
+  'visa-etudiant-france-senegal-2026',
+  'campusfrance-maroc-guide-complet',
+  'campusfrance-algerie-guide-entretien-2026',
+  'campusfrance-senegal-guide-inscription-dakar',
+  // Logement & aides
+  'logement-crous-etudiant-etranger-demande',
+  'caf-etudiant-etranger-delais-documents-erreurs',
+  // Banque
+  'ouvrir-compte-bancaire-etudiant-etranger-2026',
 ]);
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const posts = getAllPosts();
-  const now = new Date();
+  const posts    = getAllPosts();
+  const uniSlugs = getAllUniversitySlugs();
+  const citySlugs = getAllCitySlugs();
+  const now      = new Date();
 
-  // ── Blog articles (priority 0.7 for standard, 0.8 for high-priority) ──
+  // ── Blog articles ────────────────────────────────────────────────
   const articles: MetadataRoute.Sitemap = posts.map(post => ({
-    url: `${SITE_URL}/blog/${post.slug}`,
-    lastModified: post.updatedDate ? new Date(post.updatedDate) : new Date(post.date),
+    url:             `${SITE_URL}/blog/${post.slug}`,
+    lastModified:    post.updatedDate ? new Date(post.updatedDate) : new Date(post.date),
     changeFrequency: 'monthly',
-    priority: HIGH_PRIORITY_SLUGS.has(post.slug) ? 0.8 : 0.7,
+    priority:        HIGH_PRIORITY_SLUGS.has(post.slug) ? 0.8 : 0.7,
+  }));
+
+  // ── Université pages ─────────────────────────────────────────────
+  const universites: MetadataRoute.Sitemap = uniSlugs.map(slug => ({
+    url:             `${SITE_URL}/universites/${slug}`,
+    lastModified:    now,
+    changeFrequency: 'monthly',
+    priority:        0.85,
+  }));
+
+  // ── Ville pages ──────────────────────────────────────────────────
+  const villes: MetadataRoute.Sitemap = citySlugs.map(slug => ({
+    url:             `${SITE_URL}/villes/${slug}`,
+    lastModified:    now,
+    changeFrequency: 'monthly',
+    priority:        0.85,
   }));
 
   return [
-    // ── Homepage ──────────────────────────────────────────────────
+    // ── Homepage — priorité maximale ─────────────────────────────
     {
-      url: SITE_URL,
-      lastModified: now,
+      url:             SITE_URL,
+      lastModified:    now,
       changeFrequency: 'weekly',
-      priority: 1.0,
+      priority:        1.0,
     },
 
-    // ── Blog index ───────────────────────────────────────────────
+    // ── Index blog — haute fréquence (nouveau contenu chaque semaine) ──
     {
-      url: `${SITE_URL}/blog`,
-      lastModified: posts[0]?.updatedDate
-        ? new Date(posts[0].updatedDate)
-        : posts[0] ? new Date(posts[0].date) : now,
+      url:             `${SITE_URL}/blog`,
+      lastModified:    posts[0]?.updatedDate ? new Date(posts[0].updatedDate) : posts[0] ? new Date(posts[0].date) : now,
       changeFrequency: 'weekly',
-      priority: 0.9,
+      priority:        0.95,
     },
 
-    // ── Pays pages (priority 0.9) ────────────────────────────────
+    // ── Index universités & villes ──────────────────────────────
     {
-      url: `${SITE_URL}/pays/etudier-en-france-depuis-le-maroc`,
-      lastModified: now,
+      url:             `${SITE_URL}/universites`,
+      lastModified:    now,
       changeFrequency: 'monthly',
-      priority: 0.9,
+      priority:        0.9,
     },
     {
-      url: `${SITE_URL}/pays/etudier-en-france-depuis-algerie`,
-      lastModified: now,
+      url:             `${SITE_URL}/villes`,
+      lastModified:    now,
       changeFrequency: 'monthly',
-      priority: 0.9,
-    },
-    {
-      url: `${SITE_URL}/pays/etudier-en-france-depuis-senegal`,
-      lastModified: now,
-      changeFrequency: 'monthly',
-      priority: 0.9,
+      priority:        0.9,
     },
 
-    // ── Universités pages (priority 0.9) ─────────────────────────
+    // ── Pays — pages piliers par nationalité ────────────────────
     {
-      url: `${SITE_URL}/universites/universite-de-bordeaux`,
-      lastModified: now,
+      url:             `${SITE_URL}/pays/etudier-en-france-depuis-le-maroc`,
+      lastModified:    now,
       changeFrequency: 'monthly',
-      priority: 0.9,
+      priority:        0.95,
     },
     {
-      url: `${SITE_URL}/universites/universite-de-nantes`,
-      lastModified: now,
+      url:             `${SITE_URL}/pays/etudier-en-france-depuis-algerie`,
+      lastModified:    now,
       changeFrequency: 'monthly',
-      priority: 0.9,
+      priority:        0.95,
     },
     {
-      url: `${SITE_URL}/universites/universite-de-lille`,
-      lastModified: now,
+      url:             `${SITE_URL}/pays/etudier-en-france-depuis-senegal`,
+      lastModified:    now,
       changeFrequency: 'monthly',
-      priority: 0.9,
-    },
-    {
-      url: `${SITE_URL}/universites/sorbonne-universite`,
-      lastModified: now,
-      changeFrequency: 'monthly',
-      priority: 0.9,
+      priority:        0.95,
     },
 
-    // ── Section indexes (priority 0.8) ───────────────────────────
+    // ── Checklist PDF — page conversion principale ───────────────
     {
-      url: `${SITE_URL}/universites`,
-      lastModified: now,
+      url:             `${SITE_URL}/checklist`,
+      lastModified:    now,
       changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
-      url: `${SITE_URL}/villes`,
-      lastModified: now,
-      changeFrequency: 'monthly',
-      priority: 0.8,
+      priority:        0.9,
     },
 
-    // ── Villes pages (priority 0.8) ──────────────────────────────
+    // ── Pages statiques ─────────────────────────────────────────
     {
-      url: `${SITE_URL}/villes/etudier-a-bordeaux`,
-      lastModified: now,
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
-      url: `${SITE_URL}/villes/etudier-a-paris`,
-      lastModified: now,
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
-      url: `${SITE_URL}/villes/etudier-a-nantes`,
-      lastModified: now,
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
-      url: `${SITE_URL}/villes/etudier-a-lyon`,
-      lastModified: now,
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-
-    // ── Checklist PDF page (priority 0.8) ───────────────────────
-    {
-      url: `${SITE_URL}/checklist`,
-      lastModified: now,
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-
-    // ── Static pages (priority 0.7) ──────────────────────────────
-    {
-      url: `${SITE_URL}/a-propos`,
-      lastModified: now,
+      url:             `${SITE_URL}/a-propos`,
+      lastModified:    now,
       changeFrequency: 'yearly',
-      priority: 0.7,
+      priority:        0.5,
     },
 
-    // ── Blog articles ─────────────────────────────────────────────
+    // ── Universités (dynamique) ──────────────────────────────────
+    ...universites,
+
+    // ── Villes (dynamique) ───────────────────────────────────────
+    ...villes,
+
+    // ── Articles blog ────────────────────────────────────────────
     ...articles,
   ];
 }
