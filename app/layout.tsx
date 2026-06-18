@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Montserrat, Bebas_Neue, DM_Sans } from "next/font/google";
 import "./globals.css";
+import Navbar from "@/components/Navbar";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://dalili.study";
 
@@ -118,6 +119,7 @@ export default function RootLayout({
         >
           Aller au contenu principal
         </a>
+        <Navbar />
         {children}
       </body>
     </html>

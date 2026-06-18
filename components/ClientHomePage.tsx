@@ -2,7 +2,6 @@
 
 import { useState, useCallback, useEffect } from 'react';
 import dynamic from 'next/dynamic';
-import Navbar from './Navbar';
 
 const INTRO_KEY = 'dalili_intro_done';
 
@@ -71,7 +70,6 @@ export default function ClientHomePage() {
           minHeight: '100vh',
         }}>
           <StarCanvas />
-          <Navbar />
 
           <main id="main-content" style={{ position: 'relative', zIndex: 2 }}>
             {/* Pass revealed so plane entrance is synced with logo disappearance */}
