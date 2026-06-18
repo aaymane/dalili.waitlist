@@ -1,12 +1,42 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
+import fs from 'fs';
+import path from 'path';
 import { notFound } from 'next/navigation';
+import { compileMDX } from 'next-mdx-remote/rsc';
+import remarkGfm from 'remark-gfm';
+import rehypeSlug from 'rehype-slug';
 import { getCity, getAllCitySlugs } from '@/lib/cities';
+import { extractFaqItems } from '@/lib/blog';
 import RelatedArticles from '@/components/blog/RelatedArticles';
 import { BLUR_DATA } from '@/lib/blur-data';
+import mdxComponents from '@/components/blog/MdxComponents';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://dalili.study';
+
+const CITY_SEO: Record<string, { title: string; description: string; ogDescription: string }> = {
+  'etudier-a-bordeaux': {
+    title: 'Étudier à Bordeaux : guide complet étudiant étranger 2026 | Dalili',
+    description: 'Guide complet pour étudier à Bordeaux : budget mensuel, logement CROUS, quartiers étudiants, jobs, stages et universités. Conseils pratiques pour étudiants marocains, algériens et tunisiens.',
+    ogDescription: 'Tout ce qu\'il faut savoir avant d\'étudier à Bordeaux — budget, logement, vie étudiante, communauté maghrébine et opportunités professionnelles.',
+  },
+  'etudier-a-paris': {
+    title: 'Étudier à Paris : guide complet étudiant étranger 2026 | Dalili',
+    description: 'Guide complet pour étudier à Paris : budget réaliste, logement, arrondissements étudiants, grandes écoles, jobs et démarches administratives pour étudiants maghrébins.',
+    ogDescription: 'Étudier à Paris en tant qu\'étudiant marocain, algérien ou tunisien : budget, logement, Sorbonne, Sciences Po, Grande Mosquée et vie quotidienne.',
+  },
+  'etudier-a-nantes': {
+    title: 'Étudier à Nantes : guide complet étudiant étranger 2026 | Dalili',
+    description: 'Guide complet pour étudier à Nantes : budget étudiant, logement CROUS, quartiers, Centrale Nantes, Audencia, jobs et stages en Loire-Atlantique.',
+    ogDescription: 'Nantes, la ville la mieux notée de France — guide pratique pour les étudiants marocains, algériens et tunisiens qui s\'installent à Nantes.',
+  },
+  'etudier-a-lyon': {
+    title: 'Étudier à Lyon : guide complet étudiant étranger 2026 | Dalili',
+    description: 'Guide complet pour étudier à Lyon : budget, INSA Lyon, EM Lyon, Université Lyon 1, quartiers étudiants, communauté maghrébine et opportunités pharma/biotech.',
+    ogDescription: 'Lyon, capitale de la gastronomie et de l\'industrie pharmaceutique — guide pratique pour étudier à Lyon quand on vient du Maroc, d\'Algérie ou de Tunisie.',
+  },
+};
 
 export async function generateStaticParams() {
   return getAllCitySlugs().map(slug => ({ slug }));
@@ -15,15 +45,21 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const city = getCity(params.slug);
   if (!city) return {};
-  const title = `Étudier à ${city.name} : guide étudiant étranger 2026 | Dalili`;
-  const description = `Tout savoir pour étudier à ${city.name} : budget mensuel, logement, transport, universités et quartiers étudiants. Guide par Dalili.`;
+  const seo = CITY_SEO[params.slug];
+  const title = seo?.title ?? `Étudier à ${city.name} : guide étudiant étranger 2026 | Dalili`;
+  const description = seo?.description ?? `Tout savoir pour étudier à ${city.name} : budget mensuel, logement, transport, universités et quartiers étudiants. Guide par Dalili.`;
+  const ogDescription = seo?.ogDescription ?? description;
   return {
-    title, description,
+    title,
+    description,
     alternates: { canonical: `${SITE_URL}/villes/${params.slug}` },
     openGraph: {
-      title, description, url: `${SITE_URL}/villes/${params.slug}`,
-      siteName: 'Dalili', type: 'website',
-      images: [{ url: `${SITE_URL}/og-image.jpg`, width: 1200, height: 630 }],
+      title,
+      description: ogDescription,
+      url: `${SITE_URL}/villes/${params.slug}`,
+      siteName: 'Dalili',
+      type: 'article',
+      images: [{ url: `${SITE_URL}${city.thumbnail}`, width: 1200, height: 675 }],
     },
   };
 }
@@ -36,11 +72,33 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
   );
 }
 
-export default function VillePage({ params }: { params: { slug: string } }) {
+export default async function VillePage({ params }: { params: { slug: string } }) {
   const city = getCity(params.slug);
   if (!city) notFound();
 
-  const jsonLd = {
+  // Load MDX long-form content if it exists
+  const mdxPath = path.join(process.cwd(), 'content', 'villes', `${params.slug}.mdx`);
+  let mdxContent: React.ReactElement | null = null;
+  let faqItems: { question: string; answer: string }[] = [];
+
+  if (fs.existsSync(mdxPath)) {
+    const raw = fs.readFileSync(mdxPath, 'utf8');
+    faqItems = extractFaqItems(raw);
+    const { content } = await compileMDX({
+      source: raw,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      components: mdxComponents as any,
+      options: {
+        mdxOptions: {
+          remarkPlugins: [remarkGfm],
+          rehypePlugins: [rehypeSlug],
+        },
+      },
+    });
+    mdxContent = content;
+  }
+
+  const breadcrumbSchema = {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
@@ -58,10 +116,37 @@ export default function VillePage({ params }: { params: { slug: string } }) {
     address: { '@type': 'PostalAddress', addressLocality: city.name, addressCountry: 'FR' },
   };
 
+  const articleSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: `Étudier à ${city.name} : guide complet étudiant étranger 2026`,
+    description: CITY_SEO[params.slug]?.description ?? `Guide pour étudier à ${city.name}`,
+    image: `${SITE_URL}${city.thumbnail}`,
+    author: { '@type': 'Organization', name: 'Dalili', url: SITE_URL },
+    publisher: { '@type': 'Organization', name: 'Dalili', url: SITE_URL },
+    datePublished: '2026-01-01',
+    dateModified: '2026-06-18',
+    mainEntityOfPage: `${SITE_URL}/villes/${params.slug}`,
+  };
+
+  const faqSchema = faqItems.length > 0
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faqItems.map(item => ({
+          '@type': 'Question',
+          name: item.question,
+          acceptedAnswer: { '@type': 'Answer', text: item.answer },
+        })),
+      }
+    : null;
+
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(placeSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
+      {faqSchema && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />}
 
       <main style={{ paddingTop: 100, paddingBottom: 120, minHeight: '100vh' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 clamp(16px,2vw,32px)' }}>
@@ -219,13 +304,22 @@ export default function VillePage({ params }: { params: { slug: string } }) {
             </div>
           </section>
 
-          {/* ── Avis Dalili ── */}
+          {/* ── Avis Dalili (from lib/cities.ts data) ── */}
           <section style={{ marginBottom: 56 }}>
             <div style={{ padding: 'clamp(24px,3vw,36px)', background: 'rgba(239,179,112,0.05)', border: '1px solid rgba(239,179,112,0.2)', borderRadius: 20 }}>
               <p style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.6rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#EFB370', margin: '0 0 16px' }}>★ Avis Dalili</p>
               <p style={{ fontFamily: 'var(--font-dm-sans)', fontWeight: 400, fontSize: '1rem', color: 'rgba(255,255,255,0.78)', lineHeight: 1.75, margin: 0 }}>{city.avis}</p>
             </div>
           </section>
+
+          {/* ── Long-form MDX content ── */}
+          {mdxContent && (
+            <section style={{ marginBottom: 56 }}>
+              <div className="city-mdx-body">
+                {mdxContent}
+              </div>
+            </section>
+          )}
 
           {/* ── Liens officiels ── */}
           <section style={{ marginBottom: 56 }}>

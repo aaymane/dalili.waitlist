@@ -225,6 +225,125 @@ body {
   text-decoration-color: rgba(77,143,255,0.7);
 }
 
+/* ─── City long-form MDX body ────────────────────────────────── */
+
+.city-mdx-body {
+  font-family: var(--font-dm-sans);
+  color: rgba(255,255,255,0.78);
+  line-height: 1.82;
+  font-size: 1rem;
+  font-weight: 300;
+}
+
+.city-mdx-body h2 {
+  font-family: var(--font-montserrat);
+  font-weight: 700;
+  font-size: clamp(1.2rem, 3vw, 1.6rem);
+  color: #fff;
+  margin: 3rem 0 1rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(239,179,112,0.12);
+  letter-spacing: 0.01em;
+}
+
+.city-mdx-body h3 {
+  font-family: var(--font-montserrat);
+  font-weight: 700;
+  font-size: 1rem;
+  color: #EFB370;
+  margin: 2rem 0 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.city-mdx-body p {
+  margin: 0 0 1.25rem;
+}
+
+.city-mdx-body strong {
+  color: rgba(255,255,255,0.95);
+  font-weight: 600;
+}
+
+.city-mdx-body a {
+  color: #EFB370;
+  text-decoration: underline;
+  text-decoration-color: rgba(239,179,112,0.35);
+  text-underline-offset: 3px;
+  transition: color 0.2s, text-decoration-color 0.2s;
+}
+
+.city-mdx-body a:hover {
+  color: #fff;
+  text-decoration-color: rgba(239,179,112,0.7);
+}
+
+.city-mdx-body ul {
+  margin: 0 0 1.25rem;
+  padding-left: 1.5rem;
+}
+
+.city-mdx-body ul li {
+  margin-bottom: 0.5rem;
+}
+
+.city-mdx-body table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.875rem;
+  overflow-x: auto;
+  display: block;
+}
+
+.city-mdx-body thead tr {
+  border-bottom: 1px solid rgba(239,179,112,0.22);
+}
+
+.city-mdx-body th {
+  padding: 10px 14px;
+  text-align: left;
+  font-family: var(--font-montserrat);
+  font-weight: 700;
+  font-size: 0.55rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(239,179,112,0.65);
+  white-space: nowrap;
+}
+
+.city-mdx-body td {
+  padding: 12px 14px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  color: rgba(255,255,255,0.78);
+}
+
+.city-mdx-body tr:hover td {
+  background: rgba(255,255,255,0.02);
+}
+
+.city-mdx-body blockquote {
+  margin: 1.5rem 0;
+  padding: 1rem 1.25rem;
+  border-left: 3px solid #EFB370;
+  background: rgba(239,179,112,0.05);
+  border-radius: 0 8px 8px 0;
+  font-style: italic;
+  color: rgba(255,255,255,0.65);
+}
+
+.city-mdx-body hr {
+  border: none;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  margin: 3rem 0;
+}
+
+.city-mdx-body em {
+  color: rgba(255,255,255,0.5);
+  font-style: italic;
+  font-size: 0.875rem;
+}
+
 /* Blog two-column content layout */
 .blog-content-grid {
   grid-template-columns: 1fr clamp(200px, 22%, 260px);
