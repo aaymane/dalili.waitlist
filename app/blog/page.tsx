@@ -38,6 +38,7 @@ const FEATURED_SLUGS = [
 export default function BlogPage() {
   const posts = getAllPosts();
   const featured = FEATURED_SLUGS.map(slug => posts.find(p => p.slug === slug)).filter(Boolean) as typeof posts;
+  const gridPosts = posts.filter(p => !FEATURED_SLUGS.includes(p.slug));
   const clusterKeys = Object.keys(CLUSTER_DEFINITIONS);
 
   return (
@@ -164,6 +165,32 @@ export default function BlogPage() {
                         position: 'absolute', top: 0, left: 0, right: 0, height: 2,
                         background: `linear-gradient(90deg, transparent, ${cat.accent}, transparent)`,
                       }} />
+                      {post.thumbnail && (
+                        <div style={{
+                          position: 'relative',
+                          width: 'calc(100% + clamp(48px,7vw,72px))',
+                          marginLeft: 'calc(-1 * clamp(24px,3.5vw,36px))',
+                          marginTop: 'calc(-1 * clamp(24px,3.5vw,36px))',
+                          marginBottom: 20,
+                          aspectRatio: '16/9',
+                          overflow: 'hidden',
+                        }}>
+                          <Image
+                            src={post.thumbnail}
+                            alt={post.title}
+                            fill
+                            sizes="(max-width:640px) 100vw, (max-width:1024px) 50vw, 480px"
+                            style={{ objectFit: 'cover' }}
+                            placeholder="blur"
+                            blurDataURL={BLUR_DATA[post.thumbnail] ?? BLUR_DATA[Object.keys(BLUR_DATA)[0]]}
+                            priority
+                          />
+                          <div style={{
+                            position: 'absolute', inset: 0,
+                            background: `linear-gradient(to bottom, transparent 55%, rgba(1,4,16,0.85) 100%)`,
+                          }} />
+                        </div>
+                      )}
                       <div style={{
                         display: 'inline-flex', alignItems: 'center', gap: 6,
                         padding: '4px 12px', marginBottom: 16,
@@ -222,7 +249,7 @@ export default function BlogPage() {
 
         {/* ── Grid — 3 cols desktop / 2 tablet / 1 mobile ── */}
         <div className="blog-index-grid">
-          {posts.map((post, idx) => {
+          {gridPosts.map((post, idx) => {
             const cat = CATEGORY_COLORS[post.category] ?? CATEGORY_COLORS.Visa;
             return (
               <Link
