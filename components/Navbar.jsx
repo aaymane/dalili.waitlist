@@ -12,6 +12,8 @@ const NAV_LINKS = [
   { label: 'À propos',   href: '/a-propos' },
 ];
 
+const CHECKLIST_LINK = { label: 'Checklist PDF', href: '/checklist' };
+
 export default function Navbar() {
   const navRef  = useRef(null);
   const router  = useRouter();
@@ -113,8 +115,39 @@ export default function Navbar() {
           })}
         </div>
 
-        {/* ── Right side: CTA + Hamburger ── */}
+        {/* ── Right side: Checklist pill + CTA + Hamburger ── */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0 }}>
+          <Link
+            href={CHECKLIST_LINK.href}
+            className="nav-checklist-desktop"
+            style={{
+              display: 'inline-flex', alignItems: 'center', gap: 6,
+              padding: '7px 15px',
+              border: '1px solid rgba(1,77,248,0.45)',
+              background: 'rgba(1,77,248,0.1)',
+              color: 'rgba(77,143,255,0.9)',
+              borderRadius: 100,
+              fontFamily: 'var(--font-montserrat)', fontWeight: 700,
+              fontSize: '0.63rem', letterSpacing: '0.1em', textTransform: 'uppercase',
+              textDecoration: 'none',
+              whiteSpace: 'nowrap',
+              transition: 'background 0.2s, border-color 0.2s, color 0.2s',
+            }}
+            onMouseEnter={e => {
+              e.currentTarget.style.background = 'rgba(1,77,248,0.2)';
+              e.currentTarget.style.borderColor = 'rgba(1,77,248,0.8)';
+              e.currentTarget.style.color = '#fff';
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.background = 'rgba(1,77,248,0.1)';
+              e.currentTarget.style.borderColor = 'rgba(1,77,248,0.45)';
+              e.currentTarget.style.color = 'rgba(77,143,255,0.9)';
+            }}
+          >
+            <span style={{ fontSize: 11 }}>📋</span>
+            Checklist PDF
+          </Link>
+
           <a
             href={ctaHref}
             className="nav-cta-desktop"
@@ -219,6 +252,22 @@ export default function Navbar() {
             </Link>
           );
         })}
+
+        {/* Checklist mobile link */}
+        <Link
+          href={CHECKLIST_LINK.href}
+          style={{
+            fontFamily: 'var(--font-bebas)',
+            fontSize: 'clamp(1.5rem,5vw,1.9rem)', letterSpacing: '0.08em',
+            color: pathname === CHECKLIST_LINK.href ? '#4d8fff' : 'rgba(77,143,255,0.75)',
+            textDecoration: 'none', lineHeight: 1,
+            paddingBottom: 16,
+            borderBottom: '1px solid rgba(1,77,248,0.15)',
+            marginBottom: 16, display: 'block',
+          }}
+        >
+          📋 Checklist PDF
+        </Link>
 
         <div style={{ marginTop: 'auto', paddingTop: 32 }}>
           <a

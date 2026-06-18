@@ -4,14 +4,14 @@ import Link from 'next/link';
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://dalili.study';
 
 export const metadata: Metadata = {
-  title: 'Checklist arrivée en France 2026 — PDF gratuit | Dalili',
+  title: 'Checklist arrivée en France 2026 — PDF gratuit étudiant international | Dalili',
   description:
-    'Télécharge la checklist complète pour préparer ton arrivée en France : visa, logement, banque, CAF, sécurité sociale. PDF gratuit mis à jour 2026.',
+    'Télécharge la checklist complète pour ton arrivée en France : 32 points essentiels — visa VLS-TS, ANEF, CAF, Assurance Maladie, logement, banque. PDF gratuit mis à jour juin 2026.',
   alternates: { canonical: `${SITE_URL}/checklist` },
   openGraph: {
     title: 'Checklist arrivée en France 2026 — PDF gratuit | Dalili',
     description:
-      'Checklist complète pour étudiants internationaux : visa VLS-TS, CAF, Ameli, logement, banque. Tout ce qu\'il faut faire avant et après ton arrivée en France.',
+      'La checklist complète pour les étudiants internationaux en France : 32 démarches essentielles organisées en 3 étapes. PDF gratuit, imprimable, partageable.',
     url: `${SITE_URL}/checklist`,
     siteName: 'Dalili',
     type: 'website',
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     site: '@dalilistudy',
     title: 'Checklist arrivée en France 2026 — PDF gratuit | Dalili',
     description:
-      'Télécharge la checklist complète : visa, CAF, logement, Ameli. PDF gratuit mis à jour 2026.',
+      '32 démarches essentielles pour ton arrivée en France. Visa, CAF, Ameli, banque, logement. PDF gratuit.',
   },
 };
 
@@ -31,12 +31,7 @@ const jsonLd = [
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Accueil', item: SITE_URL },
-      {
-        '@type': 'ListItem',
-        position: 2,
-        name: 'Checklist arrivée en France',
-        item: `${SITE_URL}/checklist`,
-      },
+      { '@type': 'ListItem', position: 2, name: 'Checklist arrivée en France', item: `${SITE_URL}/checklist` },
     ],
   },
   {
@@ -44,60 +39,153 @@ const jsonLd = [
     '@type': 'SoftwareApplication',
     name: 'Checklist Arrivée en France 2026',
     applicationCategory: 'EducationalApplication',
+    operatingSystem: 'All',
     description:
-      "Checklist PDF complète pour les étudiants internationaux arrivant en France : démarches avant le départ, à l'arrivée et dans les 3 premiers mois.",
+      "Checklist PDF complète pour les étudiants internationaux arrivant en France. 32 démarches essentielles en 3 phases : avant le départ, à l'arrivée, dans les 3 premiers mois.",
     url: `${SITE_URL}/checklist`,
-    offers: {
-      '@type': 'Offer',
-      price: '0',
-      priceCurrency: 'EUR',
-      availability: 'https://schema.org/InStock',
-    },
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'EUR', availability: 'https://schema.org/InStock' },
     author: { '@type': 'Organization', name: 'Dalili', url: SITE_URL },
     dateModified: '2026-06-18',
     inLanguage: 'fr',
   },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: "Qu'est-ce que la checklist arrivée en France ?",
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: "La checklist arrivée en France de Dalili est un PDF gratuit de 3 pages qui liste les 32 démarches essentielles pour les étudiants internationaux : préparation avant le départ (Campus France, visa VLS-TS, logement), démarches à l'arrivée (validation ANEF, Assurance Maladie, CAF) et suivi dans les 3 premiers mois (Carte Vitale, OFII, titre de séjour).",
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'La checklist est-elle gratuite ?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: "Oui, entièrement gratuite. Tu peux la télécharger, l'imprimer et la partager librement. Elle est mise à jour régulièrement.",
+        },
+      },
+      {
+        '@type': 'Question',
+        name: "Qu'est-ce que la validation VLS-TS sur ANEF ?",
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: "La validation VLS-TS est une démarche obligatoire à effectuer dans les 3 mois suivant ton arrivée en France sur le site administration-etrangers-en-france.interieur.gouv.fr. Sans cette validation, ton visa n'est plus valable comme titre de séjour. Elle coûte environ 50€.",
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Quand faut-il faire la demande CAF en France ?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: "La demande d'APL sur caf.fr doit être faite dès le premier jour dans ton logement. L'APL n'est pas rétroactive : chaque jour de retard représente une aide définitivement perdue.",
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Combien de temps pour recevoir la Carte Vitale ?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: "Après inscription à l'Assurance Maladie sur ameli.fr, tu reçois ton numéro de sécurité sociale sous 2 à 8 semaines. La Carte Vitale arrive 2 à 4 semaines après.",
+        },
+      },
+    ],
+  },
 ];
 
-const SECTIONS = [
+const PHASES = [
   {
-    icon: '✈️',
+    num: '01',
+    emoji: '✈️',
     title: 'Avant le départ',
-    color: '77,143,255',
+    subtitle: '4 mois minimum avant ton vol',
+    accent: '77,143,255',
     items: [
-      'Dossier Campus France soumis',
-      'Visa VLS-TS obtenu',
-      'Traductions certifiées des documents',
-      'Logement réservé (CROUS, Studapart…)',
-      'Compte bancaire en ligne ouvert',
-      '+ 7 autres points essentiels',
+      { text: 'Dossier Campus France soumis et entretien passé', note: null, urgent: false },
+      { text: 'Avis Campus France favorable reçu', note: null, urgent: false },
+      { text: "Lettre d'admission officielle de l'établissement reçue", note: null, urgent: false },
+      { text: 'Visa VLS-TS obtenu au consulat français', note: 'À valider sur ANEF dans les 3 mois après arrivée', urgent: true },
+      { text: 'Passeport valide (min 18 mois de validité restants)', note: null, urgent: false },
+      { text: 'Traductions certifiées : acte de naissance + diplômes', note: null, urgent: false },
+      { text: 'Assurance voyage souscrite (min 30 000€ couverture)', note: null, urgent: false },
+      { text: 'Logement réservé (CROUS / Studapart / HousingAnywhere)', note: 'Commence 4-5 mois avant — les places CROUS partent vite', urgent: false },
+      { text: 'Compte bancaire en ligne ouvert (Revolut ou Wise)', note: "IBAN instantané, zéro frais à l'étranger", urgent: false },
+      { text: 'SIM française commandée en ligne (Free, Bouygues)', note: null, urgent: false },
+      { text: "Billet d'avion acheté", note: "Attends le visa avant l'achat", urgent: false },
+      { text: 'Budget 3 premiers mois préparé (min 1 500€ recommandé)', note: 'Loyer + dépôt + alimentation + transport + frais admin', urgent: false },
     ],
   },
   {
-    icon: '🏠',
+    num: '02',
+    emoji: '🏠',
     title: "À l'arrivée en France",
-    color: '1,77,248',
+    subtitle: 'Semaine 1 à mois 3 — priorités absolues',
+    accent: '1,77,248',
     items: [
-      'Validation VLS-TS sur ANEF (3 mois max)',
-      'Inscription Assurance Maladie',
-      'Paiement CVEC (103€)',
-      'Demande APL/CAF dès J+1',
-      'Ouverture compte bancaire traditionnel',
-      '+ 5 autres points essentiels',
+      { text: 'Validation VLS-TS sur ANEF dans les 3 MOIS', note: 'administration-etrangers-en-france.interieur.gouv.fr · environ 50€', urgent: true },
+      { text: "Inscription à l'Assurance Maladie sur ameli.fr", note: "Section : Étudiants étrangers — envoie les documents en ligne", urgent: true },
+      { text: "Inscription définitive à l'université", note: "Apporte : lettre d'admission, passeport, photos, justificatif logement", urgent: false },
+      { text: 'Paiement CVEC (103€) sur messervices.etudiant.gouv.fr', note: "Obligatoire pour s'inscrire — génère une attestation immédiate", urgent: true },
+      { text: 'Demande APL/CAF sur caf.fr dès le 1er jour dans le logement', note: 'Non rétroactive — chaque jour de retard = aide perdue définitivement', urgent: true },
+      { text: 'Ouverture compte bancaire traditionnel (BNP, SG, Crédit Agricole)', note: 'Nécessaire pour la CAF et les virements de loyer', urgent: false },
+      { text: "Choix d'un médecin traitant sur doctolib.fr", note: 'Obligatoire pour les remboursements à 70% — déclarer sur Ameli.fr', urgent: false },
+      { text: 'Abonnement transport local (Navigo Paris / TBM Bordeaux / TCL Lyon)', note: 'Tarif étudiant sur présentation de la carte étudiante', urgent: false },
+      { text: 'Connexion internet souscrite (Bouygues, Free, SFR)', note: null, urgent: false },
+      { text: 'Carte jeune SNCF si tu voyages en France', note: "49€/an → jusqu'à 60% de réduction sur les TGV", urgent: false },
+      { text: 'Inscription bibliothèque universitaire (BU) — gratuit', note: null, urgent: false },
     ],
   },
   {
-    icon: '📋',
+    num: '03',
+    emoji: '📋',
     title: 'Dans les 3 premiers mois',
-    color: '16,185,129',
+    subtitle: 'Consolide ta situation administrative',
+    accent: '16,185,129',
     items: [
-      'Numéro de sécurité sociale reçu',
-      'Carte Vitale commandée',
-      'Titre de séjour déposé',
-      'Visite médicale OFII passée',
-      'Inscription à la BU',
-      '+ 4 autres points essentiels',
+      { text: 'Numéro de sécurité sociale reçu (ameli.fr)', note: 'Délai habituel : 2-8 semaines. Vérifie ton espace Ameli régulièrement.', urgent: false },
+      { text: 'Carte Vitale commandée sur ameli.fr', note: 'Tiers payant chez le médecin — plus besoin d\'avancer les frais', urgent: false },
+      { text: 'Premiers remboursements CAF/APL reçus', note: 'Délai : 2-3 mois après la demande. Vérifie sur caf.fr', urgent: false },
+      { text: 'RIB transmis à tous les organismes (CAF, bourse, employeur)', note: null, urgent: false },
+      { text: 'Renouvellement titre de séjour planifié (si séjour > 1 an)', note: "Via ANEF — commence 4 mois avant l'expiration du VLS-TS", urgent: true },
+      { text: 'Visite médicale OFII passée (si convoqué par courrier)', note: 'Obligatoire pour les VLS-TS. Gratuit. Convocation par l\'OFII.', urgent: false },
+      { text: 'Mutuelle complémentaire souscrite (facultatif mais recommandé)', note: 'Complémentaire santé solidaire (CSS) gratuite si revenus < 9 720€/an', urgent: false },
+      { text: "Découverte des associations étudiantes du campus", note: null, urgent: false },
+      { text: 'Contact établi avec la communauté DALILI de ta ville', note: null, urgent: false },
     ],
+  },
+];
+
+const RELATED = [
+  { href: '/blog/visa-etudiant-france-maroc-2026', label: 'Guide complet visa étudiant France depuis le Maroc 2026', icon: '🇲🇦' },
+  { href: '/blog/visa-etudiant-france-algerie-2026', label: "Visa étudiant France depuis l'Algérie 2026 — tout savoir", icon: '🇩🇿' },
+  { href: '/blog/titre-sejour-etudiant-france-renouvellement', label: 'Titre de séjour étudiant — renouvellement complet', icon: '🆔' },
+  { href: '/blog/caf-etudiant-etranger-delais-documents-erreurs', label: 'CAF étudiant étranger — délais, documents et erreurs', icon: '💶' },
+  { href: '/pays/etudier-en-france-depuis-le-maroc', label: 'Étudier en France depuis le Maroc — démarches et délais', icon: '📚' },
+];
+
+const FAQ_ITEMS = [
+  {
+    q: "Qu'est-ce que la checklist arrivée en France ?",
+    a: "La checklist arrivée en France de Dalili est un PDF gratuit de 3 pages qui liste les 32 démarches essentielles pour les étudiants internationaux : préparation avant le départ (Campus France, visa VLS-TS, logement), démarches à l'arrivée (validation ANEF, Assurance Maladie, CAF) et suivi dans les 3 premiers mois (Carte Vitale, OFII, titre de séjour).",
+  },
+  {
+    q: 'La checklist est-elle gratuite ?',
+    a: "Oui, entièrement gratuite. Tu peux la télécharger, l'imprimer et la partager librement dans tes groupes WhatsApp, Facebook ou Discord. Elle est mise à jour régulièrement pour rester conforme aux démarches en vigueur.",
+  },
+  {
+    q: "Qu'est-ce que la validation VLS-TS sur ANEF ?",
+    a: "La validation VLS-TS est une démarche obligatoire à effectuer dans les 3 mois suivant ton arrivée en France sur le site administration-etrangers-en-france.interieur.gouv.fr. Sans cette validation, ton visa n'est plus valable comme titre de séjour. Elle coûte environ 50€.",
+  },
+  {
+    q: 'Quand faut-il faire la demande CAF en France ?',
+    a: "La demande d'APL sur caf.fr doit être faite dès le premier jour dans ton logement. L'APL n'est pas rétroactive : chaque jour de retard représente une aide définitivement perdue.",
+  },
+  {
+    q: 'Combien de temps pour recevoir la Carte Vitale ?',
+    a: "Après inscription à l'Assurance Maladie sur ameli.fr, tu reçois ton numéro de sécurité sociale sous 2 à 8 semaines. La Carte Vitale arrive 2 à 4 semaines après. En attendant, une attestation papier suffit pour le tiers payant chez le médecin.",
   },
 ];
 
@@ -105,203 +193,246 @@ export default function ChecklistPage() {
   return (
     <>
       {jsonLd.map((schema, i) => (
-        <script
-          key={i}
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
-        />
+        <script key={i} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
       ))}
 
-      <main id="main-content" style={{ paddingTop: 100, paddingBottom: 120, minHeight: '100vh' }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 clamp(16px,2vw,32px)' }}>
+      {/* Ambient glow */}
+      <div aria-hidden="true" style={{ position: 'fixed', inset: 0, pointerEvents: 'none', overflow: 'hidden', zIndex: 0 }}>
+        <div style={{ position: 'absolute', top: '-20vh', left: '50%', transform: 'translateX(-50%)', width: '80vw', height: '60vh', background: 'radial-gradient(ellipse at center, rgba(1,77,248,0.12) 0%, transparent 70%)', borderRadius: '50%' }} />
+        <div style={{ position: 'absolute', top: '35vh', right: '-10vw', width: '45vw', height: '45vh', background: 'radial-gradient(ellipse at center, rgba(77,143,255,0.06) 0%, transparent 70%)', borderRadius: '50%' }} />
+      </div>
 
-          {/* ── Breadcrumb ── */}
-          <nav style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 40, flexWrap: 'wrap' }}>
+      <main id="main-content" style={{ position: 'relative', zIndex: 1, paddingTop: 96, paddingBottom: 120, minHeight: '100vh' }}>
+        <div style={{ maxWidth: 1120, margin: '0 auto', padding: '0 clamp(16px,4vw,40px)' }}>
+
+          {/* Breadcrumb */}
+          <nav aria-label="Fil d'Ariane" style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 52, flexWrap: 'wrap' }}>
             {[{ label: 'Accueil', href: '/' }, { label: 'Checklist', href: null }].map((item, i, arr) => (
               <span key={i} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                 {item.href
-                  ? <Link href={item.href} style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.58rem', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(77,143,255,0.6)', textDecoration: 'none' }}>{item.label}</Link>
-                  : <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.58rem', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.3)' }}>{item.label}</span>
+                  ? <Link href={item.href} style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(77,143,255,0.5)', textDecoration: 'none' }}>{item.label}</Link>
+                  : <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.25)' }}>{item.label}</span>
                 }
-                {i < arr.length - 1 && <span style={{ color: 'rgba(255,255,255,0.2)', fontSize: '0.6rem' }}>›</span>}
+                {i < arr.length - 1 && <span style={{ color: 'rgba(255,255,255,0.18)', fontSize: '0.55rem' }}>›</span>}
               </span>
             ))}
           </nav>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1fr)', gap: 'clamp(40px,5vw,72px)' }}>
-
-            {/* ── Hero ── */}
+          {/* ── HERO ── */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1fr) minmax(0,auto)', gap: 'clamp(40px,5vw,80px)', alignItems: 'start', marginBottom: 'clamp(72px,8vw,110px)' }}>
             <div>
-              <div style={{ display: 'inline-flex', marginBottom: 20, padding: '5px 16px', border: '1px solid rgba(1,77,248,0.3)', borderRadius: 100, background: 'rgba(1,77,248,0.07)' }}>
-                <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.24em', textTransform: 'uppercase', color: 'rgba(77,143,255,0.85)' }}>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 24, padding: '6px 18px', border: '1px solid rgba(1,77,248,0.35)', borderRadius: 100, background: 'rgba(1,77,248,0.08)' }}>
+                <span style={{ width: 6, height: 6, borderRadius: 3, background: '#4d8fff', display: 'inline-block', flexShrink: 0 }} />
+                <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(77,143,255,0.9)' }}>
                   PDF Gratuit — Mis à jour juin 2026
                 </span>
               </div>
 
-              <h1 style={{ fontFamily: 'var(--font-bebas)', fontWeight: 400, fontSize: 'clamp(3rem,8vw,7rem)', lineHeight: 0.9, letterSpacing: '0.03em', color: '#fff', margin: '0 0 clamp(16px,2vw,24px)' }}>
-                CHECKLIST<br />
-                <span style={{ color: 'rgba(255,255,255,0.35)' }}>ARRIVÉE EN</span><br />
-                <span style={{ color: '#014DF8' }}>FRANCE 2026</span>
+              <h1 style={{ fontFamily: 'var(--font-bebas)', fontWeight: 400, fontSize: 'clamp(3.2rem,8.5vw,7.5rem)', lineHeight: 0.88, letterSpacing: '0.02em', margin: '0 0 clamp(20px,2.5vw,32px)' }}>
+                <span style={{ color: '#fff', display: 'block' }}>CHECKLIST</span>
+                <span style={{ color: 'rgba(255,255,255,0.2)', display: 'block' }}>ARRIVÉE EN</span>
+                <span style={{ color: '#014DF8', display: 'block' }}>FRANCE 2026</span>
               </h1>
 
-              <p style={{ fontFamily: 'var(--font-dm-sans)', fontWeight: 300, fontSize: 'clamp(0.95rem,1.4vw,1.1rem)', color: 'rgba(255,255,255,0.5)', maxWidth: 600, lineHeight: 1.75, margin: '0 0 clamp(24px,3vw,36px)' }}>
-                La checklist complète pour ne rien oublier quand tu prépares ton arrivée en France.
-                3 pages, 28 points essentiels — visa, logement, CAF, Assurance Maladie, titre de séjour.
-                Télécharge, imprime, coche chaque étape.
+              <p style={{ fontFamily: 'var(--font-dm-sans)', fontWeight: 300, fontSize: 'clamp(0.88rem,1.2vw,1.02rem)', color: 'rgba(255,255,255,0.42)', maxWidth: 540, lineHeight: 1.8, margin: '0 0 clamp(28px,4vw,44px)' }}>
+                Les 32 démarches essentielles pour ton arrivée en France, organisées en 3 phases. Visa VLS-TS, ANEF, CAF, Assurance Maladie, banque. Imprime, coche, avance.
               </p>
 
-              {/* Trust signals */}
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, marginBottom: 'clamp(28px,4vw,44px)', alignItems: 'center' }}>
+              {/* Stats */}
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginBottom: 'clamp(28px,4vw,44px)' }}>
                 {[
-                  { icon: '✅', text: "200+ étudiants l'ont utilisée" },
-                  { icon: '🔄', text: 'Mise à jour juin 2026' },
-                  { icon: '📄', text: '3 pages · 28 points' },
-                  { icon: '🆓', text: '100% gratuit' },
-                ].map(({ icon, text }) => (
-                  <div key={text} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '7px 16px', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 100 }}>
-                    <span style={{ fontSize: 13 }}>{icon}</span>
-                    <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.8rem', fontWeight: 500, color: 'rgba(255,255,255,0.6)' }}>{text}</span>
+                  { v: '32', l: 'démarches' },
+                  { v: '3', l: 'phases' },
+                  { v: '200+', l: 'étudiants' },
+                  { v: '100%', l: 'gratuit' },
+                ].map(s => (
+                  <div key={s.v} style={{ display: 'flex', alignItems: 'baseline', gap: 5, padding: '8px 18px', background: 'rgba(255,255,255,0.035)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 100 }}>
+                    <span style={{ fontFamily: 'var(--font-bebas)', fontSize: '1.1rem', color: '#fff', letterSpacing: '0.04em', lineHeight: 1 }}>{s.v}</span>
+                    <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.7rem', color: 'rgba(255,255,255,0.35)' }}>{s.l}</span>
                   </div>
                 ))}
               </div>
 
               {/* CTA */}
-              <a
-                href="/api/checklist"
-                download="checklist-arrivee-france-dalili-2026.pdf"
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: 12,
-                  padding: 'clamp(14px,2vw,18px) clamp(24px,3vw,36px)',
-                  background: '#014DF8',
-                  borderRadius: 12,
-                  textDecoration: 'none',
-                  fontFamily: 'var(--font-montserrat)',
-                  fontWeight: 700,
-                  fontSize: 'clamp(0.8rem,1.2vw,0.95rem)',
-                  letterSpacing: '0.1em',
-                  textTransform: 'uppercase',
-                  color: '#fff',
-                  boxShadow: '0 0 40px rgba(1,77,248,0.35)',
-                  transition: 'opacity 0.2s',
-                }}
-              >
-                <span>📥</span>
-                Télécharger la checklist PDF — Gratuit
-              </a>
-
-              <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.72rem', color: 'rgba(255,255,255,0.25)', marginTop: 12 }}>
-                PDF · 3 pages A4 · Partage libre
-              </p>
-            </div>
-
-            {/* ── Preview sections ── */}
-            <div>
-              <div style={{ marginBottom: 32 }}>
-                <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.3)' }}>
-                  Ce que contient la checklist
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 14, alignItems: 'center' }}>
+                <a
+                  href="/api/checklist"
+                  download="checklist-arrivee-france-dalili-2026.pdf"
+                  style={{
+                    display: 'inline-flex', alignItems: 'center', gap: 12,
+                    padding: 'clamp(14px,2vw,18px) clamp(28px,3.5vw,44px)',
+                    background: 'linear-gradient(135deg, #014DF8 0%, #0066ff 100%)',
+                    borderRadius: 14, textDecoration: 'none',
+                    fontFamily: 'var(--font-montserrat)', fontWeight: 700,
+                    fontSize: 'clamp(0.75rem,1.1vw,0.9rem)', letterSpacing: '0.1em', textTransform: 'uppercase',
+                    color: '#fff',
+                    boxShadow: '0 0 48px rgba(1,77,248,0.4), 0 2px 0 rgba(255,255,255,0.08) inset',
+                  }}
+                >
+                  <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true">
+                    <path d="M7.5 1v8.5M7.5 9.5L4.5 6.5M7.5 9.5l3-3" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M1.5 12.5h12" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" />
+                  </svg>
+                  Télécharger — Gratuit
+                </a>
+                <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.7rem', color: 'rgba(255,255,255,0.2)' }}>
+                  PDF · 3 pages A4 · Partage libre
                 </span>
               </div>
+            </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(320px,100%),1fr))', gap: 'clamp(14px,2vw,22px)' }}>
-                {SECTIONS.map(section => (
-                  <div
-                    key={section.title}
-                    style={{
-                      padding: 'clamp(20px,3vw,28px)',
-                      background: `linear-gradient(160deg, rgba(${section.color},0.08) 0%, rgba(1,4,16,0.96) 60%)`,
-                      border: `1px solid rgba(${section.color},0.2)`,
-                      borderRadius: 18,
-                      position: 'relative',
-                      overflow: 'hidden',
-                    }}
-                  >
-                    <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: `linear-gradient(90deg, transparent, rgba(${section.color},0.8), transparent)` }} />
+            {/* PDF Preview card */}
+            <div style={{ width: 'clamp(200px,26vw,300px)', flexShrink: 0 }}>
+              <div style={{
+                background: '#0a0f1e',
+                border: '1px solid rgba(1,77,248,0.28)',
+                borderRadius: 16, overflow: 'hidden',
+                boxShadow: '0 0 60px rgba(1,77,248,0.18), 0 32px 80px rgba(0,0,0,0.7)',
+                position: 'relative',
+              }}>
+                <div style={{ height: 3, background: 'linear-gradient(90deg, #014DF8, #4d8fff, #014DF8)' }} />
+                <div style={{ padding: '13px 15px 10px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+                    <div style={{ width: 5, height: 5, borderRadius: 3, background: '#014DF8' }} />
+                    <span style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 900, fontSize: '0.6rem', color: '#fff', letterSpacing: '0.15em' }}>DALILI</span>
+                    <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.45rem', color: 'rgba(77,143,255,0.5)', marginLeft: 3 }}>dalili.study</span>
+                  </div>
+                  <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.48rem', fontWeight: 600, color: 'rgba(77,143,255,0.5)' }}>1 / 3</span>
+                </div>
+                <div style={{ padding: '13px 15px 16px' }}>
+                  <div style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.42rem', fontWeight: 700, letterSpacing: '0.2em', color: 'rgba(77,143,255,0.55)', marginBottom: 3, textTransform: 'uppercase' }}>Partie 1 de 3</div>
+                  <div style={{ fontFamily: 'var(--font-bebas)', fontSize: '1.3rem', color: '#fff', letterSpacing: '0.04em', lineHeight: 1.1, marginBottom: 11 }}>AVANT LE{'\n'}DEPART ✈️</div>
+                  {['Dossier Campus France', 'Visa VLS-TS obtenu', 'Logement réservé', 'Compte bancaire en ligne', 'Budget 3 mois préparé'].map((item, i) => (
+                    <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '5px 7px', marginBottom: 3, background: '#0d1527', borderRadius: 3, border: '1px solid #1a2540' }}>
+                      <div style={{ width: 8, height: 8, borderRadius: 2, border: '1.5px solid #014DF8', background: '#0a1535', flexShrink: 0 }} />
+                      <div style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.45rem', color: 'rgba(153,168,204,0.8)' }}>{item}</div>
+                    </div>
+                  ))}
+                  <div style={{ marginTop: 9, textAlign: 'center', fontFamily: 'var(--font-montserrat)', fontSize: '0.4rem', fontWeight: 700, letterSpacing: '0.14em', color: 'rgba(77,143,255,0.35)', textTransform: 'uppercase' }}>+ 27 autres démarches</div>
+                </div>
+                <div aria-hidden="true" style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(255,255,255,0.025) 0%, transparent 50%)', pointerEvents: 'none' }} />
+              </div>
+              <div style={{ textAlign: 'center', marginTop: 12 }}>
+                <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.65rem', color: 'rgba(255,255,255,0.2)' }}>Format A4 · Imprimable · Partageable</span>
+              </div>
+            </div>
+          </div>
 
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 18 }}>
-                      <span style={{ fontSize: 22 }}>{section.icon}</span>
-                      <h2 style={{ fontFamily: 'var(--font-bebas)', fontWeight: 400, fontSize: '1.4rem', letterSpacing: '0.04em', color: '#fff', margin: 0 }}>
-                        {section.title}
+          {/* ── CHECKLIST PHASES ── */}
+          <section aria-label="Contenu de la checklist" style={{ marginBottom: 'clamp(72px,8vw,110px)' }}>
+            <div style={{ marginBottom: 'clamp(32px,4vw,52px)' }}>
+              <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.18)' }}>Contenu du PDF</span>
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 'clamp(40px,5vw,60px)' }}>
+              {PHASES.map(phase => (
+                <div key={phase.num}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 22 }}>
+                    <div style={{ width: 44, height: 44, borderRadius: 12, background: `rgba(${phase.accent},0.1)`, border: `1px solid rgba(${phase.accent},0.22)`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: 20 }}>
+                      {phase.emoji}
+                    </div>
+                    <div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 3 }}>
+                        <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.53rem', fontWeight: 700, letterSpacing: '0.2em', color: `rgba(${phase.accent},0.55)`, textTransform: 'uppercase' }}>Phase {phase.num}</span>
+                        <span style={{ width: 1, height: 10, background: `rgba(${phase.accent},0.2)`, display: 'inline-block' }} />
+                        <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.68rem', color: 'rgba(255,255,255,0.27)' }}>{phase.subtitle}</span>
+                      </div>
+                      <h2 style={{ fontFamily: 'var(--font-bebas)', fontWeight: 400, fontSize: 'clamp(1.4rem,2.8vw,2.2rem)', letterSpacing: '0.04em', color: '#fff', margin: 0, lineHeight: 1 }}>
+                        {phase.title}
                       </h2>
                     </div>
-
-                    <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 8 }}>
-                      {section.items.map((item, i) => (
-                        <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
-                          <div style={{
-                            width: 14,
-                            height: 14,
-                            borderRadius: 3,
-                            border: `1.5px solid rgba(${section.color},0.6)`,
-                            background: `rgba(${section.color},0.06)`,
-                            flexShrink: 0,
-                            marginTop: 2,
-                          }} />
-                          <span style={{
-                            fontFamily: 'var(--font-dm-sans)',
-                            fontSize: '0.82rem',
-                            color: item.startsWith('+') ? `rgba(${section.color},0.8)` : 'rgba(255,255,255,0.55)',
-                            fontWeight: item.startsWith('+') ? 600 : 400,
-                            fontStyle: item.startsWith('+') ? 'italic' : 'normal',
-                          }}>
-                            {item}
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
+                    <div style={{ flex: 1, height: 1, background: `linear-gradient(90deg, rgba(${phase.accent},0.25), transparent)`, marginLeft: 8 }} />
                   </div>
-                ))}
-              </div>
-            </div>
 
-            {/* ── Second CTA ── */}
-            <div style={{ textAlign: 'center', padding: 'clamp(28px,4vw,48px)', background: 'rgba(1,77,248,0.06)', border: '1px solid rgba(1,77,248,0.18)', borderRadius: 20 }}>
-              <p style={{ fontFamily: 'var(--font-bebas)', fontWeight: 400, fontSize: 'clamp(1.8rem,4vw,3rem)', letterSpacing: '0.04em', color: '#fff', margin: '0 0 16px' }}>
-                Partage cette checklist —<br />
-                <span style={{ color: '#014DF8' }}>aide les autres étudiants</span>
-              </p>
-              <p style={{ fontFamily: 'var(--font-dm-sans)', fontWeight: 300, fontSize: '0.9rem', color: 'rgba(255,255,255,0.4)', margin: '0 0 28px', maxWidth: 480, marginLeft: 'auto', marginRight: 'auto' }}>
-                Tu peux partager ce PDF librement dans les groupes Facebook, WhatsApp et Discord d&apos;étudiants.
-              </p>
-              <a
-                href="/api/checklist"
-                download="checklist-arrivee-france-dalili-2026.pdf"
-                style={{ display: 'inline-flex', alignItems: 'center', gap: 10, padding: '14px 32px', background: '#014DF8', borderRadius: 10, textDecoration: 'none', fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.85rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#fff' }}
-              >
-                <span>📥</span>
-                Télécharger gratuitement
-              </a>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%,480px),1fr))', gap: '6px 10px' }}>
+                    {phase.items.map((item, i) => (
+                      <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 12, padding: '12px 14px', background: item.urgent ? 'rgba(239,68,68,0.04)' : 'rgba(255,255,255,0.02)', border: `1px solid ${item.urgent ? 'rgba(239,68,68,0.18)' : 'rgba(255,255,255,0.06)'}`, borderRadius: 10 }}>
+                        <div style={{ width: 16, height: 16, borderRadius: 4, flexShrink: 0, marginTop: 2, border: `1.5px solid ${item.urgent ? 'rgba(239,68,68,0.65)' : `rgba(${phase.accent},0.45)`}`, background: item.urgent ? 'rgba(239,68,68,0.05)' : `rgba(${phase.accent},0.05)` }} />
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <div style={{ display: 'flex', alignItems: 'flex-start', gap: 8, flexWrap: 'wrap' }}>
+                            <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.83rem', fontWeight: 500, color: 'rgba(255,255,255,0.7)', lineHeight: 1.45, flex: 1 }}>{item.text}</span>
+                            {item.urgent && (
+                              <span style={{ flexShrink: 0, padding: '2px 7px', background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.28)', borderRadius: 4, fontFamily: 'var(--font-montserrat)', fontSize: '0.48rem', fontWeight: 700, letterSpacing: '0.12em', color: '#ef4444', textTransform: 'uppercase', alignSelf: 'flex-start', marginTop: 1 }}>
+                                Urgent
+                              </span>
+                            )}
+                          </div>
+                          {item.note && <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.72rem', color: 'rgba(255,255,255,0.28)', margin: '4px 0 0', lineHeight: 1.55 }}>{item.note}</p>}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
             </div>
+          </section>
 
-            {/* ── Internal links ── */}
-            <div>
-              <div style={{ marginBottom: 24 }}>
-                <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.3)' }}>
-                  Guides complémentaires
-                </span>
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-                {[
-                  { href: '/blog/visa-etudiant-france-maroc-2026', label: 'Guide complet visa étudiant France depuis le Maroc 2026', icon: '🇫🇷' },
-                  { href: '/pays/etudier-en-france-depuis-le-maroc', label: 'Étudier en France depuis le Maroc : démarches, délais et contacts', icon: '🇲🇦' },
-                ].map(link => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16, padding: '14px 20px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 12, textDecoration: 'none' }}
-                  >
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                      <span style={{ fontSize: 16 }}>{link.icon}</span>
-                      <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.88rem', fontWeight: 500, color: 'rgba(255,255,255,0.65)' }}>{link.label}</span>
-                    </div>
-                    <span style={{ color: '#4d8fff', flexShrink: 0 }}>→</span>
-                  </Link>
-                ))}
-              </div>
-            </div>
-
+          {/* ── MID-PAGE CTA ── */}
+          <div style={{ marginBottom: 'clamp(72px,8vw,110px)', padding: 'clamp(32px,5vw,56px)', background: 'linear-gradient(135deg, rgba(1,77,248,0.1) 0%, rgba(1,4,16,0.6) 60%)', border: '1px solid rgba(1,77,248,0.2)', borderRadius: 24, position: 'relative', overflow: 'hidden', textAlign: 'center' }}>
+            <div aria-hidden="true" style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 1, background: 'linear-gradient(90deg, transparent, rgba(1,77,248,0.7), transparent)' }} />
+            <p style={{ fontFamily: 'var(--font-bebas)', fontWeight: 400, fontSize: 'clamp(1.8rem,4vw,3.2rem)', letterSpacing: '0.04em', color: '#fff', margin: '0 0 8px', lineHeight: 1.1 }}>
+              Télécharge la checklist complète
+            </p>
+            <p style={{ fontFamily: 'var(--font-bebas)', fontWeight: 400, fontSize: 'clamp(1.3rem,2.8vw,2rem)', letterSpacing: '0.04em', color: '#014DF8', margin: '0 0 24px', lineHeight: 1 }}>
+              3 pages · 32 points · 100% gratuit
+            </p>
+            <p style={{ fontFamily: 'var(--font-dm-sans)', fontWeight: 300, fontSize: '0.86rem', color: 'rgba(255,255,255,0.32)', margin: '0 0 30px', maxWidth: 460, marginLeft: 'auto', marginRight: 'auto' }}>
+              Partage ce PDF dans tes groupes WhatsApp, Facebook et Discord — aide les autres étudiants à ne rien oublier.
+            </p>
+            <a
+              href="/api/checklist"
+              download="checklist-arrivee-france-dalili-2026.pdf"
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 12, padding: '16px 40px', background: '#014DF8', borderRadius: 14, textDecoration: 'none', fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.86rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#fff', boxShadow: '0 0 40px rgba(1,77,248,0.4)' }}
+            >
+              <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true">
+                <path d="M7.5 1v8.5M7.5 9.5L4.5 6.5M7.5 9.5l3-3" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M1.5 12.5h12" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" />
+              </svg>
+              Télécharger gratuitement
+            </a>
           </div>
+
+          {/* ── FAQ ── */}
+          <section aria-labelledby="faq-heading" style={{ marginBottom: 'clamp(72px,8vw,110px)' }}>
+            <div style={{ marginBottom: 'clamp(28px,4vw,44px)' }}>
+              <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.18)', display: 'block', marginBottom: 8 }}>Réponses</span>
+              <h2 id="faq-heading" style={{ fontFamily: 'var(--font-bebas)', fontWeight: 400, fontSize: 'clamp(1.8rem,4vw,3rem)', letterSpacing: '0.04em', color: '#fff', margin: 0, lineHeight: 1 }}>
+                Questions fréquentes
+              </h2>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              {FAQ_ITEMS.map((item, i) => (
+                <div key={i} style={{ padding: 'clamp(16px,2vw,22px)', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 14 }}>
+                  <p style={{ fontFamily: 'var(--font-dm-sans)', fontWeight: 600, fontSize: 'clamp(0.83rem,1.1vw,0.93rem)', color: 'rgba(255,255,255,0.82)', margin: '0 0 10px', lineHeight: 1.45 }}>{item.q}</p>
+                  <p style={{ fontFamily: 'var(--font-dm-sans)', fontWeight: 300, fontSize: '0.82rem', color: 'rgba(255,255,255,0.38)', margin: 0, lineHeight: 1.72 }}>{item.a}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* ── RELATED GUIDES ── */}
+          <section aria-labelledby="related-heading">
+            <div style={{ marginBottom: 22 }}>
+              <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.18)', display: 'block', marginBottom: 6 }}>Guides complémentaires</span>
+              <h2 id="related-heading" style={{ fontFamily: 'var(--font-bebas)', fontWeight: 400, fontSize: 'clamp(1.4rem,2.5vw,2rem)', letterSpacing: '0.04em', color: '#fff', margin: 0, lineHeight: 1 }}>
+                Approfondir tes démarches
+              </h2>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              {RELATED.map(link => (
+                <Link key={link.href} href={link.href} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16, padding: 'clamp(13px,2vw,17px) clamp(16px,2.5vw,22px)', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 13, textDecoration: 'none' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+                    <span style={{ fontSize: 17, flexShrink: 0 }}>{link.icon}</span>
+                    <span style={{ fontFamily: 'var(--font-dm-sans)', fontSize: 'clamp(0.78rem,1.1vw,0.88rem)', fontWeight: 500, color: 'rgba(255,255,255,0.55)', lineHeight: 1.4 }}>{link.label}</span>
+                  </div>
+                  <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true" style={{ flexShrink: 0 }}>
+                    <path d="M1.5 6.5h10M8 3l3.5 3.5L8 10" stroke="#4d8fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </Link>
+              ))}
+            </div>
+          </section>
+
         </div>
       </main>
     </>

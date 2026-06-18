@@ -1,5 +1,5 @@
 import { renderToBuffer } from '@react-pdf/renderer';
-import { ChecklistDocument } from '@/lib/ChecklistPDF';
+import { ChecklistPDF } from '@/lib/ChecklistPDF';
 import React from 'react';
 
 export const runtime = 'nodejs';
@@ -7,7 +7,7 @@ export const dynamic = 'force-dynamic';
 
 export async function GET() {
   try {
-    const buffer = await renderToBuffer(React.createElement(ChecklistDocument));
+    const buffer = await renderToBuffer(React.createElement(ChecklistPDF));
     const uint8 = new Uint8Array(buffer);
 
     return new Response(uint8, {
