@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
-import { getAllPosts, CATEGORY_COLORS, formatDate } from '@/lib/blog';
+import { getAllPosts, CATEGORY_COLORS, CLUSTER_DEFINITIONS, formatDate } from '@/lib/blog';
 import { BLUR_DATA } from '@/lib/blur-data';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://dalili.study';
@@ -29,15 +29,23 @@ export const metadata: Metadata = {
   },
 };
 
+const FEATURED_SLUGS = [
+  'visa-etudiant-france-maroc-2026',
+  'logement-crous-etudiant-etranger-demande',
+  'caf-etudiant-etranger-delais-documents-erreurs',
+];
+
 export default function BlogPage() {
   const posts = getAllPosts();
+  const featured = FEATURED_SLUGS.map(slug => posts.find(p => p.slug === slug)).filter(Boolean) as typeof posts;
+  const clusterKeys = Object.keys(CLUSTER_DEFINITIONS);
 
   return (
     <main style={{ paddingTop: 100, paddingBottom: 120, minHeight: '100vh' }}>
       <div style={{ maxWidth: 1440, margin: '0 auto', padding: '0 clamp(16px,2vw,32px)' }}>
 
         {/* ── Header ── */}
-        <div style={{ marginBottom: 'clamp(48px,8vw,96px)' }}>
+        <div style={{ marginBottom: 'clamp(32px,5vw,56px)' }}>
           <Link href="/" style={{
             display: 'inline-flex', alignItems: 'center', gap: 6,
             fontFamily: 'var(--font-montserrat)',
@@ -87,6 +95,130 @@ export default function BlogPage() {
             Écrits par des gens qui sont passés par là — avec les vraies démarches, pas la version officielle.
           </p>
         </div>
+
+        {/* ── Cluster navigation ── */}
+        <div style={{
+          display: 'flex', flexWrap: 'wrap', gap: 10,
+          marginBottom: 'clamp(40px,6vw,64px)',
+        }}>
+          {clusterKeys.map(key => {
+            const def = CLUSTER_DEFINITIONS[key];
+            return (
+              <a key={key} href={`#cluster-${key}`} style={{
+                display: 'inline-flex', alignItems: 'center', gap: 7,
+                padding: '6px 16px',
+                border: `1px solid rgba(${def.accentRgb},0.28)`,
+                borderRadius: 100,
+                background: `rgba(${def.accentRgb},0.07)`,
+                textDecoration: 'none',
+                fontFamily: 'var(--font-montserrat)',
+                fontSize: '0.52rem', fontWeight: 700,
+                letterSpacing: '0.16em', textTransform: 'uppercase',
+                color: def.color,
+                transition: 'background 0.2s',
+              }}>
+                <div style={{
+                  width: 5, height: 5, borderRadius: '50%',
+                  background: def.color, boxShadow: `0 0 6px ${def.color}`,
+                  flexShrink: 0,
+                }} />
+                {def.label}
+              </a>
+            );
+          })}
+        </div>
+
+        {/* ── Guides essentiels ── */}
+        {featured.length > 0 && (
+          <div style={{ marginBottom: 'clamp(48px,8vw,80px)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 28 }}>
+              <div style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.06)' }} />
+              <span style={{
+                fontFamily: 'var(--font-montserrat)',
+                fontSize: '0.55rem', fontWeight: 700,
+                letterSpacing: '0.24em', textTransform: 'uppercase',
+                color: 'rgba(255,255,255,0.28)',
+                whiteSpace: 'nowrap',
+              }}>Guides essentiels</span>
+              <div style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.06)' }} />
+            </div>
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fill, minmax(min(340px,100%), 1fr))',
+              gap: 'clamp(14px,2vw,22px)',
+            }}>
+              {featured.map(post => {
+                const cat = CATEGORY_COLORS[post.category] ?? CATEGORY_COLORS.Visa;
+                return (
+                  <Link key={post.slug} href={`/blog/${post.slug}`} style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column' }}>
+                    <article style={{
+                      flex: 1, display: 'flex', flexDirection: 'column',
+                      padding: 'clamp(24px,3.5vw,36px)',
+                      background: `linear-gradient(160deg, rgba(${cat.accentRgb},0.1) 0%, rgba(1,4,16,0.97) 60%)`,
+                      border: `1px solid rgba(${cat.accentRgb},0.25)`,
+                      borderRadius: 22,
+                      position: 'relative', overflow: 'hidden',
+                      boxShadow: `0 0 40px rgba(${cat.accentRgb},0.05)`,
+                    }}>
+                      <div style={{
+                        position: 'absolute', top: 0, left: 0, right: 0, height: 2,
+                        background: `linear-gradient(90deg, transparent, ${cat.accent}, transparent)`,
+                      }} />
+                      <div style={{
+                        display: 'inline-flex', alignItems: 'center', gap: 6,
+                        padding: '4px 12px', marginBottom: 16,
+                        border: `1px solid rgba(${cat.accentRgb},0.35)`,
+                        borderRadius: 100,
+                        background: `rgba(${cat.accentRgb},0.09)`,
+                        alignSelf: 'flex-start',
+                      }}>
+                        <div style={{ width: 4, height: 4, borderRadius: '50%', background: cat.accent }} />
+                        <span style={{
+                          fontFamily: 'var(--font-montserrat)',
+                          fontSize: '0.48rem', fontWeight: 700,
+                          letterSpacing: '0.16em', textTransform: 'uppercase',
+                          color: cat.accent,
+                        }}>Guide essentiel</span>
+                      </div>
+                      <h2 style={{
+                        fontFamily: 'var(--font-bebas)',
+                        fontWeight: 400,
+                        fontSize: 'clamp(1.6rem,2.8vw,2.2rem)',
+                        lineHeight: 1.0, letterSpacing: '0.03em',
+                        color: '#fff', margin: '0 0 12px',
+                      }}>{post.title}</h2>
+                      <p style={{
+                        fontFamily: 'var(--font-dm-sans)',
+                        fontWeight: 300, fontSize: '0.875rem',
+                        lineHeight: 1.72, color: 'rgba(255,255,255,0.42)',
+                        margin: '0 0 auto', paddingBottom: 20,
+                      }}>{post.excerpt}</p>
+                      <div style={{
+                        display: 'flex', alignItems: 'center',
+                        justifyContent: 'space-between',
+                        paddingTop: 14,
+                        borderTop: '1px solid rgba(255,255,255,0.06)',
+                      }}>
+                        <span style={{
+                          fontFamily: 'var(--font-montserrat)',
+                          fontSize: '0.52rem', fontWeight: 600,
+                          letterSpacing: '0.1em', textTransform: 'uppercase',
+                          color: 'rgba(255,255,255,0.22)',
+                        }}>{post.readTime} de lecture</span>
+                        <span style={{
+                          fontFamily: 'var(--font-montserrat)',
+                          fontSize: '0.58rem', fontWeight: 700,
+                          letterSpacing: '0.12em', textTransform: 'uppercase',
+                          color: cat.accent,
+                        }}>Lire →</span>
+                      </div>
+                    </article>
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        )}
 
         {/* ── Grid — 3 cols desktop / 2 tablet / 1 mobile ── */}
         <div className="blog-index-grid">

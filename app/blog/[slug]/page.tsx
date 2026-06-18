@@ -6,8 +6,10 @@ import dynamic from 'next/dynamic';
 import { compileMDX } from 'next-mdx-remote/rsc';
 import remarkGfm from 'remark-gfm';
 import rehypeSlug from 'rehype-slug';
-import { getAllPosts, getRawPost, extractHeadings, extractFaqItems, CATEGORY_COLORS, formatDate } from '@/lib/blog';
+import { getAllPosts, getRawPost, extractHeadings, extractFaqItems, getRelatedPosts, getClusterArticles, CATEGORY_COLORS, CLUSTER_MAP, formatDate } from '@/lib/blog';
 import mdxComponents, { Callout } from '@/components/blog/MdxComponents';
+import ClusterLinks from '@/components/blog/ClusterLinks';
+import NextReading from '@/components/blog/NextReading';
 import WaitlistCTA from '@/components/blog/WaitlistCTA';
 import { notFound } from 'next/navigation';
 
@@ -37,6 +39,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
         description: fm.description,
         type: 'article',
         publishedTime: fm.date,
+        modifiedTime: fm.updatedDate ?? fm.date,
         authors: [fm.author],
         url: `${siteUrl}/blog/${params.slug}`,
         images: [{ url: ogImageUrl, width: 1200, height: 630, alt: fm.title }],
@@ -67,11 +70,10 @@ export default async function ArticlePage({ params }: { params: { slug: string }
   const cat      = CATEGORY_COLORS[fm.category] ?? CATEGORY_COLORS.Visa;
   const headings = extractHeadings(mdxSource);
 
-  // Related posts: prefer same category, fill from others if needed
-  const allPosts   = getAllPosts();
-  const samecat    = allPosts.filter(p => p.slug !== params.slug && p.category === fm.category);
-  const others     = allPosts.filter(p => p.slug !== params.slug && p.category !== fm.category);
-  const related    = [...samecat, ...others].slice(0, 2);
+  const related       = getRelatedPosts(params.slug, 3);
+  const clusterSlug   = CLUSTER_MAP[params.slug];
+  const clusterArticles = clusterSlug ? getClusterArticles(clusterSlug, params.slug) : [];
+  const nextReading   = getRelatedPosts(params.slug, 3);
 
   // MdxComponents.jsx infers each component's parameter type from destructuring,
   // making optional HTML attributes (children, id, href) appear required.
@@ -101,7 +103,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
     headline: fm.title,
     description: fm.description,
     datePublished: fm.date,
-    dateModified: fm.date,
+    dateModified: fm.updatedDate ?? fm.date,
     author: { '@type': 'Person', name: fm.author, url: siteUrl },
     publisher: {
       '@type': 'Organization',
@@ -277,6 +279,17 @@ export default async function ArticlePage({ params }: { params: { slug: string }
                 letterSpacing: '0.1em', textTransform: 'uppercase',
                 color: cat.accent,
               }}>{fm.readTime} de lecture</span>
+              {fm.updatedDate && (
+                <>
+                  <span style={{ color: 'rgba(255,255,255,0.12)' }}>·</span>
+                  <span style={{
+                    fontFamily: 'var(--font-montserrat)',
+                    fontSize: '0.58rem', fontWeight: 600,
+                    letterSpacing: '0.08em', textTransform: 'uppercase',
+                    color: 'rgba(255,255,255,0.3)',
+                  }}>Mis à jour le {formatDate(fm.updatedDate)}</span>
+                </>
+              )}
             </div>
 
             {/* Cover thumbnail */}
@@ -323,6 +336,8 @@ export default async function ArticlePage({ params }: { params: { slug: string }
           {/* Article body */}
           <article className="article-prose">
             {content}
+            <ClusterLinks currentSlug={params.slug} articles={clusterArticles} />
+            <NextReading articles={nextReading} />
           </article>
 
           {/* Sidebar */}

@@ -9,13 +9,52 @@ export interface PostMeta {
   title: string;
   description: string;
   date: string;
+  updatedDate?: string;
   category: string;
   readTime: string;
   excerpt: string;
   author: string;
   ogImage?: string;
   thumbnail?: string;
+  cluster?: string;
 }
+
+export const CLUSTER_DEFINITIONS: Record<string, { label: string; description: string; color: string; accentRgb: string }> = {
+  'visa':          { label: 'Visa & Campus France', description: 'Visa étudiant et procédure Campus France', color: '#4d8fff', accentRgb: '77,143,255' },
+  'logement':      { label: 'Logement',             description: 'CROUS, garant, recherche depuis l\'étranger', color: '#EFB370', accentRgb: '239,179,112' },
+  'banque':        { label: 'Banque & Budget',       description: 'Compte bancaire, budget mensuel', color: '#22C55E', accentRgb: '34,197,94' },
+  'aides':         { label: 'Aides & Bourses',       description: 'CAF, APL, bourses d\'études', color: '#E879F9', accentRgb: '232,121,249' },
+  'emploi':        { label: 'Emploi & Stage',        description: 'Travailler en France, alternance, stage', color: '#F59E0B', accentRgb: '245,158,11' },
+  'vie-etudiante': { label: 'Vie Étudiante',         description: 'Université, transport, vie en France', color: '#06B6D4', accentRgb: '6,182,212' },
+  'sante':         { label: 'Santé',                 description: 'Sécurité sociale, médecin traitant', color: '#F43F5E', accentRgb: '244,63,94' },
+  'demarches':     { label: 'Démarches',             description: 'Titre de séjour, OFII, renouvellement', color: '#A855F7', accentRgb: '168,85,247' },
+};
+
+export const CLUSTER_MAP: Record<string, string> = {
+  'campusfrance-maroc-guide-complet':                   'visa',
+  'delai-visa-etudiant-france-tout-savoir':             'visa',
+  'visa-etudiant-france-algerie-2026':                  'visa',
+  'visa-etudiant-france-maroc-2026':                    'visa',
+  'visa-etudiant-france-tout-savoir-avant-partir':      'visa',
+  'garant-logement-etudiant-etranger-france':           'logement',
+  'logement-crous-etudiant-etranger-demande':           'logement',
+  'residence-universitaire-vs-appart-prive-etudiant':   'logement',
+  'trouver-logement-france-depuis-etranger':            'logement',
+  'budget-mensuel-etudiant-etranger-france-2026':       'banque',
+  'comment-ouvrir-compte-bancaire-france-sans-adresse-fixe': 'banque',
+  'ouvrir-compte-bancaire-etudiant-etranger-2026':      'banque',
+  'caf-etudiant-etranger-delais-documents-erreurs':     'aides',
+  'bourses-etudes-etudiants-etrangers-france-2026':     'aides',
+  'alternance-etudiant-etranger-france':                'emploi',
+  'stage-france-etudiant-etranger-convention':          'emploi',
+  'travailler-en-france-etudiant-etranger':             'emploi',
+  'etudier-paris-etudiant-etranger-guide':              'vie-etudiante',
+  'systeme-universitaire-francais-guide-etranger':      'vie-etudiante',
+  'transport-etudiant-france-abonnements-reductions':   'vie-etudiante',
+  'medecin-traitant-france-etudiant-etranger':          'sante',
+  'securite-sociale-etudiante-france-inscription':      'sante',
+  'titre-sejour-etudiant-france-renouvellement':        'demarches',
+};
 
 export interface Heading {
   level: 2 | 3;
@@ -85,6 +124,24 @@ export function formatDate(iso: string): string {
   return new Date(iso).toLocaleDateString('fr-FR', {
     day: 'numeric', month: 'long', year: 'numeric',
   });
+}
+
+// ── Cluster-aware related posts ───────────────────────────────────
+
+export function getClusterArticles(cluster: string, excludeSlug: string): PostMeta[] {
+  return getAllPosts().filter(
+    p => p.slug !== excludeSlug && (CLUSTER_MAP[p.slug] === cluster),
+  );
+}
+
+export function getRelatedPosts(slug: string, count = 5): PostMeta[] {
+  const all = getAllPosts();
+  const cluster = CLUSTER_MAP[slug];
+  const current = all.find(p => p.slug === slug);
+  const sameCluster = all.filter(p => p.slug !== slug && CLUSTER_MAP[p.slug] === cluster);
+  const sameCategory = all.filter(p => p.slug !== slug && p.category === current?.category && !sameCluster.find(s => s.slug === p.slug));
+  const others = all.filter(p => p.slug !== slug && !sameCluster.find(s => s.slug === p.slug) && !sameCategory.find(s => s.slug === p.slug));
+  return [...sameCluster, ...sameCategory, ...others].slice(0, count);
 }
 
 // ── FAQ extraction for JSON-LD ────────────────────────────────────
