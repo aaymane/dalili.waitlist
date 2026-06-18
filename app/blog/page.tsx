@@ -249,7 +249,7 @@ export default function BlogPage() {
 
         {/* ── Grid — 3 cols desktop / 2 tablet / 1 mobile ── */}
         <div className="blog-index-grid">
-          {gridPosts.map((post, idx) => {
+          {posts.map((post, idx) => {
             const cat = CATEGORY_COLORS[post.category] ?? CATEGORY_COLORS.Visa;
             return (
               <Link
