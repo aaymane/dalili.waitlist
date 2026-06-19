@@ -37,6 +37,31 @@ const UNI_SEO: Record<string, { title: string; description: string; ogDescriptio
     description: 'Guide complet pour étudier à l\'Université de Lille : budget le plus bas de France, logement, médecine, position européenne, communauté maghrébine et débouchés.',
     ogDescription: 'Université de Lille, 75 000 étudiants, 580€/mois de budget — le guide complet pour les étudiants marocains, algériens et tunisiens qui veulent étudier dans la ville la plus abordable de France.',
   },
+  'universite-lyon-1': {
+    title: 'Université Lyon 1 Claude Bernard : guide étudiant étranger 2026 | Dalili',
+    description: 'Guide complet pour étudier à l\'Université Lyon 1 : médecine, pharmacie, biotechnologies, campus La Doua, logement CROUS, stages Sanofi et bioMérieux. Guide pour étudiants marocains et africains.',
+    ogDescription: 'Lyon 1, top université française en sciences de la santé — guide pratique complet : admission, frais, budget 700-1150€/mois, stages pharmaceutiques et vie étudiante à Lyon.',
+  },
+  'universite-toulouse-3': {
+    title: 'Université Toulouse III Paul Sabatier : guide étudiant étranger 2026 | Dalili',
+    description: 'Guide complet pour étudier à l\'Université Toulouse 3 Paul Sabatier : ingénierie, aéronautique, Airbus, Thales, logement, budget 650-1050€/mois. Le guide dédié aux étudiants marocains et africains.',
+    ogDescription: 'Paul Sabatier, l\'université à côté d\'Airbus — guide complet pour étudier à Toulouse : sciences, aéronautique, budget maîtrisé et opportunités industrielles uniques en France.',
+  },
+  'universite-de-montpellier': {
+    title: 'Université de Montpellier : guide étudiant étranger 2026 | Dalili',
+    description: 'Guide complet pour étudier à l\'Université de Montpellier : faculté de médecine fondée en 1220, pharmacie, droit, logement, 300 jours de soleil. Guide pour étudiants marocains, africains et tunisiens.',
+    ogDescription: 'Université de Montpellier, la plus ancienne faculté de médecine d\'Europe — guide pratique : admission, frais, budget méditerranéen, communauté africaine et vie étudiante.',
+  },
+  'universite-de-strasbourg': {
+    title: 'Université de Strasbourg : guide étudiant étranger 2026 | Dalili',
+    description: 'Guide complet pour étudier à l\'Université de Strasbourg : droit européen, Sciences Po, Parlement Européen, stages institutions UE, logement. Le guide pour étudiants marocains et africains.',
+    ogDescription: 'Université de Strasbourg, siège du Parlement Européen — guide pratique : droit international, stages EU, double culture franco-allemande et budget 650-1000€/mois.',
+  },
+  'aix-marseille-universite': {
+    title: 'Aix-Marseille Université : guide étudiant étranger 2026 | Dalili',
+    description: 'Guide complet pour étudier à Aix-Marseille Université : la plus grande université francophone du monde, 80 000 étudiants, médecine, droit, logement, communauté maghrébine. Guide complet.',
+    ogDescription: 'Aix-Marseille Université, plus grande université francophone — guide pratique pour les étudiants marocains et africains : intégration, budget, campus dispersés et vie méditerranéenne.',
+  },
 };
 
 export async function generateStaticParams() {

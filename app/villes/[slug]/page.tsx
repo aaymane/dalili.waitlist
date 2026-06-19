@@ -36,6 +36,31 @@ const CITY_SEO: Record<string, { title: string; description: string; ogDescripti
     description: 'Guide complet pour étudier à Lyon : budget, INSA Lyon, EM Lyon, Université Lyon 1, quartiers étudiants, communauté maghrébine et opportunités pharma/biotech.',
     ogDescription: 'Lyon, capitale de la gastronomie et de l\'industrie pharmaceutique — guide pratique pour étudier à Lyon quand on vient du Maroc, d\'Algérie ou de Tunisie.',
   },
+  'etudier-a-toulouse': {
+    title: 'Étudier à Toulouse : guide complet étudiant étranger 2026 | Dalili',
+    description: 'Guide complet pour étudier à Toulouse : budget mensuel, logement CROUS, quartiers, Paul Sabatier, ISAE-SUPAERO, Airbus et stages aéronautique. Mis à jour 2026.',
+    ogDescription: 'Toulouse, capitale mondiale de l\'aéronautique — guide pratique pour étudier à Toulouse quand on vient du Maroc, d\'Algérie ou du Sénégal.',
+  },
+  'etudier-a-montpellier': {
+    title: 'Étudier à Montpellier : guide complet étudiant étranger 2026 | Dalili',
+    description: 'Guide complet pour étudier à Montpellier : budget, faculté de médecine, logement CROUS, soleil méditerranéen, quartiers et communauté africaine. Mis à jour 2026.',
+    ogDescription: 'Montpellier, la ville la plus ensoleillée de France — guide pratique pour étudier à Montpellier en médecine, droit ou sciences humaines.',
+  },
+  'etudier-a-strasbourg': {
+    title: 'Étudier à Strasbourg : guide complet étudiant étranger 2026 | Dalili',
+    description: 'Guide complet pour étudier à Strasbourg : budget, institutions européennes, logement, quartiers, Université de Strasbourg, Sciences Po et vie franco-allemande. 2026.',
+    ogDescription: 'Strasbourg, capitale du Parlement Européen — guide pratique pour étudier à Strasbourg en droit, sciences po et relations internationales.',
+  },
+  'etudier-a-lille': {
+    title: 'Étudier à Lille : guide complet étudiant étranger 2026 | Dalili',
+    description: 'Guide complet pour étudier à Lille : budget serré, EDHEC, IESEG, Université de Lille, quartier Wazemmes, logement et connexions Paris/Bruxelles/Londres. 2026.',
+    ogDescription: 'Lille, la moins chère des grandes villes françaises — guide pratique pour étudier à Lille avec un budget maîtrisé quand on vient du Maghreb ou d\'Afrique.',
+  },
+  'etudier-a-marseille': {
+    title: 'Étudier à Marseille : guide complet étudiant étranger 2026 | Dalili',
+    description: 'Guide complet pour étudier à Marseille : Aix-Marseille Université, budget, logement, quartiers, communauté maghrébine et soleil méditerranéen. Mis à jour 2026.',
+    ogDescription: 'Marseille, porte de la Méditerranée et ville avec la plus grande communauté maghrébine de France — guide pratique pour étudier à Marseille.',
+  },
 };
 
 export async function generateStaticParams() {

@@ -6,12 +6,12 @@ import SearchableVillesGrid from '@/components/villes/SearchableVillesGrid';
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://dalili.study';
 
 export const metadata: Metadata = {
-  title: 'Étudier en France : guide des villes universitaires 2026 | Dalili',
-  description: 'Comparez les villes universitaires françaises pour les étudiants étrangers : Bordeaux, Paris, Lyon, Nantes. Coût de la vie, logement, transport et avis.',
+  title: '9 villes universitaires en France pour étudiants étrangers 2026 | Dalili',
+  description: 'Comparez 9 villes universitaires françaises : Bordeaux, Paris, Lyon, Nantes, Toulouse, Montpellier, Strasbourg, Lille, Marseille. Coût de la vie, logement, budget mensuel et avis honnêtes.',
   alternates: { canonical: `${SITE_URL}/villes` },
   openGraph: {
-    title: 'Villes universitaires en France pour étudiants étrangers | Dalili',
-    description: 'Bordeaux, Paris, Lyon, Nantes : tout comparer avant de choisir votre ville d\'études.',
+    title: '9 villes universitaires en France pour étudiants étrangers | Dalili',
+    description: 'Bordeaux, Lyon, Toulouse, Montpellier, Marseille, Strasbourg, Lille, Nantes, Paris — tout comparer avant de choisir votre ville d\'études.',
     url: `${SITE_URL}/villes`, siteName: 'Dalili', type: 'website',
     images: [{ url: `${SITE_URL}/og-image.jpg`, width: 1200, height: 630 }],
   },
@@ -67,7 +67,7 @@ export default function VillesPage() {
           <SearchableVillesGrid cities={cities} />
 
           <p style={{ marginTop: 48, textAlign: 'center', fontFamily: 'var(--font-dm-sans)', fontWeight: 300, fontSize: '0.875rem', color: 'rgba(255,255,255,0.3)' }}>
-            D&apos;autres villes arrivent bientôt — <Link href="/blog" style={{ color: `rgba(239,179,112,0.6)`, textDecoration: 'none' }}>consulter tous les guides</Link>
+            Guides mis à jour en juin 2026 — <Link href="/blog" style={{ color: `rgba(239,179,112,0.6)`, textDecoration: 'none' }}>consulter tous les guides</Link>
           </p>
         </div>
       </main>
