@@ -90,7 +90,7 @@ export default function Footer() {
             fontFamily: 'var(--font-montserrat)',
             fontWeight: 700,
             fontSize: '0.75rem',
-            color: 'rgba(255,255,255,0.4)',
+            color: 'rgba(255,255,255,0.62)',
             letterSpacing: '0.12em',
           }}>
             DALILI
@@ -100,9 +100,9 @@ export default function Footer() {
         <p style={{
           margin: 0,
           fontFamily: 'var(--font-dm-sans)',
-          fontWeight: 300,
+          fontWeight: 400,
           fontSize: '0.75rem',
-          color: 'rgba(255,255,255,0.28)',
+          color: 'rgba(255,255,255,0.52)',
           letterSpacing: '0.04em',
         }}>
           © {new Date().getFullYear()} Dalili. Tous droits réservés.
@@ -137,13 +137,13 @@ export default function Footer() {
               style={{
                 fontFamily: 'var(--font-dm-sans)',
                 fontSize: '0.72rem',
-                color: 'rgba(255,255,255,0.28)',
+                color: 'rgba(255,255,255,0.52)',
                 textDecoration: 'none',
                 letterSpacing: '0.04em',
                 transition: 'color 0.2s ease',
               }}
-              onMouseEnter={e => { e.currentTarget.style.color = 'rgba(255,255,255,0.6)'; }}
-              onMouseLeave={e => { e.currentTarget.style.color = 'rgba(255,255,255,0.28)'; }}
+              onMouseEnter={e => { e.currentTarget.style.color = 'rgba(255,255,255,0.82)'; }}
+              onMouseLeave={e => { e.currentTarget.style.color = 'rgba(255,255,255,0.52)'; }}
             >
               {label}
             </Link>

@@ -1,11 +1,12 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
 import { gsap } from 'gsap';
 
 const RATIO = 607 / 280;
 
-function PhoneShell({ width, src, alt }) {
+function PhoneShell({ width, src, alt, priority = false }) {
   const h   = Math.round(width * RATIO);
   const pad = Math.round(12  * width / 280);
   const rS  = Math.round(55  * width / 280);
@@ -52,11 +53,14 @@ function PhoneShell({ width, src, alt }) {
         borderRadius: rSc, overflow: 'hidden',
         background: '#000', position: 'relative', zIndex: 1,
       }}>
-        <img src={src} alt={alt} draggable={false} style={{
-          width: '100%', height: '100%',
-          objectFit: 'cover', objectPosition: 'top center',
-          display: 'block', opacity: 1, filter: 'none', pointerEvents: 'none',
-        }} />
+        <Image
+          src={src} alt={alt}
+          fill
+          priority={priority}
+          sizes="(max-width: 768px) 172px, (max-width: 1024px) 270px, 270px"
+          style={{ objectFit: 'cover', objectPosition: 'top center', pointerEvents: 'none' }}
+          draggable={false}
+        />
         <div aria-hidden="true" style={{
           position: 'absolute', top: Math.round(12*h/607), left: '50%',
           transform: 'translateX(-50%)', width: isW, height: isH,
@@ -336,7 +340,7 @@ export default function DALILIPhones({ revealed = true }) {
           </div>
         </div>
 
-        {/* Phone 2 — right, home screen, front layer */}
+        {/* Phone 2 — right, home screen, front layer (LCP image) */}
         <div
           ref={phone2OuterRef}
           style={{
@@ -368,7 +372,7 @@ export default function DALILIPhones({ revealed = true }) {
             ref={phone2InnerRef}
             style={{ willChange: 'transform, opacity', display: 'inline-block' }}
           >
-            <PhoneShell width={P2_W} src={PHONES[0].src} alt={PHONES[0].alt} />
+            <PhoneShell width={P2_W} src={PHONES[0].src} alt={PHONES[0].alt} priority={true} />
           </div>
         </div>
 
@@ -419,7 +423,7 @@ export default function DALILIPhones({ revealed = true }) {
                 transformStyle: 'preserve-3d',
               }}
             >
-              <PhoneShell width={phone.width} src={phone.src} alt={phone.alt} />
+              <PhoneShell width={phone.width} src={phone.src} alt={phone.alt} priority={i === 0} />
             </div>
           </div>
         );

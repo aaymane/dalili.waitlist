@@ -203,6 +203,7 @@ export default function Navbar() {
       <div
         className="nav-mobile-menu"
         aria-hidden={!isOpen}
+        {...(!isOpen && { inert: '' })}
         style={{
           position: 'fixed', top: 64, left: 0, right: 0, bottom: 0,
           zIndex: 998,
