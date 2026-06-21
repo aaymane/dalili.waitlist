@@ -16,7 +16,7 @@ export default function NextReading({ articles }: Props) {
           fontFamily: 'var(--font-montserrat)',
           fontSize: '0.55rem', fontWeight: 700,
           letterSpacing: '0.24em', textTransform: 'uppercase',
-          color: 'rgba(255,255,255,0.28)',
+          color: 'rgba(255,255,255,0.6)',
           whiteSpace: 'nowrap',
         }}>À lire ensuite</span>
         <div style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.06)' }} />

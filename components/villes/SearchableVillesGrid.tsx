@@ -57,7 +57,7 @@ export default function SearchableVillesGrid({ cities }: Props) {
             }}
           />
           {query && (
-            <button onClick={() => setQuery('')} style={{ position: 'absolute', right: 14, background: 'none', border: 'none', cursor: 'pointer', padding: 6, display: 'flex', alignItems: 'center', color: 'rgba(255,255,255,0.4)', borderRadius: 6 }}>
+            <button onClick={() => setQuery('')} style={{ position: 'absolute', right: 14, background: 'none', border: 'none', cursor: 'pointer', padding: 6, display: 'flex', alignItems: 'center', color: 'rgba(255,255,255,0.7)', borderRadius: 6 }}>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M18 6 6 18M6 6l12 12" /></svg>
             </button>
           )}
@@ -103,18 +103,18 @@ export default function SearchableVillesGrid({ cities }: Props) {
                       <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.5rem', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: ACCENT.hex }}>Ville</span>
                     </div>
                     <span style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 800, fontSize: '0.82rem', color: '#10B981' }}>
-                      {city.monthlyBudgetMin}€<span style={{ fontWeight: 400, fontSize: '0.58rem', color: 'rgba(255,255,255,0.3)' }}>/mois</span>
+                      {city.monthlyBudgetMin}€<span style={{ fontWeight: 400, fontSize: '0.58rem', color: 'rgba(255,255,255,0.6)' }}>/mois</span>
                     </span>
                   </div>
                   <h2 style={{ fontFamily: 'var(--font-bebas)', fontWeight: 400, fontSize: 'clamp(1.8rem,3vw,2.4rem)', lineHeight: 0.95, letterSpacing: '0.03em', color: '#fff', margin: '0 0 10px' }}>{city.name}</h2>
-                  <p style={{ fontFamily: 'var(--font-dm-sans)', fontWeight: 300, fontSize: '0.875rem', lineHeight: 1.65, color: 'rgba(255,255,255,0.42)', margin: '0 0 auto', paddingBottom: 18, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' } as React.CSSProperties}>{city.tagline}</p>
+                  <p style={{ fontFamily: 'var(--font-dm-sans)', fontWeight: 400, fontSize: '0.875rem', lineHeight: 1.65, color: 'rgba(255,255,255,0.7)', margin: '0 0 auto', paddingBottom: 18, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' } as React.CSSProperties}>{city.tagline}</p>
                   <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 16 }}>
                     {[`${(city.students / 1000).toFixed(0)}k étudiants`, city.region].map(tag => (
-                      <span key={tag} style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.46rem', fontWeight: 600, letterSpacing: '0.1em', color: 'rgba(255,255,255,0.32)', padding: '3px 8px', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 6 }}>{tag}</span>
+                      <span key={tag} style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.46rem', fontWeight: 600, letterSpacing: '0.1em', color: 'rgba(255,255,255,0.6)', padding: '3px 8px', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 6 }}>{tag}</span>
                     ))}
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: 14, borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-                    <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.52rem', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.22)' }}>CROUS · {city.costCrous.split('–')[0].trim()}</span>
+                    <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.52rem', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.55)' }}>CROUS · {city.costCrous.split('–')[0].trim()}</span>
                     <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: ACCENT.hex }}>Explorer →</span>
                   </div>
                 </div>
@@ -124,8 +124,8 @@ export default function SearchableVillesGrid({ cities }: Props) {
         </div>
       ) : q ? (
         <div style={{ textAlign: 'center', padding: 'clamp(48px,8vw,96px) 0' }}>
-          <p style={{ fontFamily: 'var(--font-bebas)', fontSize: 'clamp(2rem,4vw,3rem)', color: 'rgba(255,255,255,0.12)', letterSpacing: '0.06em', margin: '0 0 12px' }}>AUCUNE VILLE</p>
-          <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.9rem', color: 'rgba(255,255,255,0.3)', margin: 0 }}>Essaie — bordeaux, paris, lyon, nantes, toulouse…</p>
+          <p style={{ fontFamily: 'var(--font-bebas)', fontSize: 'clamp(2rem,4vw,3rem)', color: 'rgba(255,255,255,0.5)', letterSpacing: '0.06em', margin: '0 0 12px' }}>AUCUNE VILLE</p>
+          <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.9rem', color: 'rgba(255,255,255,0.6)', margin: 0 }}>Essaie — bordeaux, paris, lyon, nantes, toulouse…</p>
         </div>
       ) : null}
     </>

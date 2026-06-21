@@ -75,9 +75,9 @@ export default function AboutPage() {
               <span key={i} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                 {item.href
                   ? <Link href={item.href} style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.58rem', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(77,143,255,0.6)', textDecoration: 'none' }}>{item.label}</Link>
-                  : <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.58rem', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.3)' }}>{item.label}</span>
+                  : <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.58rem', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.6)' }}>{item.label}</span>
                 }
-                {i < arr.length - 1 && <span style={{ color: 'rgba(255,255,255,0.2)', fontSize: '0.6rem' }}>›</span>}
+                {i < arr.length - 1 && <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.6rem' }}>›</span>}
               </span>
             ))}
           </nav>
@@ -105,12 +105,12 @@ export default function AboutPage() {
             margin: '0 0 clamp(20px,3vw,32px)',
           }}>
             DALILI<br />
-            <span style={{ color: 'rgba(255,255,255,0.25)' }}>MON GUIDE.</span>
+            <span style={{ color: 'rgba(255,255,255,0.55)' }}>MON GUIDE.</span>
           </h1>
 
           <p style={{
             fontFamily: 'var(--font-dm-sans)',
-            fontWeight: 300,
+            fontWeight: 400,
             fontSize: 'clamp(1rem,1.5vw,1.15rem)',
             color: 'rgba(255,255,255,0.55)',
             lineHeight: 1.85,
@@ -139,7 +139,7 @@ export default function AboutPage() {
             ].map((para, i) => (
               <p key={i} style={{
                 fontFamily: 'var(--font-dm-sans)',
-                fontWeight: i === 3 ? 500 : 300,
+                fontWeight: i === 3 ? 500 : 400,
                 fontSize: 'clamp(0.9rem,1.3vw,1rem)',
                 color: i === 3 ? 'rgba(255,255,255,0.85)' : 'rgba(255,255,255,0.55)',
                 lineHeight: 1.85,
@@ -186,16 +186,16 @@ export default function AboutPage() {
                 <div style={{ marginBottom: 16 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
                     <span style={{ fontSize: '1rem' }}>{f.flag}</span>
-                    <span style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.52rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.35)' }}>{f.origin}</span>
+                    <span style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.52rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.65)' }}>{f.origin}</span>
                   </div>
                   <h3 style={{ fontFamily: 'var(--font-bebas)', fontWeight: 400, fontSize: 'clamp(1.5rem,2.5vw,1.9rem)', lineHeight: 0.95, letterSpacing: '0.03em', color: '#fff', margin: '0 0 6px' }}>{f.name}</h3>
                   <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
                     <span style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.5rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: `rgb(${f.color})`, padding: '3px 9px', border: `1px solid rgba(${f.color},0.28)`, borderRadius: 100, background: `rgba(${f.color},0.08)` }}>{f.role}</span>
-                    <span style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 600, fontSize: '0.48rem', letterSpacing: '0.1em', color: 'rgba(255,255,255,0.3)', padding: '3px 9px', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 100 }}>{f.domain}</span>
+                    <span style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 600, fontSize: '0.48rem', letterSpacing: '0.1em', color: 'rgba(255,255,255,0.6)', padding: '3px 9px', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 100 }}>{f.domain}</span>
                   </div>
                 </div>
 
-                <p style={{ fontFamily: 'var(--font-dm-sans)', fontWeight: 300, fontSize: '0.85rem', color: 'rgba(255,255,255,0.5)', lineHeight: 1.7, margin: 0 }}>{f.story}</p>
+                <p style={{ fontFamily: 'var(--font-dm-sans)', fontWeight: 400, fontSize: '0.85rem', color: 'rgba(255,255,255,0.5)', lineHeight: 1.7, margin: 0 }}>{f.story}</p>
               </div>
             ))}
           </div>
@@ -237,7 +237,7 @@ export default function AboutPage() {
                 borderRadius: 16,
               }}>
                 <div style={{ fontFamily: 'var(--font-bebas)', fontWeight: 400, fontSize: '1.8rem', letterSpacing: '0.06em', color: `rgb(${item.color})`, marginBottom: 10 }}>{item.label}</div>
-                <p style={{ fontFamily: 'var(--font-dm-sans)', fontWeight: 300, fontSize: '0.85rem', color: 'rgba(255,255,255,0.5)', lineHeight: 1.7, margin: 0 }}>{item.text}</p>
+                <p style={{ fontFamily: 'var(--font-dm-sans)', fontWeight: 400, fontSize: '0.85rem', color: 'rgba(255,255,255,0.5)', lineHeight: 1.7, margin: 0 }}>{item.text}</p>
               </div>
             ))}
           </div>
@@ -253,9 +253,9 @@ export default function AboutPage() {
             textAlign: 'center',
           }}>
             <h2 style={{ fontFamily: 'var(--font-bebas)', fontWeight: 400, fontSize: 'clamp(2.5rem,6vw,4.5rem)', lineHeight: 0.9, letterSpacing: '0.04em', color: '#fff', margin: '0 0 16px' }}>
-              ON COMMENCE<br /><span style={{ color: 'rgba(255,255,255,0.3)' }}>ENSEMBLE ?</span>
+              ON COMMENCE<br /><span style={{ color: 'rgba(255,255,255,0.6)' }}>ENSEMBLE ?</span>
             </h2>
-            <p style={{ fontFamily: 'var(--font-dm-sans)', fontWeight: 300, fontSize: '0.9rem', color: 'rgba(255,255,255,0.4)', lineHeight: 1.75, margin: '0 0 28px' }}>
+            <p style={{ fontFamily: 'var(--font-dm-sans)', fontWeight: 400, fontSize: '0.9rem', color: 'rgba(255,255,255,0.7)', lineHeight: 1.75, margin: '0 0 28px' }}>
               Laisse ton email — on te prévient dès qu&apos;un nouveau guide sort.
             </p>
             <AboutJoinForm />

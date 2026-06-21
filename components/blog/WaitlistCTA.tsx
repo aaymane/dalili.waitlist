@@ -68,14 +68,14 @@ export default function WaitlistCTA() {
           color: '#fff', margin: '0 0 12px',
         }}>
           DALILI T&apos;ACCOMPAGNE<br />
-          <span style={{ color: 'rgba(255,255,255,0.4)' }}>À CHAQUE ÉTAPE.</span>
+          <span style={{ color: 'rgba(255,255,255,0.7)' }}>À CHAQUE ÉTAPE.</span>
         </h2>
 
         <p style={{
           fontFamily: 'var(--font-dm-sans)',
-          fontWeight: 300,
+          fontWeight: 400,
           fontSize: 'clamp(0.85rem,1.2vw,0.97rem)',
-          lineHeight: 1.75, color: 'rgba(255,255,255,0.45)',
+          lineHeight: 1.75, color: 'rgba(255,255,255,0.7)',
           maxWidth: 440, margin: '0 auto clamp(24px,3vw,32px)',
         }}>
           Visa, logement, banque, CAF — Dalili guide les étudiants internationaux
@@ -165,8 +165,8 @@ export default function WaitlistCTA() {
                 }}>TU ES SUR LA LISTE !</h3>
                 <p style={{
                   fontFamily: 'var(--font-dm-sans)',
-                  fontSize: '0.9rem', fontWeight: 300,
-                  color: 'rgba(255,255,255,0.5)', lineHeight: 1.7,
+                  fontSize: '0.9rem', fontWeight: 400,
+                  color: 'rgba(255,255,255,0.7)', lineHeight: 1.7,
                   margin: 0,
                 }}>
                   On te contacte dès que Dalili est disponible. À très vite 🇫🇷
@@ -202,8 +202,8 @@ export default function WaitlistCTA() {
 
                   <p style={{
                     fontFamily: 'var(--font-dm-sans)',
-                    fontSize: '0.875rem', fontWeight: 300,
-                    color: 'rgba(255,255,255,0.45)', lineHeight: 1.7,
+                    fontSize: '0.875rem', fontWeight: 400,
+                    color: 'rgba(255,255,255,0.7)', lineHeight: 1.7,
                     margin: 0,
                   }}>
                     Sois parmi les premiers à accéder à Dalili et à simplifier ton installation en France.

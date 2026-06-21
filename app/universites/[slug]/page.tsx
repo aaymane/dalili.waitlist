@@ -216,9 +216,9 @@ export default async function UniversityPage({ params }: { params: { slug: strin
               <span key={i} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                 {item.href
                   ? <Link href={item.href} style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.58rem', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(77,143,255,0.6)', textDecoration: 'none' }}>{item.label}</Link>
-                  : <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.58rem', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.3)' }}>{item.label}</span>
+                  : <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.58rem', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.6)' }}>{item.label}</span>
                 }
-                {i < arr.length - 1 && <span style={{ color: 'rgba(255,255,255,0.2)', fontSize: '0.6rem' }}>›</span>}
+                {i < arr.length - 1 && <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.6rem' }}>›</span>}
               </span>
             ))}
           </nav>
@@ -227,7 +227,7 @@ export default async function UniversityPage({ params }: { params: { slug: strin
           <div style={{ marginBottom: 56 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap', marginBottom: 16 }}>
               <span style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.6rem', letterSpacing: '0.16em', textTransform: 'uppercase', color: `rgb(${ACCENT})`, padding: '4px 12px', border: `1px solid rgba(${ACCENT},0.3)`, borderRadius: 100, background: `rgba(${ACCENT},0.08)` }}>{uni.city}</span>
-              <span style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 600, fontSize: '0.58rem', letterSpacing: '0.1em', color: 'rgba(255,255,255,0.35)' }}>{uni.type}</span>
+              <span style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 600, fontSize: '0.58rem', letterSpacing: '0.1em', color: 'rgba(255,255,255,0.65)' }}>{uni.type}</span>
             </div>
 
             <h1 style={{ fontFamily: 'var(--font-bebas)', fontWeight: 400, fontSize: 'clamp(3rem,7vw,6rem)', lineHeight: 0.9, letterSpacing: '0.03em', color: '#fff', margin: '0 0 16px' }}>
@@ -299,7 +299,7 @@ export default async function UniversityPage({ params }: { params: { slug: strin
                 <thead>
                   <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
                     {['Logement CROUS', 'Studio privé', 'Transport', 'Nourriture'].map(h => (
-                      <th key={h} style={{ padding: '10px 8px', textAlign: 'left', fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.5rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.35)' }}>{h}</th>
+                      <th key={h} style={{ padding: '10px 8px', textAlign: 'left', fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.5rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.65)' }}>{h}</th>
                     ))}
                   </tr>
                 </thead>

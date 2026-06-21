@@ -80,14 +80,14 @@ export default function BlogPage() {
             color: '#fff', margin: '0 0 clamp(16px,2vw,24px)',
           }}>
             NOS GUIDES<br />
-            <span style={{ color: 'rgba(255,255,255,0.38)' }}>POUR TOI.</span>
+            <span style={{ color: 'rgba(255,255,255,0.65)' }}>POUR TOI.</span>
           </h1>
 
           <p style={{
             fontFamily: 'var(--font-dm-sans)',
-            fontWeight: 300,
+            fontWeight: 400,
             fontSize: 'clamp(0.88rem,1.3vw,1.05rem)',
-            color: 'rgba(255,255,255,0.38)',
+            color: 'rgba(255,255,255,0.65)',
             maxWidth: 'min(500px,88vw)',
             lineHeight: 1.75, margin: 0,
           }}>

@@ -194,16 +194,16 @@ export default async function ArticlePage({ params }: { params: { slug: string }
                 fontFamily: 'var(--font-montserrat)',
                 fontSize: '0.55rem', fontWeight: 700,
                 letterSpacing: '0.16em', textTransform: 'uppercase',
-                color: 'rgba(255,255,255,0.3)', textDecoration: 'none',
+                color: 'rgba(255,255,255,0.6)', textDecoration: 'none',
               }}>Accueil</Link>
-              <span style={{ color: 'rgba(255,255,255,0.2)', fontSize: '0.65rem' }}>/</span>
+              <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.65rem' }}>/</span>
               <Link href="/blog" style={{
                 fontFamily: 'var(--font-montserrat)',
                 fontSize: '0.55rem', fontWeight: 700,
                 letterSpacing: '0.16em', textTransform: 'uppercase',
-                color: 'rgba(255,255,255,0.3)', textDecoration: 'none',
+                color: 'rgba(255,255,255,0.6)', textDecoration: 'none',
               }}>Blog</Link>
-              <span style={{ color: 'rgba(255,255,255,0.2)', fontSize: '0.65rem' }}>/</span>
+              <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.65rem' }}>/</span>
               <span style={{
                 fontFamily: 'var(--font-montserrat)',
                 fontSize: '0.55rem', fontWeight: 700,
@@ -243,9 +243,9 @@ export default async function ArticlePage({ params }: { params: { slug: string }
             {/* Description */}
             <p style={{
               fontFamily: 'var(--font-dm-sans)',
-              fontWeight: 300,
+              fontWeight: 400,
               fontSize: 'clamp(0.9rem,1.3vw,1.05rem)',
-              lineHeight: 1.75, color: 'rgba(255,255,255,0.48)',
+              lineHeight: 1.75, color: 'rgba(255,255,255,0.7)',
               margin: '0 0 clamp(24px,3.5vw,36px)',
             }}>{fm.description}</p>
 
@@ -261,16 +261,16 @@ export default async function ArticlePage({ params }: { params: { slug: string }
                 fontFamily: 'var(--font-montserrat)',
                 fontSize: '0.58rem', fontWeight: 600,
                 letterSpacing: '0.1em', textTransform: 'uppercase',
-                color: 'rgba(255,255,255,0.3)',
+                color: 'rgba(255,255,255,0.6)',
               }}>{fm.author}</span>
-              <span style={{ color: 'rgba(255,255,255,0.12)' }}>·</span>
+              <span style={{ color: 'rgba(255,255,255,0.5)' }}>·</span>
               <span style={{
                 fontFamily: 'var(--font-montserrat)',
                 fontSize: '0.58rem', fontWeight: 600,
                 letterSpacing: '0.1em', textTransform: 'uppercase',
-                color: 'rgba(255,255,255,0.3)',
+                color: 'rgba(255,255,255,0.6)',
               }}>{formatDate(fm.date)}</span>
-              <span style={{ color: 'rgba(255,255,255,0.12)' }}>·</span>
+              <span style={{ color: 'rgba(255,255,255,0.5)' }}>·</span>
               <span style={{
                 fontFamily: 'var(--font-montserrat)',
                 fontSize: '0.58rem', fontWeight: 700,
@@ -279,12 +279,12 @@ export default async function ArticlePage({ params }: { params: { slug: string }
               }}>{fm.readTime} de lecture</span>
               {fm.updatedDate && (
                 <>
-                  <span style={{ color: 'rgba(255,255,255,0.12)' }}>·</span>
+                  <span style={{ color: 'rgba(255,255,255,0.5)' }}>·</span>
                   <span style={{
                     fontFamily: 'var(--font-montserrat)',
                     fontSize: '0.58rem', fontWeight: 600,
                     letterSpacing: '0.08em', textTransform: 'uppercase',
-                    color: 'rgba(255,255,255,0.3)',
+                    color: 'rgba(255,255,255,0.6)',
                   }}>Mis à jour le {formatDate(fm.updatedDate)}</span>
                 </>
               )}
@@ -358,7 +358,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
                 fontFamily: 'var(--font-montserrat)',
                 fontSize: '0.58rem', fontWeight: 700,
                 letterSpacing: '0.22em', textTransform: 'uppercase',
-                color: 'rgba(255,255,255,0.28)',
+                color: 'rgba(255,255,255,0.6)',
                 whiteSpace: 'nowrap',
               }}>Articles similaires</span>
               <div style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.06)' }} />
@@ -425,7 +425,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
                           fontFamily: 'var(--font-montserrat)',
                           fontSize: '0.5rem', fontWeight: 600,
                           letterSpacing: '0.1em', textTransform: 'uppercase',
-                          color: 'rgba(255,255,255,0.25)',
+                          color: 'rgba(255,255,255,0.55)',
                         }}>{rpost.readTime} de lecture</span>
                       </div>
 
@@ -440,8 +440,8 @@ export default async function ArticlePage({ params }: { params: { slug: string }
 
                       <p style={{
                         fontFamily: 'var(--font-dm-sans)',
-                        fontWeight: 300, fontSize: '0.875rem',
-                        lineHeight: 1.72, color: 'rgba(255,255,255,0.42)',
+                        fontWeight: 400, fontSize: '0.875rem',
+                        lineHeight: 1.72, color: 'rgba(255,255,255,0.7)',
                         margin: '0 0 auto', paddingBottom: 20,
                         display: '-webkit-box',
                         WebkitLineClamp: 3,
@@ -459,7 +459,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
                           fontFamily: 'var(--font-montserrat)',
                           fontSize: '0.52rem', fontWeight: 600,
                           letterSpacing: '0.1em', textTransform: 'uppercase',
-                          color: 'rgba(255,255,255,0.22)',
+                          color: 'rgba(255,255,255,0.55)',
                         }}>{formatDate(rpost.date)}</span>
                         <span style={{
                           fontFamily: 'var(--font-montserrat)',
@@ -489,7 +489,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
               fontFamily: 'var(--font-montserrat)',
               fontSize: '0.6rem', fontWeight: 700,
               letterSpacing: '0.18em', textTransform: 'uppercase',
-              color: 'rgba(255,255,255,0.25)', textDecoration: 'none',
+              color: 'rgba(255,255,255,0.55)', textDecoration: 'none',
             }}>
               ← Tous les articles
             </Link>

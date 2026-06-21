@@ -36,8 +36,8 @@ export default function ClusterLinks({ currentSlug, articles }: Props) {
 
       <p style={{
         fontFamily: 'var(--font-dm-sans)',
-        fontSize: '0.82rem', fontWeight: 300,
-        color: 'rgba(255,255,255,0.38)',
+        fontSize: '0.82rem', fontWeight: 400,
+        color: 'rgba(255,255,255,0.65)',
         margin: '0 0 20px', lineHeight: 1.6,
       }}>{def.description}</p>
 
