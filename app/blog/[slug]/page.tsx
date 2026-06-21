@@ -245,7 +245,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
               fontFamily: 'var(--font-dm-sans)',
               fontWeight: 400,
               fontSize: 'clamp(0.9rem,1.3vw,1.05rem)',
-              lineHeight: 1.75, color: 'rgba(255,255,255,0.7)',
+              lineHeight: 1.75, color: 'rgba(255,255,255,0.88)',
               margin: '0 0 clamp(24px,3.5vw,36px)',
             }}>{fm.description}</p>
 
@@ -261,14 +261,14 @@ export default async function ArticlePage({ params }: { params: { slug: string }
                 fontFamily: 'var(--font-montserrat)',
                 fontSize: '0.58rem', fontWeight: 600,
                 letterSpacing: '0.1em', textTransform: 'uppercase',
-                color: 'rgba(255,255,255,0.6)',
+                color: 'rgba(255,255,255,0.78)',
               }}>{fm.author}</span>
               <span style={{ color: 'rgba(255,255,255,0.5)' }}>·</span>
               <span style={{
                 fontFamily: 'var(--font-montserrat)',
                 fontSize: '0.58rem', fontWeight: 600,
                 letterSpacing: '0.1em', textTransform: 'uppercase',
-                color: 'rgba(255,255,255,0.6)',
+                color: 'rgba(255,255,255,0.78)',
               }}>{formatDate(fm.date)}</span>
               <span style={{ color: 'rgba(255,255,255,0.5)' }}>·</span>
               <span style={{
@@ -284,7 +284,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
                     fontFamily: 'var(--font-montserrat)',
                     fontSize: '0.58rem', fontWeight: 600,
                     letterSpacing: '0.08em', textTransform: 'uppercase',
-                    color: 'rgba(255,255,255,0.6)',
+                    color: 'rgba(255,255,255,0.78)',
                   }}>Mis à jour le {formatDate(fm.updatedDate)}</span>
                 </>
               )}
@@ -425,7 +425,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
                           fontFamily: 'var(--font-montserrat)',
                           fontSize: '0.5rem', fontWeight: 600,
                           letterSpacing: '0.1em', textTransform: 'uppercase',
-                          color: 'rgba(255,255,255,0.55)',
+                          color: 'rgba(255,255,255,0.75)',
                         }}>{rpost.readTime} de lecture</span>
                       </div>
 
@@ -441,7 +441,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
                       <p style={{
                         fontFamily: 'var(--font-dm-sans)',
                         fontWeight: 400, fontSize: '0.875rem',
-                        lineHeight: 1.72, color: 'rgba(255,255,255,0.7)',
+                        lineHeight: 1.72, color: 'rgba(255,255,255,0.85)',
                         margin: '0 0 auto', paddingBottom: 20,
                         display: '-webkit-box',
                         WebkitLineClamp: 3,
@@ -459,7 +459,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
                           fontFamily: 'var(--font-montserrat)',
                           fontSize: '0.52rem', fontWeight: 600,
                           letterSpacing: '0.1em', textTransform: 'uppercase',
-                          color: 'rgba(255,255,255,0.55)',
+                          color: 'rgba(255,255,255,0.75)',
                         }}>{formatDate(rpost.date)}</span>
                         <span style={{
                           fontFamily: 'var(--font-montserrat)',
@@ -489,7 +489,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
               fontFamily: 'var(--font-montserrat)',
               fontSize: '0.6rem', fontWeight: 700,
               letterSpacing: '0.18em', textTransform: 'uppercase',
-              color: 'rgba(255,255,255,0.55)', textDecoration: 'none',
+              color: 'rgba(255,255,255,0.75)', textDecoration: 'none',
             }}>
               ← Tous les articles
             </Link>

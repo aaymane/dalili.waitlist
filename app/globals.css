@@ -230,7 +230,7 @@ body {
 
 .city-mdx-body {
   font-family: var(--font-dm-sans);
-  color: rgba(255,255,255,0.78);
+  color: rgba(255,255,255,0.88);
   line-height: 1.82;
   font-size: 1rem;
   font-weight: 400;
@@ -316,7 +316,7 @@ body {
 .city-mdx-body td {
   padding: 12px 14px;
   border-bottom: 1px solid rgba(255,255,255,0.05);
-  color: rgba(255,255,255,0.78);
+  color: rgba(255,255,255,0.88);
 }
 
 .city-mdx-body tr:hover td {
@@ -330,7 +330,7 @@ body {
   background: rgba(239,179,112,0.05);
   border-radius: 0 8px 8px 0;
   font-style: italic;
-  color: rgba(255,255,255,0.65);
+  color: rgba(255,255,255,0.82);
 }
 
 .city-mdx-body hr {
@@ -340,7 +340,7 @@ body {
 }
 
 .city-mdx-body em {
-  color: rgba(255,255,255,0.5);
+  color: rgba(255,255,255,0.78);
   font-style: italic;
   font-size: 0.875rem;
 }
