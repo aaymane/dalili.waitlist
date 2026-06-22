@@ -78,20 +78,25 @@ const COMMON_GUIDES = [
   { label: 'Checklist arrivée en France 2026 — PDF gratuit', url: `${SITE}/checklist` },
 ];
 
+const CVEC_ANNUAL = 105;
+
 function buildBudgetEmail({
-  ville, logement, niveau, pays,
-  housing, food, transport, tuition, total, cafMid, reste,
+  ville, logement, niveau, pays, paiement_frais,
+  housing, food, transport, tuitionMonthly, tuitionAnnual, cvecMonthly,
+  total, cafMid, reste,
 }: {
-  ville: string; logement: string; niveau: string; pays: string;
-  housing: number; food: number; transport: number; tuition: number;
+  ville: string; logement: string; niveau: string; pays: string; paiement_frais: string;
+  housing: number; food: number; transport: number;
+  tuitionMonthly: number; tuitionAnnual: number; cvecMonthly: number;
   total: number; cafMid: number; reste: number;
 }) {
-  const villeName   = VILLE_LABELS[ville]   ?? ville;
+  const villeName   = VILLE_LABELS[ville]      ?? ville;
   const logementStr = LOGEMENT_LABELS[logement] ?? logement;
-  const niveauStr   = NIVEAU_LABELS[niveau]  ?? niveau;
-  const paysStr     = PAYS_LABELS[pays]      ?? pays;
-  const paysGuides  = PAYS_GUIDES[pays]      ?? [];
+  const niveauStr   = NIVEAU_LABELS[niveau]    ?? niveau;
+  const paysStr     = PAYS_LABELS[pays]        ?? pays;
+  const paysGuides  = PAYS_GUIDES[pays]        ?? [];
   const allGuides   = [...paysGuides, ...COMMON_GUIDES];
+  const isMensuel   = paiement_frais === 'mensuel';
 
   const row = (label: string, value: string) =>
     `<tr>
@@ -145,22 +150,51 @@ function buildBudgetEmail({
 
       <!-- Budget breakdown -->
       <div style="background:rgba(1,77,248,0.06);border:1px solid rgba(77,143,255,0.18);border-radius:14px;padding:24px 28px;margin-bottom:28px">
-        <p style="margin:0 0 16px;font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(77,143,255,0.8)">💰 Budget mensuel estimé</p>
+        <p style="margin:0 0 16px;font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(77,143,255,0.8)">💰 Budget mensuel${isMensuel ? ' (tout compris)' : ''}</p>
         <table style="width:100%;border-collapse:collapse">
           ${row('Loyer', `${housing} €`)}
-          ${row('Frais de scolarité (mensuel)', `${tuition} €`)}
           ${row('Nourriture', `${food} €`)}
           ${row('Transport', `${transport} €`)}
           ${row('Téléphone', '30 €')}
           ${row('Santé (mutuelle)', '20 €')}
           ${row('Loisirs & divers', '80 €')}
+          ${isMensuel ? row('Frais d\'inscription (÷12)', `${tuitionMonthly} €`) : ''}
         </table>
         <table style="width:100%;border-collapse:collapse;margin-top:12px;padding-top:12px;border-top:1px solid rgba(77,143,255,0.2)">
           <tr>
-            <td style="padding:8px 0;color:rgba(255,255,255,0.9);font-size:14px;font-weight:700">Total dépenses</td>
+            <td style="padding:8px 0;color:rgba(255,255,255,0.9);font-size:14px;font-weight:700">Total mensuel</td>
             <td style="padding:8px 0;color:#4d8fff;font-size:20px;font-weight:800;text-align:right">${total} €</td>
           </tr>
         </table>
+      </div>
+
+      <!-- Frais d'inscription -->
+      <div style="background:rgba(139,92,246,0.06);border:1px solid rgba(139,92,246,0.2);border-radius:14px;padding:24px 28px;margin-bottom:28px">
+        <p style="margin:0 0 8px;font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(167,139,250,0.9)">🎓 Frais d'inscription</p>
+        ${isMensuel
+          ? `<p style="margin:0 0 16px;font-size:12px;color:rgba(255,255,255,0.4)">Répartis sur 12 mois — pour faciliter la planification</p>
+             <table style="width:100%;border-collapse:collapse">
+               ${row(niveauStr + ' (÷12)', `${tuitionMonthly - cvecMonthly} €/mois`)}
+               ${row('+ CVEC (÷12)', `${cvecMonthly} €/mois`)}
+             </table>
+             <p style="margin:14px 0 0;font-size:11px;color:rgba(245,158,11,0.8);line-height:1.6">
+               ⚠️ En réalité, ces frais se paient en une seule fois à la rentrée. Cette vue est pour t'aider à planifier ton épargne.
+             </p>`
+          : `<p style="margin:0 0 16px;font-size:12px;color:rgba(255,255,255,0.4)">À payer une seule fois à la rentrée, en plus de ton budget mensuel</p>
+             <table style="width:100%;border-collapse:collapse">
+               ${row(niveauStr, `${tuitionAnnual} €`)}
+               ${row('+ CVEC', `${CVEC_ANNUAL} €`)}
+             </table>
+             <table style="width:100%;border-collapse:collapse;margin-top:12px;padding-top:12px;border-top:1px solid rgba(139,92,246,0.15)">
+               <tr>
+                 <td style="padding:8px 0;color:rgba(255,255,255,0.9);font-size:14px;font-weight:700">Total frais d'inscription</td>
+                 <td style="padding:8px 0;color:#a78bfa;font-size:18px;font-weight:800;text-align:right">${tuitionAnnual + CVEC_ANNUAL} €</td>
+               </tr>
+             </table>
+             <p style="margin:14px 0 0;font-size:11px;color:rgba(245,158,11,0.8);line-height:1.6">
+               ⚠️ La plupart des universités exonèrent les étudiants hors UE des frais différenciés. Vérifie sur le site de ton université.
+             </p>`
+        }
       </div>
 
       <!-- CAF -->
@@ -226,19 +260,22 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
 
-    const email    = String(body.email    ?? '').trim().toLowerCase();
-    const ville    = String(body.ville    ?? '').trim();
-    const logement = String(body.logement ?? '').trim();
-    const niveau   = String(body.niveau   ?? '').trim();
-    const pays     = String(body.pays     ?? '').trim();
-    const bourse   = String(body.bourse   ?? '').trim();
-    const housing  = Number(body.housing  ?? 0);
-    const food     = Number(body.food     ?? 0);
-    const transport = Number(body.transport ?? 0);
-    const tuition  = Number(body.tuition  ?? 0);
-    const total    = Number(body.total    ?? 0);
-    const cafMid   = Number(body.cafMid   ?? 0);
-    const reste    = Number(body.reste    ?? 0);
+    const email          = String(body.email          ?? '').trim().toLowerCase();
+    const ville          = String(body.ville          ?? '').trim();
+    const logement       = String(body.logement       ?? '').trim();
+    const niveau         = String(body.niveau         ?? '').trim();
+    const paiement_frais = String(body.paiement_frais ?? 'unique').trim();
+    const pays           = String(body.pays           ?? '').trim();
+    const bourse         = String(body.bourse         ?? '').trim();
+    const housing        = Number(body.housing        ?? 0);
+    const food           = Number(body.food           ?? 0);
+    const transport      = Number(body.transport      ?? 0);
+    const tuitionMonthly = Number(body.tuitionMonthly ?? 0);
+    const tuitionAnnual  = Number(body.tuitionAnnual  ?? 0);
+    const cvecMonthly    = Number(body.cvecMonthly    ?? 0);
+    const total          = Number(body.total          ?? 0);
+    const cafMid         = Number(body.cafMid         ?? 0);
+    const reste          = Number(body.reste          ?? 0);
 
     if (!email || !EMAIL_RE.test(email)) {
       return NextResponse.json({ ok: false, error: 'Email invalide.' }, { status: 400 });
@@ -311,7 +348,12 @@ export async function POST(request: NextRequest) {
           from:    FROM,
           to:      email,
           subject: `Ton budget pour étudier en France est prêt 📚`,
-          html:    buildBudgetEmail({ ville, logement, niveau, pays, housing, food, transport, tuition, total, cafMid, reste }),
+          html:    buildBudgetEmail({
+            ville, logement, niveau, pays, paiement_frais,
+            housing, food, transport,
+            tuitionMonthly, tuitionAnnual, cvecMonthly,
+            total, cafMid, reste,
+          }),
         }),
       ]);
 
