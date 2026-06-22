@@ -10,6 +10,7 @@ const NAV_LINKS = [
   { label: 'Universités', href: '/universites' },
   { label: 'Villes',      href: '/villes' },
   { label: 'Blog',        href: '/blog' },
+  { label: 'Outils',      href: '/#outils' },
   { label: 'À propos',   href: '/a-propos' },
 ];
 

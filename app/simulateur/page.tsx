@@ -108,9 +108,19 @@ export default function SimulateurPage() {
 
           {/* Hero header */}
           <div style={{ textAlign: 'center', marginBottom: 'clamp(40px,6vw,72px)' }}>
-            <div style={{ display: 'inline-flex', padding: '5px 16px', border: '1px solid rgba(77,143,255,0.25)', borderRadius: 100, background: 'rgba(77,143,255,0.07)', marginBottom: 20 }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 7, padding: '5px 16px', border: '1px solid rgba(77,143,255,0.25)', borderRadius: 100, background: 'rgba(77,143,255,0.07)', marginBottom: 20 }}>
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#4d8fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <rect x="4" y="2" width="16" height="20" rx="2" />
+                <line x1="8" y1="6" x2="16" y2="6" />
+                <line x1="8" y1="10" x2="8" y2="10" strokeWidth="3" />
+                <line x1="12" y1="10" x2="12" y2="10" strokeWidth="3" />
+                <line x1="16" y1="10" x2="16" y2="10" strokeWidth="3" />
+                <line x1="8" y1="14" x2="8" y2="14" strokeWidth="3" />
+                <line x1="12" y1="14" x2="12" y2="14" strokeWidth="3" />
+                <line x1="16" y1="14" x2="16" y2="14" strokeWidth="3" />
+              </svg>
               <span style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.58rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#4d8fff' }}>
-                🧮 Outil gratuit
+                Outil gratuit
               </span>
             </div>
             <h1 style={{ fontFamily: 'var(--font-bebas)', fontWeight: 400, fontSize: 'clamp(2.4rem,6vw,4rem)', letterSpacing: '0.04em', color: '#fff', margin: '0 0 16px', lineHeight: 1.05 }}>
