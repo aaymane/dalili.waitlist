@@ -96,9 +96,45 @@ export default function ClientHomePage({ guidesCount, universitesCount, villesCo
               ].map(stat => (
                 <div key={stat.label} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                   <span style={{ fontFamily: 'var(--font-bebas)', fontWeight: 400, fontSize: 'clamp(1.4rem,2.5vw,1.8rem)', letterSpacing: '0.06em', color: '#4d8fff', lineHeight: 1 }}>{stat.value}</span>
-                  <span style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 600, fontSize: '0.7rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.55)' }}>{stat.label}</span>
+                  <span style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 600, fontSize: '0.7rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.75)' }}>{stat.label}</span>
                 </div>
               ))}
+            </div>
+
+            {/* Simulator banner */}
+            <div style={{ padding: 'clamp(32px,4vw,52px) clamp(16px,5vw,80px)' }}>
+              <div style={{
+                maxWidth: 900, margin: '0 auto',
+                background: 'rgba(1,77,248,0.07)',
+                border: '1px solid rgba(77,143,255,0.18)',
+                borderRadius: 20,
+                padding: 'clamp(20px,3vw,36px)',
+                display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 24, flexWrap: 'wrap',
+              }}>
+                <div>
+                  <div style={{ display: 'inline-flex', padding: '3px 12px', border: '1px solid rgba(77,143,255,0.25)', borderRadius: 100, background: 'rgba(77,143,255,0.08)', marginBottom: 12 }}>
+                    <span style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.55rem', letterSpacing: '0.18em', textTransform: 'uppercase', color: '#4d8fff' }}>🧮 Outil gratuit</span>
+                  </div>
+                  <h2 style={{ fontFamily: 'var(--font-bebas)', fontWeight: 400, fontSize: 'clamp(1.4rem,3vw,1.9rem)', letterSpacing: '0.04em', color: '#fff', margin: '0 0 8px', lineHeight: 1.15 }}>
+                    Combien ça coûte d&apos;étudier en France ?
+                  </h2>
+                  <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.85rem', color: 'rgba(255,255,255,0.5)', margin: 0, lineHeight: 1.6 }}>
+                    5 questions · Estimation personnalisée par ville · CAF incluse
+                  </p>
+                </div>
+                <a href="/simulateur" style={{
+                  display: 'inline-block', flexShrink: 0,
+                  padding: '14px 28px', borderRadius: 12,
+                  background: 'linear-gradient(135deg,#014DF8,#4d8fff)',
+                  fontFamily: 'var(--font-montserrat)', fontWeight: 700,
+                  fontSize: '0.72rem', letterSpacing: '0.1em', textTransform: 'uppercase',
+                  color: '#fff', textDecoration: 'none',
+                  boxShadow: '0 4px 20px rgba(1,77,248,0.35)',
+                  whiteSpace: 'nowrap',
+                }}>
+                  Calculer mon budget →
+                </a>
+              </div>
             </div>
 
             <SectionDivider />

@@ -209,7 +209,7 @@ export default async function VillePage({ params }: { params: { slug: string } }
                   ? <Link href={item.href} style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.58rem', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(239,179,112,0.6)', textDecoration: 'none' }}>{item.label}</Link>
                   : <span style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.58rem', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.6)' }}>{item.label}</span>
                 }
-                {i < arr.length - 1 && <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.6rem' }}>›</span>}
+                {i < arr.length - 1 && <span style={{ color: 'rgba(255,255,255,0.75)', fontSize: '0.6rem' }}>›</span>}
               </span>
             ))}
           </nav>
@@ -225,7 +225,7 @@ export default async function VillePage({ params }: { params: { slug: string } }
               Étudier à<br />{city.name}
             </h1>
 
-            <p style={{ fontFamily: 'var(--font-dm-sans)', fontWeight: 300, fontSize: '1.05rem', color: 'rgba(255,255,255,0.5)', lineHeight: 1.75, margin: '0 0 32px' }}>{city.tagline}</p>
+            <p style={{ fontFamily: 'var(--font-dm-sans)', fontWeight: 400, fontSize: '1.05rem', color: 'rgba(255,255,255,0.75)', lineHeight: 1.75, margin: '0 0 32px' }}>{city.tagline}</p>
 
             {/* Cover thumbnail */}
             <div style={{ position: 'relative', width: '100%', aspectRatio: '16/9', borderRadius: 16, overflow: 'hidden', border: '1px solid rgba(239,179,112,0.18)', boxShadow: '0 24px 80px rgba(0,0,0,0.55)' }}>
@@ -319,7 +319,7 @@ export default async function VillePage({ params }: { params: { slug: string } }
               {city.neighborhoods.map((n, i) => (
                 <div key={i} style={{ padding: 24, background: 'rgba(255,255,255,0.025)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 16 }}>
                   <h3 style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.82rem', color: '#fff', margin: '0 0 10px' }}>{n.name}</h3>
-                  <p style={{ fontFamily: 'var(--font-dm-sans)', fontWeight: 300, fontSize: '0.875rem', color: 'rgba(255,255,255,0.58)', lineHeight: 1.72, margin: 0 }}>{n.description}</p>
+                  <p style={{ fontFamily: 'var(--font-dm-sans)', fontWeight: 400, fontSize: '0.875rem', color: 'rgba(255,255,255,0.75)', lineHeight: 1.72, margin: 0 }}>{n.description}</p>
                 </div>
               ))}
             </div>
@@ -396,6 +396,40 @@ export default async function VillePage({ params }: { params: { slug: string } }
               ))}
             </div>
           </section>
+
+          {/* Simulator CTA */}
+          <div style={{
+            margin: '40px 0',
+            padding: 'clamp(20px,3vw,32px)',
+            background: 'rgba(1,77,248,0.07)',
+            border: '1px solid rgba(77,143,255,0.18)',
+            borderRadius: 20,
+            display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 20, flexWrap: 'wrap',
+          }}>
+            <div>
+              <p style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.58rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: '#4d8fff', margin: '0 0 8px' }}>
+                🧮 Outil gratuit
+              </p>
+              <h3 style={{ fontFamily: 'var(--font-bebas)', fontWeight: 400, fontSize: 'clamp(1.2rem,2.5vw,1.6rem)', letterSpacing: '0.04em', color: '#fff', margin: '0 0 6px' }}>
+                Calcule ton budget à {city.name}
+              </h3>
+              <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.82rem', color: 'rgba(255,255,255,0.45)', margin: 0 }}>
+                Loyer, nourriture, transport, CAF — estimation personnalisée en 5 questions.
+              </p>
+            </div>
+            <Link href={`/simulateur`} style={{
+              display: 'inline-block', flexShrink: 0,
+              padding: '13px 26px', borderRadius: 12,
+              background: 'linear-gradient(135deg,#014DF8,#4d8fff)',
+              fontFamily: 'var(--font-montserrat)', fontWeight: 700,
+              fontSize: '0.7rem', letterSpacing: '0.1em', textTransform: 'uppercase',
+              color: '#fff', textDecoration: 'none',
+              boxShadow: '0 4px 16px rgba(1,77,248,0.3)',
+              whiteSpace: 'nowrap',
+            }}>
+              Calculer mon budget →
+            </Link>
+          </div>
 
           {/* Related articles */}
           {city.relatedArticles.length > 0 && <RelatedArticles articles={city.relatedArticles} />}

@@ -143,6 +143,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority:        0.9,
     },
 
+    // ── Simulateur budget — outil interactif ────────────────────
+    {
+      url:             `${SITE_URL}/simulateur`,
+      lastModified:    now,
+      changeFrequency: 'monthly',
+      priority:        0.9,
+    },
+
     // ── Checklist PDF — page conversion principale ───────────────
     {
       url:             `${SITE_URL}/checklist`,

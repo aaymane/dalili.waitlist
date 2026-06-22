@@ -96,6 +96,38 @@ export default function BlogPage() {
           </p>
         </div>
 
+        {/* ── Simulator CTA ── */}
+        <div style={{
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          flexWrap: 'wrap', gap: 16,
+          padding: 'clamp(16px,2.5vw,24px) clamp(20px,3vw,32px)',
+          background: 'rgba(1,77,248,0.07)',
+          border: '1px solid rgba(77,143,255,0.18)',
+          borderRadius: 16,
+          marginBottom: 'clamp(12px,2vw,20px)',
+        }}>
+          <div>
+            <p style={{ fontFamily: 'var(--font-montserrat)', fontSize: '0.55rem', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(77,143,255,0.8)', margin: '0 0 6px' }}>
+              🧮 Outil gratuit
+            </p>
+            <p style={{ fontFamily: 'var(--font-dm-sans)', fontWeight: 500, fontSize: '0.95rem', color: '#fff', margin: 0 }}>
+              Simulateur budget — combien ça coûte vraiment d&apos;étudier en France ?
+            </p>
+          </div>
+          <Link href="/simulateur" style={{
+            display: 'inline-flex', alignItems: 'center', gap: 8,
+            padding: '10px 22px',
+            background: 'linear-gradient(135deg,#014DF8,#4d8fff)',
+            borderRadius: 8, textDecoration: 'none',
+            fontFamily: 'var(--font-montserrat)', fontWeight: 700,
+            fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase',
+            color: '#fff', whiteSpace: 'nowrap', flexShrink: 0,
+            boxShadow: '0 2px 12px rgba(1,77,248,0.25)',
+          }}>
+            Calculer →
+          </Link>
+        </div>
+
         {/* ── Checklist CTA ── */}
         <div style={{
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
