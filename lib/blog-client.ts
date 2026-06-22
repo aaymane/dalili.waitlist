@@ -22,6 +22,7 @@ export const CLUSTER_DEFINITIONS: Record<string, { label: string; description: s
   'vie-etudiante': { label: 'Vie Étudiante',         description: 'Université, transport, vie en France', color: '#06B6D4', accentRgb: '6,182,212' },
   'sante':         { label: 'Santé',                 description: 'Sécurité sociale, médecin traitant', color: '#F43F5E', accentRgb: '244,63,94' },
   'demarches':     { label: 'Démarches',             description: 'Titre de séjour, OFII, renouvellement', color: '#A855F7', accentRgb: '168,85,247' },
+  'visa-campus-france': { label: 'Visa & Campus France', description: 'Candidature, reconnaissance des diplômes, arnaques à éviter', color: '#4d8fff', accentRgb: '77,143,255' },
   'algerie':       { label: 'Depuis l\'Algérie',     description: 'Campus France Algérie, visa, vie étudiante', color: '#34D399', accentRgb: '52,211,153' },
   'senegal':       { label: 'Depuis le Sénégal',     description: 'Campus France Sénégal, visa, bourses', color: '#FB923C', accentRgb: '251,146,60' },
   'maroc':         { label: 'Depuis le Maroc',       description: 'TCF, Campus France Maroc, visa étudiant', color: '#C8102E', accentRgb: '200,16,46' },

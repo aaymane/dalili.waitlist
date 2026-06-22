@@ -59,6 +59,9 @@ export const CLUSTER_MAP: Record<string, string> = {
   'delf-dalf-vs-tcf-etudiant-etranger-france':          'visa-campus-france',
   'parcoursup-etudiant-etranger-guide-2026':            'visa-campus-france',
   'ofii-validation-visa-etudiant-france-guide':         'visa-campus-france',
+  'ecole-privee-france-reconnue-etat-comment-verifier': 'visa-campus-france',
+  'arnaques-etudes-france-etudiant-etranger-eviter':    'visa-campus-france',
+  'ecole-privee-vs-universite-publique-etudiant-etranger': 'visa-campus-france',
   // Articles études
   'frais-scolarite-universite-france-etudiant-etranger-2026': 'banque',
   'medecine-france-etudiant-etranger-guide-complet':    'vie-etudiante',

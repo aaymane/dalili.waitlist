@@ -23,6 +23,10 @@ const HIGH_PRIORITY_SLUGS = new Set([
   'caf-etudiant-etranger-delais-documents-erreurs',
   // Santé
   'securite-sociale-complementaire-sante-solidaire-etudiant-etranger',
+  // Écoles privées & arnaques
+  'ecole-privee-france-reconnue-etat-comment-verifier',
+  'arnaques-etudes-france-etudiant-etranger-eviter',
+  'ecole-privee-vs-universite-publique-etudiant-etranger',
   // Banque
   'ouvrir-compte-bancaire-etudiant-etranger-2026',
   // Pays — guides par nationalité
