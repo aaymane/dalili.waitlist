@@ -21,6 +21,8 @@ const HIGH_PRIORITY_SLUGS = new Set([
   // Logement & aides
   'logement-crous-etudiant-etranger-demande',
   'caf-etudiant-etranger-delais-documents-erreurs',
+  // Santé
+  'securite-sociale-complementaire-sante-solidaire-etudiant-etranger',
   // Banque
   'ouvrir-compte-bancaire-etudiant-etranger-2026',
   // Pays — guides par nationalité
