@@ -4,12 +4,15 @@ export const SITE  = 'https://dalili.study';
 export const BLUE  = '#014DF8';
 export const BLUE2 = '#4d8fff';
 
-// ── Logo SVG (source: /public/images/logo-dalili.svg, filled white) ───────
+// ── Logo — img externe (SVG public, compatible Gmail/Apple Mail/Outlook web) ──
+// Fallback inline SVG conservé pour clients qui bloquent les images distantes
 const P1 = 'M45.83,124.17h-13.08s-12.61,12.62-12.61,12.62l6.87,6.9,10.2-10.03c.93-.48,3.49-.48,4.16.29l11.98,13.73-12.33,12.45c-1.41,1.43-2.43,2.99-4.05,4.34h-16.74c-1.73-1.43-2.84-2.99-4.25-4.58-5.09-5.75-10.17-11.5-15.26-17.25-.21-.22-.38-.39-.5-.5-.05-.04-.11-.1-.21-.14,0,0,0,0-.01,0,.1.12.08.58.08.84v14.73s14.37,16.39,14.37,16.39l26.56.04,2.49-2.55,23.38-23.49-21.05-23.8Z';
 const P2 = 'M36.97,164.47h-16.74s16.74,0,16.74,0Z';
 const P3 = 'M66.99,125.02l-14.38-16.39-26.56-.04-2.49,2.55L.19,134.62l21.05,23.8h13.08s12.61-12.62,12.61-12.62l-6.87-6.9-10.2,10.03c-.93.48-3.49.48-4.16-.29l-11.98-13.73,12.33-12.45c1.41-1.43,2.43-2.99,4.05-4.34h16.74c1.73,1.43,2.84,2.99,4.25,4.58l15.26,17.25c.28.32.46.55.73.65-.03-5.2-.05-10.39-.08-15.59Z';
 
-const LOGO_SVG = `<svg width="52" height="52" viewBox="-1 105 70 71" xmlns="http://www.w3.org/2000/svg" style="display:block;margin:0 auto">
+// External img: works in Gmail, Apple Mail, Outlook web, iOS Mail
+// Inline SVG fallback: for email clients that block external images
+const LOGO_SVG = `<img src="https://dalili.study/images/logo-dalili.svg" width="52" height="52" alt="Dalili logo" style="display:block;margin:0 auto" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><svg width="52" height="52" viewBox="-1 105 70 71" xmlns="http://www.w3.org/2000/svg" style="display:none;margin:0 auto">
   <path fill="#ffffff" d="${P1}"/>
   <path fill="#ffffff" d="${P2}"/>
   <path fill="#ffffff" d="${P3}"/>

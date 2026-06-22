@@ -584,8 +584,7 @@ function ResultsPanel({
         {row('Nourriture', `${food} €`)}
         {row('Transport', `${transport} €`)}
         {row('Téléphone', '30 €')}
-        {row('Santé (mutuelle)', '20 €')}
-        {row('Loisirs & divers', '80 €')}
+        {row('Loisirs, divers & santé', '100 €')}
         {isMensuel && row(
           'Frais d\'inscription (÷12)',
           `${tuitionMonthly} €`,

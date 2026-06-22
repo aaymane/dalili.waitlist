@@ -109,8 +109,7 @@ export function renderBudgetResultEmail(props: BudgetResultEmailProps): string {
         ${tableRow('Nourriture', `${food} €`)}
         ${tableRow('Transport', `${transport} €`)}
         ${tableRow('Téléphone', '30 €')}
-        ${tableRow('Santé (mutuelle)', '20 €')}
-        ${tableRow('Loisirs & divers', '80 €', !isMensuel)}
+        ${tableRow('Loisirs, divers & santé', '100 €', !isMensuel)}
         ${isMensuel ? tableRow("Frais d'inscription (÷12)", `${tuitionMonthly} €`, true, false, true) : ''}
       </tbody>
     </table>
