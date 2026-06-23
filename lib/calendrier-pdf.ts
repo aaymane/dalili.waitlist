@@ -1,40 +1,54 @@
+import { PDFDocument, StandardFonts, rgb, PageSizes, type PDFPage, type PDFFont, type RGB } from 'pdf-lib';
 import type { CalendrierStep } from './calendrier-data';
 
-const URGENCE_COLOR = {
-  rouge:  '#ef4444',
-  orange: '#f59e0b',
-  vert:   '#014DF8',
-} as const;
+const C_BLUE      = rgb(1 / 255,   77 / 255,  248 / 255);  // #014DF8
+const C_BLUE_DARK = rgb(10 / 255,  22 / 255,  40 / 255);   // #0a1628
+const C_BODY      = rgb(7 / 255,   11 / 255,  24 / 255);   // #070b18
+const C_WHITE     = rgb(1, 1, 1);
+const C_MID       = rgb(136 / 255, 153 / 255, 187 / 255);  // #8899bb
+const C_DARK_CARD = rgb(10 / 255,  15 / 255,  30 / 255);   // #0a0f1e
 
-const URGENCE_RGB = {
-  rouge:  [239, 68, 68],
-  orange: [245, 158, 11],
-  vert:   [1, 77, 248],
-} as const;
+const URGENCE_COLOR: Record<string, RGB> = {
+  rouge:  rgb(239 / 255, 68 / 255,  68 / 255),   // #ef4444
+  orange: rgb(245 / 255, 158 / 255, 11 / 255),   // #f59e0b
+  vert:   C_BLUE,
+};
 
-// SVG logo paths — viewBox "-1 105 70 71" (source: /public/images/logo-dalili.svg)
-const LOGO_P1 = 'M45.83,124.17h-13.08s-12.61,12.62-12.61,12.62l6.87,6.9,10.2-10.03c.93-.48,3.49-.48,4.16.29l11.98,13.73-12.33,12.45c-1.41,1.43-2.43,2.99-4.05,4.34h-16.74c-1.73-1.43-2.84-2.99-4.25-4.58-5.09-5.75-10.17-11.5-15.26-17.25-.21-.22-.38-.39-.5-.5-.05-.04-.11-.1-.21-.14,0,0,0,0-.01,0,.1.12.08.58.08.84v14.73s14.37,16.39,14.37,16.39l26.56.04,2.49-2.55,23.38-23.49-21.05-23.8Z';
-const LOGO_P2 = 'M36.97,164.47h-16.74s16.74,0,16.74,0Z';
-const LOGO_P3 = 'M66.99,125.02l-14.38-16.39-26.56-.04-2.49,2.55L.19,134.62l21.05,23.8h13.08s12.61-12.62,12.61-12.62l-6.87-6.9-10.2,10.03c-.93.48-3.49.48-4.16-.29l-11.98-13.73,12.33-12.45c1.41-1.43,2.43-2.99,4.05-4.34h16.74c1.73,1.43,2.84,2.99,4.25,4.58l15.26,17.25c.28.32.46.55.73.65-.03-5.2-.05-10.39-.08-15.59Z';
+// State for multi-page rendering
+interface PageCtx {
+  page:  PDFPage;
+  bold:  PDFFont;
+  norm:  PDFFont;
+  W:     number;
+  H:     number;
+}
 
-const BG_DARK  = '#0a0f1e';
-const BG_BODY  = '#070b18';
-const TEXT_W   = '#ffffff';
-const TEXT_MID = '#8899bb';
-const ACCENT   = '#014DF8';
+function fillRect(ctx: PageCtx, topY: number, h: number, x: number, w: number, color: RGB) {
+  ctx.page.drawRectangle({ x, y: ctx.H - topY - h, width: w, height: h, color });
+}
 
-function drawLogo(doc: PDFKit.PDFDocument, cx: number, topY: number, size: number) {
-  // SVG viewBox: x=-1 y=105 w=70 h=71
-  const s = size / 70;
-  doc.save();
-  // Map SVG space to PDF: translate so that viewBox origin (-1, 105) lands at (cx - size/2, topY)
-  doc.translate(cx - size / 2 + 1 * s, topY - 105 * s);
-  doc.scale(s, s);
-  doc.fillColor(TEXT_W);
-  doc.path(LOGO_P1).fill();
-  doc.path(LOGO_P2).fill();
-  doc.path(LOGO_P3).fill();
-  doc.restore();
+function txt(ctx: PageCtx, s: string, topY: number, x: number, size: number, f: PDFFont, color: RGB = C_WHITE) {
+  ctx.page.drawText(s, { x, y: ctx.H - topY, size, font: f, color });
+}
+
+function centered(ctx: PageCtx, s: string, topY: number, size: number, f: PDFFont, color: RGB = C_WHITE) {
+  const tw = f.widthOfTextAtSize(s, size);
+  ctx.page.drawText(s, { x: ctx.W / 2 - tw / 2, y: ctx.H - topY, size, font: f, color });
+}
+
+function drawHeader(ctx: PageCtx, paysLabel: string, rentreeLabel: string) {
+  const { W, H } = ctx;
+  fillRect(ctx, 0, H, 0, W, C_BODY);
+  const HEADER_H = 130;
+  fillRect(ctx, 0, HEADER_H, 0, W, C_BLUE_DARK);
+  fillRect(ctx, 0, 3, 0, W, C_BLUE);
+
+  centered(ctx, 'DALILI', 48, 22, ctx.bold, C_WHITE);
+  fillRect(ctx, 56, 2, W / 2 - 18, 36, C_BLUE);
+  centered(ctx, 'dalili.study', 70, 9, ctx.norm, C_BLUE);
+
+  centered(ctx, 'TON CALENDRIER PERSONNALISE', 92, 7.5, ctx.norm, C_MID);
+  centered(ctx, `${paysLabel}  —  ${rentreeLabel}`, 108, 14, ctx.bold, C_WHITE);
 }
 
 export async function generateCalendrierPDF(
@@ -43,189 +57,125 @@ export async function generateCalendrierPDF(
   rentreeLabel: string,
   etapes:       CalendrierStep[],
 ): Promise<Buffer> {
-  const PDFDocument = (await import('pdfkit')).default;
+  const pdfDoc = await PDFDocument.create();
+  pdfDoc.setTitle(`Calendrier Campus France — ${paysLabel} — ${rentreeLabel}`);
+  pdfDoc.setAuthor('Dalili (dalili.study)');
+  pdfDoc.setSubject('Planning Campus France personnalise');
 
-  return new Promise((resolve, reject) => {
-    const doc = new PDFDocument({
-      size: 'A4',
-      margins: { top: 0, bottom: 0, left: 0, right: 0 },
-      info: {
-        Title:   `Calendrier Campus France — ${paysLabel} → ${rentreeLabel}`,
-        Author:  'Dalili (dalili.study)',
-        Subject: 'Planning Campus France personnalisé',
-      },
-    });
+  const bold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+  const norm = await pdfDoc.embedFont(StandardFonts.Helvetica);
 
-    const buffers: Buffer[] = [];
-    doc.on('data',  chunk => buffers.push(chunk));
-    doc.on('end',   ()    => resolve(Buffer.concat(buffers)));
-    doc.on('error', reject);
+  const MARGIN   = 40;
+  const CARD_H   = 72;
+  const CARD_GAP = 4;
+  const HEADER_H = 130;
+  const FOOTER_H = 40;
 
-    const W      = doc.page.width;   // 595.28
-    const MARGIN = 40;
-    const CX     = W / 2;
+  // Add first page
+  let page = pdfDoc.addPage(PageSizes.A4);
+  const W = page.getWidth();
+  const H = page.getHeight();
+  let ctx: PageCtx = { page, bold, norm, W, H };
+  void FOOTER_H;
 
-    // ── Full page background ──────────────────────────────────────────
-    doc.rect(0, 0, W, doc.page.height + 1000).fill(BG_BODY);
+  const CW = W - MARGIN * 2;
 
-    // ── Header band ───────────────────────────────────────────────────
-    const headerH = 150;
-    doc.rect(0, 0, W, headerH).fill('#0a1628');
+  const newPage = () => {
+    page = pdfDoc.addPage(PageSizes.A4);
+    ctx = { page: page, bold, norm, W, H };
+    fillRect(ctx, 0, H, 0, W, C_BODY);
+    fillRect(ctx, 0, 3, 0, W, C_BLUE);
+    centered(ctx, 'DALILI  ·  dalili.study  ·  Suite', 22, 8, bold, C_BLUE);
+    fillRect(ctx, 30, 0.5, MARGIN, CW, rgb(0.1, 0.16, 0.29));
+    return MARGIN + 14;
+  };
 
-    // Top accent gradient line (simulate with solid color)
-    doc.rect(0, 0, W, 3).fill(ACCENT);
+  drawHeader(ctx, paysLabel, rentreeLabel);
 
-    // Logo centered — SVG paths
-    const logoSize = 42;
-    drawLogo(doc, CX, 20, logoSize);
+  let y = HEADER_H + 18;
 
-    // DALILI wordmark centered
-    doc.fillColor(TEXT_W)
-       .font('Helvetica-Bold')
-       .fontSize(13)
-       .text('DALILI', 0, 20 + logoSize + 8, {
-         align:            'center',
-         width:             W,
-         characterSpacing:  7,
-       });
+  // Summary line
+  txt(ctx, `${paysEmoji}  ${etapes.length} etapes  ·  De ${etapes[0]?.mois} a ${etapes[etapes.length - 1]?.mois}`, y, MARGIN, 8.5, norm, C_MID);
+  y += 12;
 
-    // Blue accent line centered
-    const lineY = 20 + logoSize + 30;
-    doc.rect(CX - 16, lineY, 32, 2).fill(ACCENT);
+  // Legend
+  const legendItems = [
+    { urgence: 'rouge',  label: 'Urgent'      },
+    { urgence: 'orange', label: 'Important'   },
+    { urgence: 'vert',   label: 'Preparation' },
+  ];
+  let lx = MARGIN;
+  legendItems.forEach(item => {
+    fillRect(ctx, y + 2, 9, lx, 3, URGENCE_COLOR[item.urgence]);
+    txt(ctx, item.label, y + 2, lx + 7, 7.5, norm, C_MID);
+    lx += 80;
+  });
+  y += 16;
 
-    // dalili.study
-    doc.fillColor(ACCENT)
-       .font('Helvetica')
-       .fontSize(9)
-       .text('dalili.study', 0, lineY + 7, { align: 'center', width: W });
+  fillRect(ctx, y, 0.5, MARGIN, CW, rgb(0.1, 0.16, 0.29));
+  y += 10;
 
-    // ── Title section ─────────────────────────────────────────────────
-    let y = headerH + 24;
+  // ── Step cards ────────────────────────────────────────────────────────────
+  for (const step of etapes) {
+    const urgColor = URGENCE_COLOR[step.urgence] ?? C_BLUE;
 
-    doc.fillColor(TEXT_MID)
-       .font('Helvetica')
-       .fontSize(8)
-       .text('TON CALENDRIER PERSONNALISÉ', MARGIN, y, { characterSpacing: 1.5 });
+    // Truncate description to avoid overflow
+    const maxDescLen = 120;
+    const desc = step.description.length > maxDescLen
+      ? step.description.slice(0, maxDescLen) + '...'
+      : step.description;
 
-    y += 16;
-
-    doc.fillColor(TEXT_W)
-       .font('Helvetica-Bold')
-       .fontSize(17)
-       .text(`${paysLabel} → ${rentreeLabel}`, MARGIN, y);
-
-    y += 24;
-
-    doc.fillColor(TEXT_MID)
-       .font('Helvetica')
-       .fontSize(9)
-       .text(`${etapes.length} étapes · De ${etapes[0]?.mois} à ${etapes[etapes.length - 1]?.mois}`, MARGIN, y);
-
-    y += 16;
-
-    // Separator
-    doc.rect(MARGIN, y, W - MARGIN * 2, 0.5).fill('#1a2a4a');
-    y += 12;
-
-    // Legend
-    const legendItems: Array<{ urgence: keyof typeof URGENCE_COLOR; label: string }> = [
-      { urgence: 'rouge',  label: 'Urgent' },
-      { urgence: 'orange', label: 'Important' },
-      { urgence: 'vert',   label: 'Préparation' },
-    ];
-    let lx = MARGIN;
-    legendItems.forEach(item => {
-      const [r, g, b] = URGENCE_RGB[item.urgence];
-      doc.rect(lx, y + 2, 3, 10).fill([r / 255, g / 255, b / 255]);
-      doc.fillColor(TEXT_MID).font('Helvetica').fontSize(8).text(item.label, lx + 8, y + 2);
-      lx += 85;
-    });
-
-    y += 22;
-
-    // ── Step cards ────────────────────────────────────────────────────
-    const CARD_GAP     = 3;
-    const CARD_PAD_V   = 12;
-    const CARD_PAD_L   = 18;
-    const CARD_W       = W - MARGIN * 2;
-    const TEXT_W_INNER = CARD_W - CARD_PAD_L - 8;
-
-    etapes.forEach(step => {
-      const [r, g, b] = URGENCE_RGB[step.urgence];
-      const rgb: [number, number, number] = [r / 255, g / 255, b / 255];
-
-      const descLines = Math.ceil(step.description.length / 80) + 1;
-      const cardH = CARD_PAD_V * 2
-                  + (step.isArrivee ? 18 : 0)
-                  + 12   // mois
-                  + 17   // action
-                  + descLines * 11
-                  + (step.lien ? 14 : 0);
-
-      // Page break check
-      if (y + cardH > doc.page.height - 56) {
-        doc.addPage();
-        doc.rect(0, 0, W, doc.page.height + 1000).fill(BG_BODY);
-        y = MARGIN;
-      }
-
-      // Card bg
-      doc.rect(MARGIN, y, CARD_W, cardH).fill(BG_DARK);
-      // Left color border
-      doc.rect(MARGIN, y, 3, cardH).fill(rgb);
-
-      let cy = y + CARD_PAD_V;
-
-      // Arrival badge
-      if (step.isArrivee) {
-        doc.rect(MARGIN + CARD_PAD_L, cy - 1, 128, 13).fill([239 / 255, 68 / 255, 68 / 255, 0.2]);
-        doc.fillColor('#ef4444').font('Helvetica-Bold').fontSize(7)
-           .text('✈  ARRIVÉE EN FRANCE', MARGIN + CARD_PAD_L + 5, cy + 1);
-        cy += 17;
-      }
-
-      // Month
-      doc.fillColor(URGENCE_COLOR[step.urgence]).font('Helvetica-Bold').fontSize(8)
-         .text(step.mois.toUpperCase(), MARGIN + CARD_PAD_L, cy, { characterSpacing: 0.8 });
-      cy += 12;
-
-      // Action
-      doc.fillColor(TEXT_W).font('Helvetica-Bold').fontSize(11)
-         .text(step.action, MARGIN + CARD_PAD_L, cy, { width: TEXT_W_INNER, lineGap: 2 });
-      cy += 17;
-
-      // Description
-      doc.fillColor(TEXT_MID).font('Helvetica').fontSize(9)
-         .text(step.description, MARGIN + CARD_PAD_L, cy, { width: TEXT_W_INNER, lineGap: 2 });
-      cy += descLines * 11;
-
-      // Link
-      if (step.lien) {
-        doc.fillColor(rgb).font('Helvetica-Bold').fontSize(8)
-           .text(`Voir le guide : ${step.lien.label} →`, MARGIN + CARD_PAD_L, cy + 2, { width: TEXT_W_INNER });
-      }
-
-      y += cardH + CARD_GAP;
-    });
-
-    // ── Footer ────────────────────────────────────────────────────────
-    if (y + 52 > doc.page.height - 10) {
-      doc.addPage();
-      doc.rect(0, 0, W, doc.page.height + 1000).fill(BG_BODY);
-      y = MARGIN;
+    // Page break check
+    if (y + CARD_H > H - FOOTER_H) {
+      y = newPage();
     }
 
-    y += 14;
-    doc.rect(MARGIN, y, W - MARGIN * 2, 0.5).fill('#1a2040');
-    y += 10;
+    // Card bg
+    fillRect(ctx, y, CARD_H, MARGIN, CW, C_DARK_CARD);
+    // Left urgence border
+    fillRect(ctx, y, CARD_H, MARGIN, 3, urgColor);
 
-    doc.fillColor(TEXT_MID).font('Helvetica').fontSize(8)
-       .text(
-         'dalili.study · Ton guide pour étudier en France · Généré gratuitement',
-         MARGIN, y,
-         { align: 'center', width: W - MARGIN * 2 },
-       );
+    const cx = MARGIN + 14;
+    let cy = y + 10;
 
-    doc.end();
-  });
+    // Arrivée badge
+    if (step.isArrivee) {
+      ctx.page.drawRectangle({ x: cx - 2, y: ctx.H - (cy - 2) - 13, width: 110, height: 13, color: rgb(239 / 255, 68 / 255, 68 / 255), opacity: 0.2 });
+      txt(ctx, 'ARRIVEE EN FRANCE', cy + 9, cx + 3, 7, bold, rgb(239 / 255, 68 / 255, 68 / 255));
+      cy += 15;
+    }
+
+    // Month
+    txt(ctx, step.mois.toUpperCase(), cy + 9, cx, 7.5, bold, urgColor);
+    cy += 14;
+
+    // Action (truncated if needed)
+    const actionMax = 75;
+    const action = step.action.length > actionMax ? step.action.slice(0, actionMax) + '...' : step.action;
+    txt(ctx, action, cy + 10, cx, 10.5, bold, C_WHITE);
+    cy += 14;
+
+    // Description
+    txt(ctx, desc, cy + 9, cx, 8, norm, C_MID);
+
+    // Link
+    if (step.lien) {
+      txt(ctx, `Voir : ${step.lien.label}`, y + CARD_H - 8, cx, 7.5, bold, urgColor);
+    }
+
+    y += CARD_H + CARD_GAP;
+  }
+
+  // ── Footer on last page ───────────────────────────────────────────────────
+  y += 10;
+  if (y + 30 > H - 10) {
+    newPage();
+    y = H - 80;
+  }
+  fillRect(ctx, y, 0.5, MARGIN, CW, rgb(0.1, 0.12, 0.25));
+  y += 10;
+  centered(ctx, 'dalili.study  ·  Ton guide pour etudier en France  ·  Genere gratuitement', y, 7.5, norm, C_MID);
+
+  const pdfBytes = await pdfDoc.save();
+  return Buffer.from(pdfBytes);
 }

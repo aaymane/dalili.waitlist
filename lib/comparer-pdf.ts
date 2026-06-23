@@ -1,70 +1,22 @@
+import { PDFDocument, StandardFonts, rgb, PageSizes, type PDFPage, type PDFFont, type RGB } from 'pdf-lib';
 import type { City } from './cities';
 import type { CityScores } from './comparer-scores';
 
-const BG_BODY  = '#070b18';
-const BG_HEAD  = '#0a1628';
-const TEXT_W   = '#ffffff';
-const TEXT_MID = '#8899bb';
-const ACCENT   = '#014DF8';
-const GOLD     = '#f59e0b';
+const C_BLUE      = rgb(1 / 255,   77 / 255,  248 / 255);  // #014DF8
+const C_BLUE_DARK = rgb(10 / 255,  22 / 255,  40 / 255);   // #0a1628
+const C_BODY      = rgb(7 / 255,   11 / 255,  24 / 255);   // #070b18
+const C_WHITE     = rgb(1, 1, 1);
+const C_MID       = rgb(136 / 255, 153 / 255, 187 / 255);  // #8899bb
+const C_GOLD      = rgb(245 / 255, 158 / 255, 11 / 255);   // #f59e0b
+const C_GREEN     = rgb(34 / 255,  197 / 255, 94 / 255);
+const C_ORANGE    = rgb(245 / 255, 158 / 255, 11 / 255);
+const C_ROW_A     = rgb(10 / 255,  16 / 255,  34 / 255);
+const C_ROW_B     = rgb(12 / 255,  18 / 255,  40 / 255);
+const C_ROW_HEAD  = rgb(13 / 255,  25 / 255,  48 / 255);
 
-// SVG logo paths — viewBox "-1 105 70 71"
-const LOGO_P1 = 'M45.83,124.17h-13.08s-12.61,12.62-12.61,12.62l6.87,6.9,10.2-10.03c.93-.48,3.49-.48,4.16.29l11.98,13.73-12.33,12.45c-1.41,1.43-2.43,2.99-4.05,4.34h-16.74c-1.73-1.43-2.84-2.99-4.25-4.58-5.09-5.75-10.17-11.5-15.26-17.25-.21-.22-.38-.39-.5-.5-.05-.04-.11-.1-.21-.14,0,0,0,0-.01,0,.1.12.08.58.08.84v14.73s14.37,16.39,14.37,16.39l26.56.04,2.49-2.55,23.38-23.49-21.05-23.8Z';
-const LOGO_P2 = 'M36.97,164.47h-16.74s16.74,0,16.74,0Z';
-const LOGO_P3 = 'M66.99,125.02l-14.38-16.39-26.56-.04-2.49,2.55L.19,134.62l21.05,23.8h13.08s12.61-12.62,12.61-12.62l-6.87-6.9-10.2,10.03c-.93.48-3.49.48-4.16-.29l-11.98-13.73,12.33-12.45c1.41-1.43,2.43-2.99,4.05-4.34h16.74c1.73,1.43,2.84,2.99,4.25,4.58l15.26,17.25c.28.32.46.55.73.65-.03-5.2-.05-10.39-.08-15.59Z';
-
-function drawLogo(doc: PDFKit.PDFDocument, cx: number, topY: number, size: number) {
-  const s = size / 70;
-  doc.save();
-  doc.translate(cx - size / 2 + 1 * s, topY - 105 * s);
-  doc.scale(s, s);
-  doc.fillColor(TEXT_W);
-  doc.path(LOGO_P1).fill();
-  doc.path(LOGO_P2).fill();
-  doc.path(LOGO_P3).fill();
-  doc.restore();
-}
-
-function hexToRgb(hex: string): [number, number, number] {
+function hexToRgb(hex: string): RGB {
   const n = parseInt(hex.replace('#', ''), 16);
-  return [((n >> 16) & 255) / 255, ((n >> 8) & 255) / 255, (n & 255) / 255];
-}
-
-function drawStars(
-  doc: PDFKit.PDFDocument,
-  score: number,
-  x: number,
-  y: number,
-  starSize = 7,
-  color = ACCENT,
-) {
-  const full     = Math.floor(score);
-  const hasHalf  = score % 1 >= 0.5;
-  const empty    = 5 - full - (hasHalf ? 1 : 0);
-  const gap      = starSize + 3;
-  let cx         = x;
-  const cy       = y + starSize / 2;
-
-  const drawStar = (cx: number, filled: boolean) => {
-    const pts: [number, number][] = [];
-    for (let i = 0; i < 5; i++) {
-      const angle = (Math.PI / 2) + (i * 2 * Math.PI) / 5;
-      pts.push([cx + (starSize / 2) * Math.cos(angle), cy - (starSize / 2) * Math.sin(angle)]);
-      const innerAngle = angle + Math.PI / 5;
-      pts.push([cx + (starSize / 4) * Math.cos(innerAngle), cy - (starSize / 4) * Math.sin(innerAngle)]);
-    }
-    doc.save();
-    doc.moveTo(pts[0][0], pts[0][1]);
-    for (let i = 1; i < pts.length; i++) doc.lineTo(pts[i][0], pts[i][1]);
-    doc.closePath();
-    if (filled) doc.fillColor(color).fill();
-    else        doc.fillColor('#1a2a4a').fill();
-    doc.restore();
-  };
-
-  for (let i = 0; i < full; i++, cx += gap) drawStar(cx, true);
-  if (hasHalf) { drawStar(cx, true); cx += gap; } // simplified half = filled
-  for (let i = 0; i < empty; i++, cx += gap) drawStar(cx, false);
+  return rgb(((n >> 16) & 255) / 255, ((n >> 8) & 255) / 255, (n & 255) / 255);
 }
 
 export interface ComparateurPDFData {
@@ -74,254 +26,262 @@ export interface ComparateurPDFData {
   recoBest: boolean;
 }
 
+interface Ctx {
+  page: PDFPage;
+  bold: PDFFont;
+  norm: PDFFont;
+  W:    number;
+  H:    number;
+}
+
+function fillRect(ctx: Ctx, topY: number, h: number, x: number, w: number, color: RGB) {
+  ctx.page.drawRectangle({ x, y: ctx.H - topY - h, width: w, height: h, color });
+}
+
+function txt(ctx: Ctx, s: string, topY: number, x: number, size: number, f: PDFFont, color: RGB = C_WHITE) {
+  if (!s) return;
+  ctx.page.drawText(s, { x, y: ctx.H - topY, size, font: f, color });
+}
+
+function centered(ctx: Ctx, s: string, topY: number, size: number, f: PDFFont, color: RGB = C_WHITE) {
+  const tw = f.widthOfTextAtSize(s, size);
+  ctx.page.drawText(s, { x: ctx.W / 2 - tw / 2, y: ctx.H - topY, size, font: f, color });
+}
+
+function scoreBar(ctx: Ctx, score: number, topY: number, x: number, color: RGB) {
+  const maxW = 55;
+  const barH = 5;
+  // Background track
+  fillRect(ctx, topY, barH, x, maxW, rgb(0.12, 0.18, 0.32));
+  // Filled portion
+  fillRect(ctx, topY, barH, x, Math.round((score / 5) * maxW), color);
+}
+
 export async function generateComparateurPDF(
   villes: ComparateurPDFData[],
   recommandation: string,
 ): Promise<Buffer> {
-  const PDFDocument = (await import('pdfkit')).default;
+  const pdfDoc = await PDFDocument.create();
+  pdfDoc.setTitle(`Comparatif — ${villes.map(v => v.city.name).join(' vs ')}`);
+  pdfDoc.setAuthor('Dalili (dalili.study)');
+  pdfDoc.setSubject('Comparatif villes etudiantes France');
 
-  return new Promise((resolve, reject) => {
-    const doc = new PDFDocument({
-      size: 'A4',
-      margins: { top: 0, bottom: 0, left: 0, right: 0 },
-      info: {
-        Title:   `Comparatif villes — ${villes.map(v => v.city.name).join(' vs ')}`,
-        Author:  'Dalili (dalili.study)',
-        Subject: 'Comparatif villes étudiantes France',
-      },
-    });
+  const bold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+  const norm = await pdfDoc.embedFont(StandardFonts.Helvetica);
 
-    const buffers: Buffer[] = [];
-    doc.on('data',  chunk => buffers.push(chunk));
-    doc.on('end',   ()    => resolve(Buffer.concat(buffers)));
-    doc.on('error', reject);
+  const MARGIN   = 36;
+  const HEADER_H = 130;
+  const FOOTER_H = 35;
 
-    const W      = doc.page.width;
-    const MARGIN = 36;
-    const CX     = W / 2;
+  // ── Page factory ────────────────────────────────────────────────────────────
+  const addPage = (): [Ctx, number] => {
+    const p = pdfDoc.addPage(PageSizes.A4);
+    const W = p.getWidth();
+    const H = p.getHeight();
+    const ctx: Ctx = { page: p, bold, norm, W, H };
+    fillRect(ctx, 0, H, 0, W, C_BODY);
+    return [ctx, 0];
+  };
 
-    const fillPage = () => doc.rect(0, 0, W, doc.page.height + 1000).fill(BG_BODY);
-    fillPage();
+  const addContentPage = (): [Ctx, number] => {
+    const [ctx] = addPage();
+    const { W } = ctx;
+    const CW = W - MARGIN * 2;
+    fillRect(ctx, 0, 3, 0, W, C_BLUE);
+    centered(ctx, 'DALILI  ·  dalili.study  ·  Suite', 20, 8, bold, C_BLUE);
+    fillRect(ctx, 28, 0.5, MARGIN, CW, rgb(0.1, 0.16, 0.29));
+    return [ctx, MARGIN + 18];
+  };
 
-    // ── Header ───────────────────────────────────────────────────────────
-    const headerH = 160;
-    doc.rect(0, 0, W, headerH).fill(BG_HEAD);
-    doc.rect(0, 0, W, 3).fill(ACCENT);
+  // ── First page ──────────────────────────────────────────────────────────────
+  let [ctx] = addPage();
+  const W   = ctx.W;
+  const H   = ctx.H;
+  const CW  = W - MARGIN * 2;
 
-    const logoSize = 38;
-    drawLogo(doc, CX, 18, logoSize);
+  // Header
+  fillRect(ctx, 0, HEADER_H, 0, W, C_BLUE_DARK);
+  fillRect(ctx, 0, 3, 0, W, C_BLUE);
+  centered(ctx, 'DALILI', 48, 22, bold, C_WHITE);
+  fillRect(ctx, 56, 2, W / 2 - 18, 36, C_BLUE);
+  centered(ctx, 'dalili.study', 70, 9, norm, C_BLUE);
+  centered(ctx, 'COMPARATIF VILLES ETUDIANTES', 88, 7.5, norm, C_MID);
+  const titre = villes.map(v => v.city.name).join(' vs ');
+  centered(ctx, titre, 108, 14, bold, C_WHITE);
 
-    doc.fillColor(TEXT_W).font('Helvetica-Bold').fontSize(12)
-       .text('DALILI', 0, 18 + logoSize + 8, { align: 'center', width: W, characterSpacing: 7 });
+  let y = HEADER_H + 18;
+  fillRect(ctx, y, 0.5, MARGIN, CW, rgb(0.1, 0.16, 0.29));
+  y += 14;
 
-    const lineY = 18 + logoSize + 28;
-    doc.rect(CX - 14, lineY, 28, 2).fill(ACCENT);
+  // ── Section 1 — Budget & Logement ──────────────────────────────────────────
+  txt(ctx, 'BUDGET & LOGEMENT', y, MARGIN, 8, bold, C_BLUE);
+  y += 14;
 
-    doc.fillColor(ACCENT).font('Helvetica').fontSize(8)
-       .text('dalili.study', 0, lineY + 7, { align: 'center', width: W });
+  const colW     = CW / (villes.length + 1);
+  const BUDGET_ROWS: Array<{ label: string; key: keyof City }> = [
+    { label: 'Chambre CROUS',   key: 'costCrous'     },
+    { label: 'Studio prive',    key: 'costStudio'    },
+    { label: 'Colocation',      key: 'costColoc'     },
+    { label: 'Transport/mois',  key: 'costTransport' },
+    { label: 'Budget min/mois', key: 'monthlyBudgetMin' },
+    { label: 'Budget max/mois', key: 'monthlyBudgetMax' },
+  ];
 
-    // ── Title ─────────────────────────────────────────────────────────────
-    let y = headerH + 20;
-
-    doc.fillColor(TEXT_MID).font('Helvetica').fontSize(8)
-       .text('COMPARATIF VILLES ÉTUDIANTES', MARGIN, y, { characterSpacing: 1.5 });
-    y += 16;
-
-    const titre = villes.map(v => v.city.name).join(' vs ');
-    doc.fillColor(TEXT_W).font('Helvetica-Bold').fontSize(15)
-       .text(titre, MARGIN, y);
-    y += 22;
-
-    doc.rect(MARGIN, y, W - MARGIN * 2, 0.5).fill('#1a2a4a');
-    y += 16;
-
-    // ── Section 1 — Budget & Logement (table) ─────────────────────────────
-    doc.fillColor(ACCENT).font('Helvetica-Bold').fontSize(9)
-       .text('BUDGET & LOGEMENT', MARGIN, y, { characterSpacing: 1 });
-    y += 16;
-
-    const colW = (W - MARGIN * 2) / (villes.length + 1);
-    const ROWS = [
-      { label: 'Chambre CROUS',   key: 'costCrous'     as keyof City },
-      { label: 'Studio privé',    key: 'costStudio'    as keyof City },
-      { label: 'Colocation',      key: 'costColoc'     as keyof City },
-      { label: 'Transport/mois',  key: 'costTransport' as keyof City },
-      { label: 'Budget min/mois', key: 'monthlyBudgetMin' as keyof City },
-      { label: 'Budget max/mois', key: 'monthlyBudgetMax' as keyof City },
-    ];
-
-    // Header row
-    doc.rect(MARGIN, y, W - MARGIN * 2, 18).fill('#0d1930');
-    villes.forEach((v, i) => {
-      const rgb = hexToRgb(v.color);
-      doc.rect(MARGIN + colW * (i + 1), y, colW, 18).fill(rgb);
-      doc.fillColor(TEXT_W).font('Helvetica-Bold').fontSize(9)
-         .text(v.city.name, MARGIN + colW * (i + 1) + 4, y + 5, { width: colW - 8, ellipsis: true });
-    });
-    y += 18;
-
-    ROWS.forEach((row, ri) => {
-      const rowBg = ri % 2 === 0 ? '#0a1022' : '#0c1228';
-      doc.rect(MARGIN, y, W - MARGIN * 2, 16).fill(rowBg);
-      doc.fillColor(TEXT_MID).font('Helvetica').fontSize(8)
-         .text(row.label, MARGIN + 4, y + 4, { width: colW - 8 });
-      villes.forEach((v, i) => {
-        const val = v.city[row.key];
-        const text = typeof val === 'number' ? `${val} €` : String(val ?? '-');
-        doc.fillColor(TEXT_W).font('Helvetica').fontSize(8)
-           .text(text, MARGIN + colW * (i + 1) + 4, y + 4, { width: colW - 8 });
-      });
-      y += 16;
-    });
-
-    y += 18;
-
-    // ── Section 2 — Scores DALILI ─────────────────────────────────────────
-    if (y + 130 > doc.page.height - 60) {
-      doc.addPage(); fillPage(); y = MARGIN;
-    }
-
-    doc.fillColor(ACCENT).font('Helvetica-Bold').fontSize(9)
-       .text('SCORES DALILI', MARGIN, y, { characterSpacing: 1 });
-    y += 16;
-
-    const SCORE_LABELS = [
-      { key: 'budget',     label: 'Budget' },
-      { key: 'emploi',     label: 'Emploi / Stage' },
-      { key: 'communaute', label: 'Communauté' },
-      { key: 'meteo',      label: 'Météo / Qualité de vie' },
-      { key: 'transport',  label: 'Transport' },
-    ] as const;
-
-    const scoreColW = (W - MARGIN * 2) / (villes.length + 1);
-
-    // Header
-    doc.rect(MARGIN, y, W - MARGIN * 2, 16).fill('#0d1930');
-    villes.forEach((v, i) => {
-      doc.fillColor(TEXT_W).font('Helvetica-Bold').fontSize(8)
-         .text(v.city.name, MARGIN + scoreColW * (i + 1) + 4, y + 4, { width: scoreColW - 8, ellipsis: true });
-    });
-    y += 16;
-
-    SCORE_LABELS.forEach(({ key, label }, ri) => {
-      const rowBg = ri % 2 === 0 ? '#0a1022' : '#0c1228';
-      doc.rect(MARGIN, y, W - MARGIN * 2, 18).fill(rowBg);
-      doc.fillColor(TEXT_MID).font('Helvetica').fontSize(8).text(label, MARGIN + 4, y + 5, { width: scoreColW - 8 });
-      villes.forEach((v, i) => {
-        const score = v.scores[key];
-        drawStars(doc, score, MARGIN + scoreColW * (i + 1) + 4, y + 5, 6, v.color);
-      });
-      y += 18;
-    });
-
-    y += 18;
-
-    // ── Section 3 — Avantages & Inconvénients ─────────────────────────────
-    if (y + 100 > doc.page.height - 60) {
-      doc.addPage(); fillPage(); y = MARGIN;
-    }
-
-    doc.fillColor(ACCENT).font('Helvetica-Bold').fontSize(9)
-       .text('AVANTAGES & INCONVÉNIENTS', MARGIN, y, { characterSpacing: 1 });
-    y += 16;
-
-    const advColW = (W - MARGIN * 2) / villes.length;
-
-    villes.forEach((v, i) => {
-      const rgb = hexToRgb(v.color);
-      doc.rect(MARGIN + advColW * i, y, advColW, 14).fill(rgb);
-      doc.fillColor(TEXT_W).font('Helvetica-Bold').fontSize(9)
-         .text(v.city.name, MARGIN + advColW * i + 6, y + 3, { width: advColW - 12 });
-    });
-    y += 14;
-
-    const maxAdvRows = Math.max(...villes.map(v => Math.max(v.city.pros.length, v.city.cons.length)));
-    const ADV_LINE_H = 11;
-
-    for (let row = 0; row < Math.min(maxAdvRows, 5); row++) {
-      if (y + ADV_LINE_H * 2 + 4 > doc.page.height - 60) {
-        doc.addPage(); fillPage(); y = MARGIN;
-      }
-      villes.forEach((v, i) => {
-        const pro = v.city.pros[row];
-        const con = v.city.cons[row];
-        if (pro) {
-          doc.fillColor('#22c55e').font('Helvetica').fontSize(6.5)
-             .text(`+ ${pro}`, MARGIN + advColW * i + 4, y, { width: advColW - 8, lineGap: 0 });
-          y += ADV_LINE_H;
-        }
-        if (con) {
-          doc.fillColor('#f59e0b').font('Helvetica').fontSize(6.5)
-             .text(`- ${con}`, MARGIN + advColW * i + 4, y, { width: advColW - 8, lineGap: 0 });
-          y += ADV_LINE_H;
-        }
-      });
-      y += 4;
-    }
-
-    y += 14;
-
-    // ── Section 4 — Avis DALILI ───────────────────────────────────────────
-    if (y + 80 > doc.page.height - 60) {
-      doc.addPage(); fillPage(); y = MARGIN;
-    }
-
-    doc.fillColor(ACCENT).font('Helvetica-Bold').fontSize(9)
-       .text('AVIS DALILI', MARGIN, y, { characterSpacing: 1 });
-    y += 14;
-
-    villes.forEach(v => {
-      if (y + 50 > doc.page.height - 60) {
-        doc.addPage(); fillPage(); y = MARGIN;
-      }
-      doc.fillColor(TEXT_W).font('Helvetica-Bold').fontSize(9).text(v.city.name, MARGIN, y);
-      y += 12;
-      const avisText = v.city.avis.slice(0, 320) + (v.city.avis.length > 320 ? '…' : '');
-      doc.fillColor(TEXT_MID).font('Helvetica').fontSize(8)
-         .text(avisText, MARGIN + 4, y, { width: W - MARGIN * 2 - 4, lineGap: 1.5 });
-      y += Math.ceil(avisText.length / 90) * 10 + 12;
-    });
-
-    // ── Section 5 — Recommandation ────────────────────────────────────────
-    if (y + 80 > doc.page.height - 60) {
-      doc.addPage(); fillPage(); y = MARGIN;
-    }
-
-    doc.rect(MARGIN, y, W - MARGIN * 2, 0.5).fill('#1a2a4a');
-    y += 14;
-
-    doc.fillColor(GOLD).font('Helvetica-Bold').fontSize(9)
-       .text('RECOMMANDATION DALILI', MARGIN, y, { characterSpacing: 1 });
-    y += 14;
-
-    const recoLines = recommandation.slice(0, 400);
-    doc.fillColor(TEXT_W).font('Helvetica').fontSize(9)
-       .text(recoLines, MARGIN + 4, y, { width: W - MARGIN * 2 - 4, lineGap: 1.5 });
-    y += Math.ceil(recoLines.length / 90) * 11 + 16;
-
-    // ── Footer ────────────────────────────────────────────────────────────
-    doc.rect(MARGIN, y, W - MARGIN * 2, 0.5).fill('#1a2040');
-    y += 10;
-
-    const blogLinks = [
-      'dalili.study/blog/budget-mensuel-etudiant-etranger-france-2026',
-      'dalili.study/blog/logement-crous-etudiant-etranger-demande',
-      'dalili.study/blog/trouver-logement-france-depuis-etranger',
-    ];
-    doc.fillColor(TEXT_MID).font('Helvetica').fontSize(7)
-       .text('Guides utiles :', MARGIN, y);
-    y += 10;
-    blogLinks.forEach(link => {
-      doc.fillColor(ACCENT).font('Helvetica').fontSize(7).text(`• ${link}`, MARGIN + 4, y);
-      y += 9;
-    });
-
-    y += 6;
-    doc.fillColor(TEXT_MID).font('Helvetica').fontSize(8)
-       .text('dalili.study · Comparatif généré gratuitement', MARGIN, y, {
-         align: 'center', width: W - MARGIN * 2,
-       });
-
-    doc.end();
+  // Header row
+  fillRect(ctx, y, 16, MARGIN, CW, C_ROW_HEAD);
+  villes.forEach((v, i) => {
+    const cc = hexToRgb(v.color);
+    fillRect(ctx, y, 16, MARGIN + colW * (i + 1), colW, cc);
+    txt(ctx, v.city.name, y + 11, MARGIN + colW * (i + 1) + 4, 8.5, bold, C_WHITE);
   });
+  y += 16;
+
+  BUDGET_ROWS.forEach(({ label, key }, ri) => {
+    fillRect(ctx, y, 15, MARGIN, CW, ri % 2 === 0 ? C_ROW_A : C_ROW_B);
+    txt(ctx, label, y + 10, MARGIN + 4, 8, norm, C_MID);
+    villes.forEach((v, i) => {
+      const val  = v.city[key];
+      const text = typeof val === 'number' ? `${val} EUR` : String(val ?? '-');
+      txt(ctx, text, y + 10, MARGIN + colW * (i + 1) + 4, 8, norm, C_WHITE);
+    });
+    y += 15;
+  });
+
+  y += 16;
+
+  // ── Section 2 — Scores ──────────────────────────────────────────────────────
+  if (y + 120 > H - FOOTER_H) { [ctx, y] = addContentPage(); }
+
+  txt(ctx, 'SCORES DALILI', y, MARGIN, 8, bold, C_BLUE);
+  y += 14;
+
+  const SCORE_ROWS = [
+    { key: 'budget',     label: 'Budget' },
+    { key: 'emploi',     label: 'Emploi / Stage' },
+    { key: 'communaute', label: 'Communaute' },
+    { key: 'meteo',      label: 'Meteo / Qualite de vie' },
+    { key: 'transport',  label: 'Transport' },
+  ] as const;
+
+  fillRect(ctx, y, 15, MARGIN, CW, C_ROW_HEAD);
+  villes.forEach((v, i) => {
+    txt(ctx, v.city.name, y + 10, MARGIN + colW * (i + 1) + 4, 8.5, bold, C_WHITE);
+  });
+  y += 15;
+
+  SCORE_ROWS.forEach(({ key, label }, ri) => {
+    fillRect(ctx, y, 17, MARGIN, CW, ri % 2 === 0 ? C_ROW_A : C_ROW_B);
+    txt(ctx, label, y + 11, MARGIN + 4, 8, norm, C_MID);
+    villes.forEach((v, i) => {
+      const score = v.scores[key];
+      const scoreColor = hexToRgb(v.color);
+      scoreBar(ctx, score, y + 7, MARGIN + colW * (i + 1) + 4, scoreColor);
+      txt(ctx, `${score}/5`, y + 11, MARGIN + colW * (i + 1) + 60, 7, norm, C_MID);
+    });
+    y += 17;
+  });
+
+  y += 16;
+
+  // ── Section 3 — Avantages & Inconvénients ──────────────────────────────────
+  if (y + 80 > H - FOOTER_H) { [ctx, y] = addContentPage(); }
+
+  txt(ctx, 'AVANTAGES & INCONVENIENTS', y, MARGIN, 8, bold, C_BLUE);
+  y += 14;
+
+  const advColW = CW / villes.length;
+
+  villes.forEach((v, i) => {
+    fillRect(ctx, y, 14, MARGIN + advColW * i, advColW, hexToRgb(v.color));
+    txt(ctx, v.city.name, y + 10, MARGIN + advColW * i + 5, 8.5, bold, C_WHITE);
+  });
+  y += 14;
+
+  const maxRows = Math.min(Math.max(...villes.map(v => Math.max(v.city.pros.length, v.city.cons.length))), 5);
+  for (let row = 0; row < maxRows; row++) {
+    if (y + 22 > H - FOOTER_H) { [ctx, y] = addContentPage(); }
+    villes.forEach((v, i) => {
+      const pro = v.city.pros[row];
+      const con = v.city.cons[row];
+      const xBase = MARGIN + advColW * i + 4;
+      if (pro) {
+        const proTxt = pro.length > 55 ? pro.slice(0, 55) + '...' : pro;
+        txt(ctx, `+ ${proTxt}`, y + 8, xBase, 6.5, norm, C_GREEN);
+        y += 10;
+      }
+      if (con) {
+        const conTxt = con.length > 55 ? con.slice(0, 55) + '...' : con;
+        txt(ctx, `- ${conTxt}`, y + 8, xBase, 6.5, norm, C_ORANGE);
+        y += 10;
+      }
+    });
+    y += 4;
+  }
+
+  y += 14;
+
+  // ── Section 4 — Avis Dalili ─────────────────────────────────────────────────
+  if (y + 60 > H - FOOTER_H) { [ctx, y] = addContentPage(); }
+
+  txt(ctx, 'AVIS DALILI', y, MARGIN, 8, bold, C_BLUE);
+  y += 13;
+
+  for (const v of villes) {
+    if (y + 45 > H - FOOTER_H) { [ctx, y] = addContentPage(); }
+    txt(ctx, v.city.name, y + 9, MARGIN, 9, bold, C_WHITE);
+    y += 12;
+    const avis = v.city.avis.slice(0, 250) + (v.city.avis.length > 250 ? '...' : '');
+    const lines = Math.ceil(avis.length / 90);
+    // Draw avis line by line (basic wrap approximation)
+    const charsPerLine = 90;
+    for (let i = 0; i < lines && i < 4; i++) {
+      const line = avis.slice(i * charsPerLine, (i + 1) * charsPerLine);
+      txt(ctx, line, y + 9, MARGIN + 4, 7.5, norm, C_MID);
+      y += 10;
+    }
+    y += 8;
+  }
+
+  y += 8;
+
+  // ── Section 5 — Recommandation ──────────────────────────────────────────────
+  if (y + 70 > H - FOOTER_H) { [ctx, y] = addContentPage(); }
+
+  fillRect(ctx, y, 0.5, MARGIN, CW, rgb(0.1, 0.16, 0.29));
+  y += 12;
+
+  txt(ctx, 'RECOMMANDATION DALILI', y, MARGIN, 8, bold, C_GOLD);
+  y += 13;
+
+  const recoText = recommandation.replace(/\*\*/g, '').slice(0, 380);
+  const recoLines = Math.ceil(recoText.length / 88);
+  const charsPerLine = 88;
+  for (let i = 0; i < recoLines && i < 6; i++) {
+    const line = recoText.slice(i * charsPerLine, (i + 1) * charsPerLine);
+    txt(ctx, line, y + 9, MARGIN + 4, 8, norm, C_WHITE);
+    y += 11;
+  }
+
+  y += 10;
+
+  // ── Footer ──────────────────────────────────────────────────────────────────
+  fillRect(ctx, y, 0.5, MARGIN, CW, rgb(0.1, 0.12, 0.25));
+  y += 10;
+
+  const blogLinks = [
+    'dalili.study/blog/budget-mensuel-etudiant-etranger-france-2026',
+    'dalili.study/blog/logement-crous-etudiant-etranger-demande',
+    'dalili.study/blog/trouver-logement-france-depuis-etranger',
+  ];
+  txt(ctx, 'Guides utiles :', y, MARGIN, 7.5, norm, C_MID);
+  y += 10;
+  blogLinks.forEach(link => {
+    txt(ctx, `•  ${link}`, y, MARGIN + 4, 7, norm, C_BLUE);
+    y += 9;
+  });
+  y += 6;
+  centered(ctx, 'dalili.study  ·  Comparatif genere gratuitement  ·  2026', y, 7.5, norm, C_MID);
+
+  const pdfBytes = await pdfDoc.save();
+  return Buffer.from(pdfBytes);
 }
