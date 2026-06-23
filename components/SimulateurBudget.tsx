@@ -718,6 +718,16 @@ function ResultsPanel({
         </div>
       </div>
 
+      {/* ── Note visa consulat ── */}
+      <div style={{ background: 'rgba(1,77,248,0.06)', border: '1px solid rgba(1,77,248,0.22)', borderRadius: 14, padding: '16px 20px', marginBottom: 20 }}>
+        <p style={{ fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.6rem', letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(77,143,255,0.9)', margin: '0 0 6px' }}>
+          Visa étudiant — exigence consulaire
+        </p>
+        <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.82rem', color: 'rgba(255,255,255,0.7)', margin: 0, lineHeight: 1.7 }}>
+          Le consulat français exige de justifier <strong style={{ color: '#fff' }}>615 €/mois minimum</strong> de ressources pour obtenir ton visa étudiant, soit environ <strong style={{ color: '#fff' }}>7 380 € disponibles</strong> sur ton compte bancaire pour 12 mois. Ce chiffre est une exigence administrative, pas un budget de vie.
+        </p>
+      </div>
+
       {/* ── Bourse note ── */}
       {bourseNote && (
         <div style={{ background: 'rgba(245,158,11,0.06)', border: '1px solid rgba(245,158,11,0.18)', borderRadius: 14, padding: '16px 20px', marginBottom: 20 }}>

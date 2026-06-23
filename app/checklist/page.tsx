@@ -133,7 +133,7 @@ const PHASES = [
       { text: 'Paiement CVEC (103€) sur messervices.etudiant.gouv.fr', note: "Obligatoire pour s'inscrire — génère une attestation immédiate", urgent: true },
       { text: 'Demande APL/CAF sur caf.fr dès le 1er jour dans le logement', note: 'Non rétroactive — chaque jour de retard = aide perdue définitivement', urgent: true },
       { text: 'Ouverture compte bancaire traditionnel (BNP, SG, Crédit Agricole)', note: 'Nécessaire pour la CAF et les virements de loyer', urgent: false },
-      { text: "Choix d'un médecin traitant sur doctolib.fr", note: 'Obligatoire pour les remboursements à 70% — déclarer sur Ameli.fr', urgent: false },
+      { text: "Choix d'un médecin traitant sur doctolib.fr", note: 'Recommandé pour optimiser les remboursements spécialistes — déclarer sur ameli.fr', urgent: false },
       { text: 'Abonnement transport local (Navigo Paris / TBM Bordeaux / TCL Lyon)', note: 'Tarif étudiant sur présentation de la carte étudiante', urgent: false },
       { text: 'Connexion internet souscrite (Bouygues, Free, SFR)', note: null, urgent: false },
       { text: 'Carte jeune SNCF si tu voyages en France', note: "49€/an → jusqu'à 60% de réduction sur les TGV", urgent: false },
@@ -149,6 +149,7 @@ const PHASES = [
     items: [
       { text: 'Numéro de sécurité sociale reçu (ameli.fr)', note: 'Délai habituel : 2-8 semaines. Vérifie ton espace Ameli régulièrement.', urgent: false },
       { text: 'Carte Vitale commandée sur ameli.fr', note: 'Tiers payant chez le médecin — plus besoin d\'avancer les frais', urgent: false },
+      { text: 'Demande CSS (Complémentaire Santé Solidaire) sur ameli.fr', note: 'Gratuite si revenus < 9 720€/an — couvre le ticket modérateur → zéro reste à charge chez le médecin', urgent: false },
       { text: 'Premiers remboursements CAF/APL reçus', note: 'Délai : 2-3 mois après la demande. Vérifie sur caf.fr', urgent: false },
       { text: 'RIB transmis à tous les organismes (CAF, bourse, employeur)', note: null, urgent: false },
       { text: 'Renouvellement titre de séjour planifié (si séjour > 1 an)', note: "Via ANEF — commence 4 mois avant l'expiration du VLS-TS", urgent: true },

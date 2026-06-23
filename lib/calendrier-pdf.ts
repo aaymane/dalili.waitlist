@@ -15,21 +15,22 @@ function cleanText(s: string): string {
     .trim();
 }
 
-// ── Logo hexagone DALILI ──────────────────────────────────────────────────────
-function drawLogo(page: PDFPage, cx: number, cy: number, bold: PDFFont) {
-  const r = 17;
-  page.drawEllipse({ x: cx, y: cy, xScale: r, yScale: r, color: rgb(1 / 255, 77 / 255, 248 / 255) });
-  for (let i = 0; i < 6; i++) {
-    const a1 = (Math.PI / 3) * i - Math.PI / 6;
-    const a2 = (Math.PI / 3) * (i + 1) - Math.PI / 6;
-    page.drawLine({
-      start: { x: cx + r * Math.cos(a1), y: cy + r * Math.sin(a1) },
-      end:   { x: cx + r * Math.cos(a2), y: cy + r * Math.sin(a2) },
-      thickness: 2.2,
-      color: rgb(1, 1, 1),
-    });
-  }
-  page.drawText('DALILI', { x: cx + r + 8, y: cy - 8, size: 20, font: bold, color: rgb(1, 1, 1) });
+// ── Logo DALILI — SVG paths identiques à ChecklistPDF ────────────────────────
+function drawLogo(page: PDFPage, startX: number, centerY: number, bold: PDFFont, norm: PDFFont) {
+  const s   = 22 / 71;
+  const xP  = startX + s;
+  const yP  = centerY + 11 + 105 * s;
+  page.drawSvgPath(
+    'M45.83,124.17h-13.08s-12.61,12.62-12.61,12.62l6.87,6.9,10.2-10.03c.93-.48,3.49-.48,4.16.29l11.98,13.73-12.33,12.45c-1.41,1.43-2.43,2.99-4.05,4.34h-16.74c-1.73-1.43-2.84-2.99-4.25-4.58-5.09-5.75-10.17-11.5-15.26-17.25-.21-.22-.38-.39-.5-.5-.05-.04-.11-.1-.21-.14c0,0-.01,0,.08.58.08.84v14.73s14.37,16.39,14.37,16.39l26.56.04,2.49-2.55,23.38-23.49-21.05-23.8Z',
+    { x: xP, y: yP, scale: s, color: rgb(0, 108 / 255, 253 / 255) }
+  );
+  page.drawSvgPath(
+    'M66.99,125.02l-14.38-16.39-26.56-.04-2.49,2.55L.19,134.62l21.05,23.8h13.08s12.61-12.62,12.61-12.62l-6.87-6.9-10.2,10.03c-.93.48-3.49.48-4.16-.29l-11.98-13.73,12.33-12.45c1.41-1.43,2.43-2.99,4.05-4.34h16.74c1.73,1.43,2.84,2.99,4.25,4.58l15.26,17.25c.28.32.46.55.73.65-.03-5.2-.05-10.39-.08-15.59Z',
+    { x: xP, y: yP, scale: s, color: rgb(0, 120 / 255, 254 / 255) }
+  );
+  const textX = startX + 22 + 8;
+  page.drawText('DALILI', { x: textX, y: centerY + 5,  size: 15, font: bold, color: rgb(1, 1, 1) });
+  page.drawText('dalili.study', { x: textX, y: centerY - 6, size: 7.5, font: norm, color: rgb(77 / 255, 143 / 255, 255 / 255) });
 }
 
 const C_BLUE      = rgb(1 / 255,   77 / 255,  248 / 255);  // #014DF8
@@ -74,10 +75,9 @@ function drawHeader(ctx: PageCtx, paysLabel: string, rentreeLabel: string) {
   fillRect(ctx, 0, HEADER_H, 0, W, C_BLUE_DARK);
   fillRect(ctx, 0, 3, 0, W, C_BLUE);
 
-  drawLogo(ctx.page, W / 2 - 55, H - 52, ctx.bold);
-  centered(ctx, 'dalili.study', 78, 9, ctx.norm, C_BLUE);
-  centered(ctx, 'TON CALENDRIER PERSONNALISE', 95, 7.5, ctx.norm, C_MID);
-  centered(ctx, cleanText(`${paysLabel}  -  ${rentreeLabel}`), 112, 13, ctx.bold, C_WHITE);
+  drawLogo(ctx.page, W / 2 - 48, H - 52, ctx.bold, ctx.norm);
+  centered(ctx, 'TON CALENDRIER PERSONNALISE', 90, 7.5, ctx.norm, C_MID);
+  centered(ctx, cleanText(`${paysLabel}  -  ${rentreeLabel}`), 108, 13, ctx.bold, C_WHITE);
 }
 
 export async function generateCalendrierPDF(
