@@ -231,6 +231,12 @@ export default function CalendrierOutil() {
           to   { opacity: 1; transform: translateY(0);   }
         }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @media (max-width: 640px) {
+          .cal-generate-btn { width: 100% !important; justify-content: center !important; }
+          .cal-email-form { flex-direction: column !important; }
+          .cal-email-form input { width: 100% !important; min-width: 0 !important; }
+          .cal-email-form button { width: 100% !important; justify-content: center !important; }
+        }
       `}</style>
 
       {/* ── Question block ──────────────────────────────────────────── */}
@@ -320,6 +326,7 @@ export default function CalendrierOutil() {
         <button
           onClick={handleGenerate}
           disabled={!canGenerate}
+          className="cal-generate-btn"
           style={{
             display:     'flex',
             alignItems:  'center',
@@ -420,7 +427,7 @@ export default function CalendrierOutil() {
                 <p style={{ margin: '0 0 24px', fontFamily: 'var(--font-dm-sans)', fontSize: '0.87rem', color: 'rgba(255,255,255,0.5)' }}>
                   Ton planning {paysInfo?.label} → {rentreeInfo?.label} avec tous les liens cliquables
                 </p>
-                <form onSubmit={handleEmailSubmit} style={{ display: 'flex', gap: 10, maxWidth: 440, margin: '0 auto', flexWrap: 'wrap' }}>
+                <form onSubmit={handleEmailSubmit} className="cal-email-form" style={{ display: 'flex', gap: 10, maxWidth: 440, margin: '0 auto', flexWrap: 'wrap' }}>
                   <input
                     type="email"
                     value={email}

@@ -52,6 +52,7 @@ export default function Navbar() {
   }, []);
 
   function handleLogoClick() {
+    setIsOpen(false);
     sessionStorage.setItem('skipIntro', 'true');
     router.push('/');
   }
@@ -241,6 +242,7 @@ export default function Navbar() {
             <Link
               key={link.href}
               href={link.href}
+              onClick={() => setIsOpen(false)}
               style={{
                 fontFamily: 'var(--font-bebas)',
                 fontSize: 'clamp(1.5rem,5vw,1.9rem)', letterSpacing: '0.08em',
@@ -259,13 +261,14 @@ export default function Navbar() {
         {/* Checklist mobile link */}
         <Link
           href={CHECKLIST_LINK.href}
+          onClick={() => setIsOpen(false)}
           style={{
             fontFamily: 'var(--font-bebas)',
             fontSize: 'clamp(1.5rem,5vw,1.9rem)', letterSpacing: '0.08em',
-            color: pathname === CHECKLIST_LINK.href ? '#4d8fff' : 'rgba(77,143,255,0.75)',
+            color: pathname === CHECKLIST_LINK.href ? '#4d8fff' : 'rgba(255,255,255,0.88)',
             textDecoration: 'none', lineHeight: 1,
             paddingBottom: 16,
-            borderBottom: '1px solid rgba(1,77,248,0.15)',
+            borderBottom: '1px solid rgba(255,255,255,0.07)',
             marginBottom: 16, display: 'block',
           }}
         >

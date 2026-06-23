@@ -208,6 +208,13 @@ export default function ComparateurVilles({ initialSlugs = [] }: { initialSlugs?
       <style>{`
         @keyframes fadeIn   { from { opacity: 0; } to { opacity: 1; } }
         @keyframes slideUp  { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+        @media (max-width: 640px) {
+          .cv-cols-grid { grid-template-columns: 1fr !important; }
+          .cv-email-form { flex-direction: column !important; }
+          .cv-email-form input, .cv-email-form button { width: 100% !important; min-width: 0 !important; }
+          .cv-reco-btns { flex-direction: column !important; }
+          .cv-reco-btns a { text-align: center; justify-content: center; }
+        }
       `}</style>
 
       {/* ── City selection ─────────────────────────────────────────────── */}
@@ -399,7 +406,7 @@ export default function ComparateurVilles({ initialSlugs = [] }: { initialSlugs?
                 <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
               </svg>
             } />
-            <div style={{ display: 'grid', gridTemplateColumns: `repeat(${selectedCities.length}, 1fr)`, gap: 12 }}>
+            <div className="cv-cols-grid" style={{ display: 'grid', gridTemplateColumns: `repeat(${selectedCities.length}, 1fr)`, gap: 12 }}>
               {selectedCities.map((item, i) => (
                 <div key={item.slug} style={{
                   padding: 20,
@@ -505,7 +512,7 @@ export default function ComparateurVilles({ initialSlugs = [] }: { initialSlugs?
                 <line x1="3" y1="18" x2="3.01" y2="18" />
               </svg>
             } />
-            <div style={{ display: 'grid', gridTemplateColumns: `repeat(${selectedCities.length}, 1fr)`, gap: 12 }}>
+            <div className="cv-cols-grid" style={{ display: 'grid', gridTemplateColumns: `repeat(${selectedCities.length}, 1fr)`, gap: 12 }}>
               {selectedCities.map((item, i) => (
                 <div key={item.slug} style={{ padding: 20, background: `${VILLE_COLORS[i]}07`, border: `1px solid ${VILLE_COLORS[i]}20`, borderRadius: 12 }}>
                   <p style={{ margin: '0 0 14px', fontFamily: 'var(--font-montserrat)', fontWeight: 700, fontSize: '0.72rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: VILLE_COLORS[i] }}>
@@ -536,7 +543,7 @@ export default function ComparateurVilles({ initialSlugs = [] }: { initialSlugs?
                 <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
               </svg>
             } />
-            <div style={{ display: 'grid', gridTemplateColumns: `repeat(${selectedCities.length}, 1fr)`, gap: 12 }}>
+            <div className="cv-cols-grid" style={{ display: 'grid', gridTemplateColumns: `repeat(${selectedCities.length}, 1fr)`, gap: 12 }}>
               {selectedCities.map((item, i) => (
                 <div key={item.slug} style={{
                   padding: '20px 20px 20px 22px',
@@ -578,7 +585,7 @@ export default function ComparateurVilles({ initialSlugs = [] }: { initialSlugs?
               <p style={{ margin: '0 0 20px', fontFamily: 'var(--font-dm-sans)', fontSize: '0.9rem', color: 'rgba(255,255,255,0.65)', lineHeight: 1.75 }}>
                 {buildRecoText()}
               </p>
-              <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+              <div className="cv-reco-btns" style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
                 <Link href={`/villes/${recoCity.slug}`} style={{
                   display: 'inline-flex', alignItems: 'center', gap: 7,
                   padding: '11px 22px',
@@ -634,7 +641,7 @@ export default function ComparateurVilles({ initialSlugs = [] }: { initialSlugs?
                 <p style={{ margin: '0 0 24px', fontFamily: 'var(--font-dm-sans)', fontSize: '0.87rem', color: 'rgba(255,255,255,0.5)' }}>
                   Tableau comparatif complet + guides pour {selectedCities.map(x => x.city?.name).join(', ')} — directement dans ta boîte
                 </p>
-                <form onSubmit={handleEmailSubmit} style={{ display: 'flex', gap: 10, maxWidth: 460, flexWrap: 'wrap' }}>
+                <form onSubmit={handleEmailSubmit} className="cv-email-form" style={{ display: 'flex', gap: 10, maxWidth: 460, flexWrap: 'wrap' }}>
                   <input
                     type="email" value={email} onChange={e => setEmail(e.target.value)}
                     placeholder="ton@email.com" required

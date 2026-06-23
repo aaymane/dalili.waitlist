@@ -209,10 +209,11 @@ export default function SimulateurBudget() {
             <StepContent step={step} answers={answers} select={select} />
           </div>
 
-          <div style={{ marginTop: 32, display: 'flex', justifyContent: 'flex-end' }}>
+          <div className="sim-next-wrap" style={{ marginTop: 32, display: 'flex', justifyContent: 'flex-end' }}>
             <button
               onClick={goNext}
               disabled={!canNext}
+              className="sim-next-btn"
               style={{
                 padding: '14px 32px', borderRadius: 12,
                 background: canNext ? 'linear-gradient(135deg,#014DF8,#4d8fff)' : 'rgba(255,255,255,0.07)',
@@ -305,7 +306,7 @@ function EmailCaptureStep({
         Entre ton email pour recevoir ton estimation complète en PDF + tous les guides dont tu as besoin pour préparer ton arrivée en France.
       </p>
 
-      <form onSubmit={onSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 14, alignItems: 'center' }}>
+      <form onSubmit={onSubmit} className="sim-email-form" style={{ display: 'flex', flexDirection: 'column', gap: 14, alignItems: 'center' }}>
         <input
           type="email" value={email} onChange={e => setEmail(e.target.value)}
           placeholder="ton@email.com" required autoFocus disabled={sending}
@@ -341,7 +342,16 @@ function EmailCaptureStep({
             </>
           ) : 'Recevoir mon budget gratuit →'}
         </button>
-        <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+        <style>{`
+          @keyframes spin { to { transform: rotate(360deg); } }
+          @media (max-width: 640px) {
+            .sim-next-wrap { justify-content: stretch !important; }
+            .sim-next-btn  { width: 100% !important; justify-content: center !important; }
+            .sim-city-grid { grid-template-columns: repeat(2, 1fr) !important; }
+            .sim-email-form { flex-direction: column !important; align-items: stretch !important; }
+            .sim-email-form input, .sim-email-form button { max-width: 100% !important; width: 100% !important; }
+          }
+        `}</style>
         <p style={{ fontFamily: 'var(--font-dm-sans)', fontSize: '0.72rem', color: 'rgba(255,255,255,0.28)', margin: 0 }}>
           Gratuit · Pas de spam · Tu peux te désabonner à tout moment
         </p>
@@ -362,7 +372,7 @@ function StepContent({ step, answers, select }: {
     <div>
       <h2 style={h2Style}>Dans quelle ville tu veux étudier ?</h2>
       <p style={subStyle}>Le budget varie du simple au triple selon la ville.</p>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(200px,1fr))', gap: 10 }}>
+      <div className="sim-city-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(200px,1fr))', gap: 10 }}>
         {CITIES.map(c => (
           <button key={c.slug} onClick={() => select('ville', c.slug)} style={{ ...card(answers.ville === c.slug), flexDirection: 'column', alignItems: 'flex-start' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, width: '100%' }}>
