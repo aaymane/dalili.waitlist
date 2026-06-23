@@ -149,28 +149,41 @@ export default function SimulateurBudget() {
     if (!email.includes('@') || sending) return;
     setSending(true);
     try {
-      await fetch('/api/simulateur', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({
-          email,
-          ville:          answers.ville,
-          logement:       answers.logement,
-          niveau:         answers.niveau,
-          paiement_frais: answers.paiement_frais,
-          pays:           answers.pays,
-          bourse:         answers.bourse,
-          housing, food, transport,
-          tuitionMonthly, tuitionAnnual, cvecMonthly,
-          total, cafMid, reste,
-        }),
+      const payload = {
+        email,
+        ville:          answers.ville,
+        logement:       answers.logement,
+        niveau:         answers.niveau,
+        paiement_frais: answers.paiement_frais,
+        pays:           answers.pays,
+        bourse:         answers.bourse,
+        housing, food, transport,
+        tuitionMonthly, tuitionAnnual, cvecMonthly,
+        total, cafMid, reste,
+      };
+      console.log('[Simulateur] Envoi payload:', JSON.stringify(payload));
+
+      const response = await fetch('/api/simulateur', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify(payload),
       });
-      setEmailSent(true);
-    } catch {
-      // Non-blocking
+
+      const data = await response.json();
+      console.log('[Simulateur] API response:', data);
+
+      if (response.ok && data.ok) {
+        setEmailSent(true);
+        transition(() => setStep(7));
+      } else {
+        console.error('[Simulateur] Erreur API:', data);
+        alert('Erreur envoi email — réessaie dans quelques secondes. (détails: ' + JSON.stringify(data) + ')');
+      }
+    } catch (error) {
+      console.error('[Simulateur] Fetch error:', error);
+      alert('Erreur réseau : ' + error);
     } finally {
       setSending(false);
-      transition(() => setStep(7));
     }
   };
 

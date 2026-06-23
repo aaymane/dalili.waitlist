@@ -51,8 +51,11 @@ const PAYS_LABELS: Record<string, string> = {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
+    console.log('=== API SIMULATEUR ===');
+    console.log('Body reçu:', JSON.stringify(body));
 
     const email          = String(body.email          ?? '').trim().toLowerCase();
+    console.log('Email destinataire:', email);
     const ville          = String(body.ville          ?? '').trim();
     const logement       = String(body.logement       ?? '').trim();
     const niveau         = String(body.niveau         ?? '').trim();
@@ -180,10 +183,11 @@ export async function POST(request: NextRequest) {
       console.error('[simulateur] Resend error:', JSON.stringify(resendErr, null, 2));
     }
 
-    return NextResponse.json({ ok: true });
+    console.log('[simulateur] Done — returning ok:true to client');
+    return NextResponse.json({ ok: true, success: true });
   } catch (err) {
     console.error('[simulateur]', err);
-    return NextResponse.json({ ok: false, error: 'Erreur serveur.' }, { status: 500 });
+    return NextResponse.json({ ok: false, success: false, error: 'Erreur serveur.' }, { status: 500 });
   }
 }
 
