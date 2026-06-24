@@ -89,10 +89,9 @@ export default function AboutPage() {
         }
         @media (max-width: 600px) {
           .ap-arabic {
-            right: -20px;
-            top: 60px;
-            font-size: 100px;
-            opacity: 0.7;
+            right: 10px;
+            top: 50px;
+            font-size: 90px;
           }
           .ap-stats-grid {
             grid-template-columns: repeat(2, 1fr);
@@ -103,7 +102,9 @@ export default function AboutPage() {
         }
         @media (max-width: 400px) {
           .ap-arabic {
-            display: none;
+            right: 8px;
+            top: 44px;
+            font-size: 72px;
           }
         }
       `}</style>
