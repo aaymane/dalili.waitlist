@@ -3,48 +3,48 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { FileText, UserRoundX, Languages } from 'lucide-react';
+import { BookOpen, MapPin, Calculator } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const PAIN_POINTS = [
   {
-    prefix: '+',
-    numericValue: 15,
+    prefix: '',
+    numericValue: 49,
     suffix: '',
-    label: 'démarches obligatoires',
-    source: 'Campus France, 2023',
-    title: 'Perdu dans\nl\'administration',
-    desc: 'Visa, OFII, CAF, CROUS, sécurité sociale étudiante… Dès ton arrivée, une quinzaine de démarches obligatoires t\'attendent — chacune avec ses délais, ses formulaires, ses pièges.',
+    label: 'GUIDES GRATUITS',
+    source: 'dalili.study · 2026',
+    title: 'TOUT CE DONT\nTU AS BESOIN',
+    desc: 'Visa, Campus France, logement, CAF, banque, santé — chaque démarche documentée avec les vrais délais et les vraies erreurs à éviter.',
     accent: '#FF4D4D',
     accentRgb: '255,77,77',
-    Icon: FileText,
+    Icon: BookOpen,
     tag: '01',
   },
   {
     prefix: '',
-    numericValue: 68,
-    suffix: '%',
-    label: "manquent d'accompagnement",
-    source: 'Enquête CROUS, 2023',
-    title: 'Personne\npour t\'aider',
-    desc: "68 % des étudiants étrangers déclarent manquer d'accompagnement dans leurs démarches administratives. Sans mentor ni réseau local, chaque blocage prend des semaines.",
+    numericValue: 14,
+    suffix: '',
+    label: 'VILLES ANALYSÉES',
+    source: 'Mis à jour juin 2026',
+    title: 'TROUVE TA\nVILLE IDÉALE',
+    desc: 'Bordeaux, Lyon, Paris, Toulouse, Marseille, Nice, Rennes, Grenoble et plus. Budget réel, universités, communauté étudiante — tout comparé.',
     accent: '#FF8C00',
     accentRgb: '255,140,0',
-    Icon: UserRoundX,
+    Icon: MapPin,
     tag: '02',
   },
   {
     prefix: '',
-    numericValue: 100,
-    suffix: '%',
-    label: 'en français',
-    source: 'Ministère de l\'Enseignement Supérieur, 2024',
-    title: 'Tout en\nfrançais',
-    desc: 'Contrats, convocations, formulaires officiels — tout arrive dans une langue que tu maîtrises peut-être pas encore. Chaque document incompris peut coûter : refus, pénalité, dossier bloqué.',
+    numericValue: 615,
+    suffix: '€',
+    label: 'MINIMUM REQUIS PAR LE CONSULAT',
+    source: 'Source : Consulat France 2026',
+    title: 'LE VRAI BUDGET\nÀ PRÉVOIR',
+    desc: 'Le consulat français exige 615€/mois de ressources prouvables. Notre simulateur te calcule exactement ce dont tu as besoin selon ta ville.',
     accent: '#FFCC00',
     accentRgb: '255,204,0',
-    Icon: Languages,
+    Icon: Calculator,
     tag: '03',
   },
 ];

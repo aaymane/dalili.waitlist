@@ -1,54 +1,65 @@
 'use client';
 
 import { useRef, useState, useEffect } from 'react';
+import Link from 'next/link';
 import { motion, useInView } from 'framer-motion';
-import { ShieldCheck, Home, Landmark, ClipboardList, GraduationCap } from 'lucide-react';
+import { ShieldCheck, Home, Landmark, ClipboardList, Calculator } from 'lucide-react';
 
 const STEPS = [
   {
     number: '01',
     Icon: ShieldCheck,
     title: 'Visa',
-    subtitle: 'Ton passeport pour la France',
-    desc: 'Campus France, visa long séjour, validation OFII. Dalili te prépare chaque document requis avant le départ.',
+    subtitle: 'TON PASSEPORT POUR LA FRANCE',
+    desc: 'Campus France, visa long séjour, validation OFII. On te guide sur chaque document requis avant le départ.',
     accent: '#014DF8',
     accentRgb: '1,77,248',
+    href: '/blog/visa-etudiant-france-maroc-2026',
+    badge: 'Guide disponible →',
   },
   {
     number: '02',
     Icon: Home,
     title: 'Logement',
-    subtitle: 'Trouve ton chez-toi',
-    desc: 'CROUS, résidences privées, colocation — compare tes options et monte ton dossier de location sans stress.',
+    subtitle: 'TROUVE TON CHEZ-TOI',
+    desc: 'CROUS, résidences privées, colocation — compare tes options et monte ton dossier sans stress.',
     accent: '#7C3AED',
     accentRgb: '124,58,237',
+    href: '/blog/logement-crous-etudiant-etranger-demande',
+    badge: 'Guide disponible →',
   },
   {
     number: '03',
     Icon: Landmark,
     title: 'Banque',
-    subtitle: 'Ouvre ton compte en 48h',
-    desc: 'Sans compte bancaire français, impossible de signer un bail ou toucher des aides. On t\'explique la marche à suivre.',
+    subtitle: 'OUVRE TON COMPTE EN 48H',
+    desc: "Sans compte bancaire français, impossible de signer un bail ou toucher la CAF. On t'explique quoi faire.",
     accent: '#22C55E',
     accentRgb: '34,197,94',
+    href: '/blog/ouvrir-compte-bancaire-etudiant-etranger-2026',
+    badge: 'Guide disponible →',
   },
   {
     number: '04',
     Icon: ClipboardList,
     title: 'CAF',
-    subtitle: "Jusqu'à 200€/mois",
-    desc: 'Tu as droit à des aides au logement. Dalili te guide pour déposer ton dossier CAF correctement et ne rien rater.',
+    subtitle: "JUSQU'À 200€/MOIS",
+    desc: 'La CAF peut couvrir une grande partie de ton loyer. Chaque jour de retard = aide perdue définitivement.',
     accent: '#EFB370',
     accentRgb: '239,179,112',
+    href: '/blog/caf-etudiant-etranger-delais-documents-erreurs',
+    badge: 'Guide disponible →',
   },
   {
     number: '05',
-    Icon: GraduationCap,
-    title: 'Mentor',
-    subtitle: 'Un étudiant pour toi',
-    desc: 'Un mentor Dalili qui est passé par là t\'accompagne, répond à tes questions et t\'évite les erreurs coûteuses.',
-    accent: '#06B6D4',
-    accentRgb: '6,182,212',
+    Icon: Calculator,
+    title: 'Simulateur',
+    subtitle: 'CALCULE TON VRAI BUDGET',
+    desc: 'Réponds à 5 questions. On te calcule le budget exact pour ta ville, ton logement et ta situation.',
+    accent: '#22C55E',
+    accentRgb: '34,197,94',
+    href: '/simulateur',
+    badge: 'Essayer gratuitement →',
   },
 ];
 
@@ -297,6 +308,7 @@ export default function JourneySection() {
               </motion.div>
 
               {/* ── Step card ── */}
+              <Link href={step.href} style={{ textDecoration: 'none', color: 'inherit', display: 'block', width: isMobile ? '100%' : 'calc(100% - 16px)', margin: isMobile ? 0 : '0 8px' }}>
               <motion.div
                 whileHover={{
                   borderColor: `rgba(${step.accentRgb},0.65)`,
@@ -307,6 +319,7 @@ export default function JourneySection() {
                     '0 24px 56px rgba(0,0,0,0.55)',
                   ].join(', '),
                   y: -5,
+                  scale: 1.02,
                 }}
                 transition={{ duration: 0.25, ease: 'easeOut' }}
                 style={{
@@ -319,11 +332,8 @@ export default function JourneySection() {
                   boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
                   position: 'relative',
                   overflow: 'hidden',
-                  cursor: 'default',
-                  // Desktop: fill full step column width
-                  width: isMobile ? '100%' : 'calc(100% - 16px)',
-                  // Slight inset on desktop for breathing room from track
-                  margin: isMobile ? 0 : '0 8px',
+                  cursor: 'pointer',
+                  width: '100%',
                 }}
               >
                 {/* Top accent stripe */}
@@ -349,7 +359,7 @@ export default function JourneySection() {
                     fontFamily: 'var(--font-montserrat)',
                     fontSize: '0.52rem', fontWeight: 700,
                     letterSpacing: '0.2em', textTransform: 'uppercase',
-                    color: `rgba(${step.accentRgb},0.6)`,
+                    color: `rgba(${step.accentRgb},0.75)`,
                   }}>{step.number}</span>
                   <div style={{
                     flex: 1, height: 1,
@@ -393,10 +403,25 @@ export default function JourneySection() {
                   fontFamily: 'var(--font-dm-sans)',
                   fontWeight: 400, fontSize: '0.83rem',
                   lineHeight: 1.72, color: 'rgba(255,255,255,0.92)',
-                  margin: 0,
+                  margin: '0 0 14px',
                 }}>
                   {step.desc}
                 </p>
+
+                {/* Badge CTA */}
+                <div style={{
+                  display: 'inline-flex', alignItems: 'center',
+                  padding: '4px 12px',
+                  background: `rgba(${step.accentRgb},0.12)`,
+                  border: `1px solid rgba(${step.accentRgb},0.35)`,
+                  borderRadius: 100,
+                  fontFamily: 'var(--font-montserrat)',
+                  fontSize: '0.58rem', fontWeight: 700,
+                  letterSpacing: '0.1em',
+                  color: step.accent,
+                }}>
+                  {step.badge}
+                </div>
 
                 {/* Bottom accent */}
                 <div aria-hidden="true" style={{
@@ -404,6 +429,7 @@ export default function JourneySection() {
                   background: `linear-gradient(90deg, transparent, rgba(${step.accentRgb},0.25), transparent)`,
                 }} />
               </motion.div>
+              </Link>
             </motion.div>
           ))}
         </motion.div>

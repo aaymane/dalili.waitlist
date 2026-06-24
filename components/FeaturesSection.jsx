@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import Link from 'next/link';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -8,10 +9,13 @@ gsap.registerPlugin(ScrollTrigger);
 
 const CARDS = [
   {
-    icon: '🧭',
+    icon: '📋',
     tag: '01',
-    title: 'Navigation\nIntelligente',
-    desc: 'Un guide personnalisé qui t\'accompagne dans chaque démarche — de la visa jusqu\'à ton premier appartement.',
+    title: 'GUIDES\nVÉRIFIÉS',
+    subtitle: 'Sources officielles uniquement',
+    desc: "Chaque guide est vérifié sur Campus France, Ameli, CAF.fr et les consulats. Pas d'infos inventées, pas de dates périmées.",
+    cta: 'Voir les guides →',
+    href: '/blog',
     accent: '#014DF8',
     bg:     'linear-gradient(145deg, rgba(1,77,248,0.18) 0%, rgba(2,6,22,0.95) 100%)',
     border: 'rgba(1,77,248,0.40)',
@@ -24,26 +28,13 @@ const CARDS = [
     shimmer: 'rgba(77,143,255,0.12)',
   },
   {
-    icon: '🤝',
+    icon: '🧮',
     tag: '02',
-    title: 'Mentors\nÉtudiants',
-    desc: 'Des étudiants qui ont vécu la même expérience, prêts à partager leurs conseils et à t\'éviter les erreurs coûteuses.',
-    accent: '#EFB370',
-    bg:     'linear-gradient(145deg, rgba(239,179,112,0.16) 0%, rgba(4,8,28,0.95) 100%)',
-    border: 'rgba(239,179,112,0.38)',
-    topBar: '#EFB370',
-    glow:   'rgba(239,179,112,0.10)',
-    blobBg: 'rgba(239,179,112,0.14)',
-    iconBg: 'rgba(239,179,112,0.12)',
-    iconBorder: 'rgba(239,179,112,0.3)',
-    iconGlow: '0 0 20px rgba(239,179,112,0.7), 0 0 40px rgba(239,179,112,0.3)',
-    shimmer: 'rgba(239,179,112,0.10)',
-  },
-  {
-    icon: '⚡',
-    tag: '03',
-    title: 'Démarches\nSimplifiées',
-    desc: 'CAF, CROUS, sécu étudiante — on centralise tout. Moins de stress, plus de temps pour vivre.',
+    title: '3 OUTILS\nINTERACTIFS',
+    subtitle: 'Simulateur · Calendrier · Comparateur',
+    desc: 'Calcule ton budget exact, génère ton planning Campus France mois par mois, compare 14 villes selon tes critères.',
+    cta: 'Accéder aux outils →',
+    href: '/simulateur',
     accent: '#22C55E',
     bg:     'linear-gradient(145deg, rgba(34,197,94,0.15) 0%, rgba(2,10,18,0.95) 100%)',
     border: 'rgba(34,197,94,0.35)',
@@ -54,6 +45,25 @@ const CARDS = [
     iconBorder: 'rgba(34,197,94,0.3)',
     iconGlow: '0 0 20px rgba(34,197,94,0.7), 0 0 40px rgba(34,197,94,0.3)',
     shimmer: 'rgba(34,197,94,0.10)',
+  },
+  {
+    icon: '🎓',
+    tag: '03',
+    title: 'MENTORS\nBIENTÔT',
+    subtitle: "Des étudiants qui sont passés par là",
+    desc: "Rejoins la liste d'attente pour être mis en contact avec un étudiant de ton pays, dans ta ville, dans ta filière.",
+    cta: 'Rejoindre la liste →',
+    href: '#waitlist',
+    accent: '#EFB370',
+    bg:     'linear-gradient(145deg, rgba(239,179,112,0.16) 0%, rgba(4,8,28,0.95) 100%)',
+    border: 'rgba(239,179,112,0.38)',
+    topBar: '#EFB370',
+    glow:   'rgba(239,179,112,0.10)',
+    blobBg: 'rgba(239,179,112,0.14)',
+    iconBg: 'rgba(239,179,112,0.12)',
+    iconBorder: 'rgba(239,179,112,0.3)',
+    iconGlow: '0 0 20px rgba(239,179,112,0.7), 0 0 40px rgba(239,179,112,0.3)',
+    shimmer: 'rgba(239,179,112,0.10)',
   },
 ];
 
@@ -383,22 +393,54 @@ export default function FeaturesSection() {
                 fontWeight: 400,
                 fontSize: 'clamp(1.8rem,3vw,2.6rem)',
                 lineHeight: 0.95, letterSpacing: '0.04em',
-                color: '#fff', margin: '0 0 16px',
+                color: '#fff', margin: '0 0 8px',
                 whiteSpace: 'pre-line',
                 position: 'relative', zIndex: 3,
               }}>
                 {card.title}
               </h3>
 
+              <div style={{
+                fontFamily: 'var(--font-montserrat)',
+                fontSize: '0.6rem', fontWeight: 700,
+                letterSpacing: '0.1em', textTransform: 'uppercase',
+                color: card.accent,
+                marginBottom: 14,
+                opacity: 0.9,
+                position: 'relative', zIndex: 3,
+              }}>
+                {card.subtitle}
+              </div>
+
               <p style={{
                 fontFamily: 'var(--font-dm-sans)',
                 fontWeight: 400, fontSize: '0.92rem',
                 lineHeight: 1.72, color: 'rgba(255,255,255,0.92)',
-                margin: 0,
+                margin: '0 0 20px',
                 position: 'relative', zIndex: 3,
               }}>
                 {card.desc}
               </p>
+
+              <Link
+                href={card.href}
+                style={{
+                  display: 'inline-flex', alignItems: 'center',
+                  padding: '6px 16px',
+                  background: `rgba(${card.accent === '#014DF8' ? '1,77,248' : card.accent === '#22C55E' ? '34,197,94' : '239,179,112'},0.12)`,
+                  border: `1px solid ${card.border}`,
+                  borderRadius: 100,
+                  fontFamily: 'var(--font-montserrat)',
+                  fontSize: '0.62rem', fontWeight: 700,
+                  letterSpacing: '0.1em',
+                  color: card.accent,
+                  textDecoration: 'none',
+                  position: 'relative', zIndex: 3,
+                  transition: 'background 0.2s',
+                }}
+              >
+                {card.cta}
+              </Link>
 
               {/* Bottom accent line */}
               <div style={{

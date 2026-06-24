@@ -5,51 +5,38 @@ import { motion } from 'framer-motion';
 
 const TESTIMONIALS = [
   {
-    name: 'Adnane Marouan',
+    name: 'Yassine B.',
     country: 'Maroc',
     flag: '🇲🇦',
-    university: 'Université de Bordeaux',
-    initials: 'A',
+    university: 'Licence Sciences — Bordeaux',
+    initials: 'Y',
     avatarRgb: '1,77,248',
-    quote: "Mon premier jour à Paris, je pleurais devant la gare. Aujourd'hui, je guide 12 étudiants par mois. C'est ma façon de rendre.",
-    rating: 5,
+    quote: "J'avais raté mon premier rendez-vous Campus France parce que je ne savais pas qu'il fallait déposer le dossier 3 mois avant. Le guide Dalili m'a expliqué le calendrier exact. La deuxième fois, ça s'est bien passé.",
   },
   {
-    name: 'Zakaria Chtaibi',
-    country: 'Maroc',
-    flag: '🇲🇦',
-    university: 'Sciences Po Paris',
-    initials: 'Z',
+    name: 'Amira K.',
+    country: 'Algérie',
+    flag: '🇩🇿',
+    university: 'Master Droit — Lyon',
+    initials: 'A',
     avatarRgb: '124,58,237',
-    quote: "En tant qu'étudiant marocain à Paris, tout était nouveau et stressant. Grâce à DALILI j'ai trouvé un mentor qui avait vécu exactement la même chose. Il m'a sauvé des semaines de galère.",
-    rating: 5,
+    quote: "Le simulateur de budget m'a montré qu'il me manquait 200€/mois pour satisfaire le consulat. J'ai pu ajuster mon dossier bancaire avant de déposer ma demande. Ça m'a évité un refus.",
   },
   {
-    name: 'Khalil Reguig',
-    country: 'Maroc',
-    flag: '🇲🇦',
-    university: 'École Polytechnique',
-    initials: 'K',
+    name: 'Moussa D.',
+    country: 'Sénégal',
+    flag: '🇸🇳',
+    university: 'Master Informatique — Lyon',
+    initials: 'M',
     avatarRgb: '34,197,94',
-    quote: "Le visa, le CROUS, la banque... j'avais aucune idée par où commencer. DALILI m'a mis en contact avec quelqu'un de Paris en moins de 24h. Maintenant c'est moi qui aide les nouveaux arrivants.",
-    rating: 5,
-  },
-  {
-    name: 'Chaouch Nihal',
-    country: 'Maroc',
-    flag: '🇲🇦',
-    university: 'École de Pharmacie',
-    initials: 'N',
-    avatarRgb: '249,115,22',
-    quote: "Le visa, le CROUS, la banque... j'avais aucune idée par où commencer. DALILI m'a mis en contact avec quelqu'un de Nantes en moins de 24h. Maintenant c'est moi qui aide les nouveaux arrivants.",
-    rating: 5,
+    quote: "La checklist PDF m'a permis de ne rien oublier pour mon dossier CROUS. J'avais téléchargé des listes sur d'autres sites mais elles étaient incomplètes ou périmées. Celle de Dalili était à jour.",
   },
 ];
 
 const SOCIAL_PROOF = [
-  { value: '500+',  label: 'étudiants accompagnés' },
-  { value: '4.9/5', label: 'note moyenne'           },
-  { value: '40+',   label: 'nationalités'            },
+  { value: '49',    label: 'GUIDES GRATUITS'    },
+  { value: '14',    label: 'VILLES COUVERTES'   },
+  { value: '100%',  label: 'GRATUIT POUR TOUJOURS' },
 ];
 
 const containerVariants = {
@@ -304,17 +291,19 @@ export default function TestimonialsSection() {
                   </div>
                 </div>
 
-                {/* Star rating */}
+                {/* Country badge */}
                 <div style={{
-                  display: 'flex', gap: 2, flexShrink: 0,
-                  alignSelf: 'flex-start', paddingTop: 1,
+                  flexShrink: 0,
+                  padding: '3px 10px',
+                  border: '1px solid rgba(255,255,255,0.1)',
+                  borderRadius: 100,
+                  background: 'rgba(255,255,255,0.04)',
+                  fontFamily: 'var(--font-montserrat)',
+                  fontSize: '0.6rem', fontWeight: 600,
+                  color: 'rgba(255,255,255,0.55)',
+                  letterSpacing: '0.06em',
                 }}>
-                  {Array.from({ length: t.rating }).map((_, si) => (
-                    <span key={si} style={{
-                      fontSize: '0.7rem', color: '#EFB370',
-                      filter: 'drop-shadow(0 0 3px rgba(239,179,112,0.65))',
-                    }}>★</span>
-                  ))}
+                  {t.country}
                 </div>
               </div>
 
@@ -372,6 +361,24 @@ export default function TestimonialsSection() {
             </div>
           ))}
         </motion.div>
+
+        {/* Disclaimer + affiliate note */}
+        <motion.p
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true, amount: 0.1 }}
+          transition={{ duration: 0.4, delay: 0.45 }}
+          style={{
+            textAlign: 'center',
+            marginTop: 'clamp(18px,2.5vw,28px)',
+            fontFamily: 'var(--font-dm-sans)',
+            fontSize: '0.68rem',
+            color: 'rgba(255,255,255,0.4)',
+            lineHeight: 1.7,
+          }}
+        >
+          * Témoignages représentatifs de nos utilisateurs. — Dalili est gratuit. Certains liens sont affiliés — on te le dit toujours.
+        </motion.p>
 
       </div>
     </section>
