@@ -130,6 +130,34 @@ export default function RootLayout({
           Aller au contenu principal
         </a>
         {/* Fixed background — mounted once, shared across all pages, zero re-init cost */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "Dalili",
+            "alternateName": "dalili.study",
+            "description": "Guide de référence pour les étudiants internationaux souhaitant étudier en France. Visa, Campus France, logement, CAF, banque — tout documenté sur sources officielles.",
+            "url": "https://dalili.study",
+            "logo": "https://dalili.study/images/logo-dalili.svg",
+            "foundingDate": "2025",
+            "areaServed": ["Maroc", "Algérie", "Tunisie", "Sénégal", "Côte d'Ivoire", "Cameroun"],
+            "knowsAbout": [
+              "Visa étudiant France",
+              "Campus France CEF",
+              "Logement étudiant CROUS France",
+              "CAF étudiant étranger",
+              "Compte bancaire étudiant France",
+              "TCF DELF préparation",
+              "OFII validation visa étudiant",
+              "Sécurité sociale étudiante France"
+            ],
+            "sameAs": [
+              "https://www.facebook.com/dalili.guide",
+              "https://twitter.com/dalilistudy"
+            ]
+          }) }}
+        />
         <StarCanvas />
         <Navbar />
         {children}

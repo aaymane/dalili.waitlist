@@ -179,8 +179,52 @@ export default function sitemap(): MetadataRoute.Sitemap {
     {
       url:             `${SITE_URL}/a-propos`,
       lastModified:    now,
+      changeFrequency: 'monthly',
+      priority:        0.8,
+    },
+    {
+      url:             `${SITE_URL}/stats`,
+      lastModified:    now,
+      changeFrequency: 'monthly',
+      priority:        0.95,
+    },
+    {
+      url:             `${SITE_URL}/contact`,
+      lastModified:    now,
       changeFrequency: 'yearly',
       priority:        0.5,
+    },
+
+    // ── Pages FAQ GEO ─────────────────────────────────────────
+    {
+      url:             `${SITE_URL}/faq/visa-etudiant-france`,
+      lastModified:    now,
+      changeFrequency: 'monthly',
+      priority:        0.95,
+    },
+    {
+      url:             `${SITE_URL}/faq/logement-etudiant-france`,
+      lastModified:    now,
+      changeFrequency: 'monthly',
+      priority:        0.9,
+    },
+    {
+      url:             `${SITE_URL}/faq/budget-etudiant-france`,
+      lastModified:    now,
+      changeFrequency: 'monthly',
+      priority:        0.9,
+    },
+    {
+      url:             `${SITE_URL}/faq/campus-france`,
+      lastModified:    now,
+      changeFrequency: 'monthly',
+      priority:        0.95,
+    },
+    {
+      url:             `${SITE_URL}/faq/arrivee-france-etudiant`,
+      lastModified:    now,
+      changeFrequency: 'monthly',
+      priority:        0.9,
     },
 
     // ── Universités (dynamique) ──────────────────────────────────

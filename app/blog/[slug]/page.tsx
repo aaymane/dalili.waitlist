@@ -10,6 +10,7 @@ import { getAllPosts, getRawPost, extractHeadings, extractFaqItems, getRelatedPo
 import mdxComponents, { Callout } from '@/components/blog/MdxComponents';
 import ClusterLinks from '@/components/blog/ClusterLinks';
 import WaitlistCTA from '@/components/blog/WaitlistCTA';
+import KeyFacts from '@/components/blog/KeyFacts';
 import { notFound } from 'next/navigation';
 
 // Client-only components loaded dynamically
@@ -77,7 +78,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
   // making optional HTML attributes (children, id, href) appear required.
   // The runtime types are correct — cast to suppress the false TS error.
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const components = { ...mdxComponents, Callout, WaitlistCTA } as any;
+  const components = { ...mdxComponents, Callout, WaitlistCTA, KeyFacts } as any;
 
   const { content } = await compileMDX({
     source: mdxSource,
