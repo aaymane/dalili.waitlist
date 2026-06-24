@@ -226,10 +226,10 @@ export default function Navbar() {
           onClick={handleLogoClick}
           style={{
             fontFamily: 'var(--font-dm-sans)',
-            fontSize: 24, fontWeight: 700, letterSpacing: '0.08em',
+            fontSize: 17, fontWeight: 600, letterSpacing: '0.08em',
             textTransform: 'uppercase',
             color: pathname === '/' ? '#4d8fff' : '#ffffff',
-            cursor: 'pointer', padding: '18px 0',
+            cursor: 'pointer', padding: '13px 0',
             borderBottom: '1px solid rgba(255,255,255,0.08)',
             lineHeight: 1,
             opacity: isOpen ? 1 : 0,
@@ -249,11 +249,11 @@ export default function Navbar() {
               onClick={() => setIsOpen(false)}
               style={{
                 fontFamily: 'var(--font-dm-sans)',
-                fontSize: 24, fontWeight: 700, letterSpacing: '0.08em',
+                fontSize: 17, fontWeight: 600, letterSpacing: '0.08em',
                 textTransform: 'uppercase',
                 color: active ? '#4d8fff' : '#ffffff',
                 textDecoration: 'none', lineHeight: 1,
-                padding: '18px 0',
+                padding: '13px 0',
                 borderBottom: '1px solid rgba(255,255,255,0.08)',
                 display: 'block',
                 opacity: isOpen ? 1 : 0,
@@ -272,11 +272,11 @@ export default function Navbar() {
           onClick={() => setIsOpen(false)}
           style={{
             fontFamily: 'var(--font-dm-sans)',
-            fontSize: 24, fontWeight: 700, letterSpacing: '0.08em',
+            fontSize: 17, fontWeight: 600, letterSpacing: '0.08em',
             textTransform: 'uppercase',
             color: pathname === CHECKLIST_LINK.href ? '#4d8fff' : '#ffffff',
             textDecoration: 'none', lineHeight: 1,
-            padding: '18px 0',
+            padding: '13px 0',
             borderBottom: '1px solid rgba(255,255,255,0.08)',
             display: 'block',
             opacity: isOpen ? 1 : 0,
