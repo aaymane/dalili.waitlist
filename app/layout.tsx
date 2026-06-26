@@ -133,6 +133,24 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify({
             "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "Dalili",
+            "alternateName": "Dalili Study",
+            "url": "https://dalili.study",
+            "potentialAction": {
+              "@type": "SearchAction",
+              "target": {
+                "@type": "EntryPoint",
+                "urlTemplate": "https://dalili.study/blog?q={search_term_string}"
+              },
+              "query-input": "required name=search_term_string"
+            }
+          }) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify({
+            "@context": "https://schema.org",
             "@type": "Organization",
             "name": "Dalili",
             "alternateName": "dalili.study",
