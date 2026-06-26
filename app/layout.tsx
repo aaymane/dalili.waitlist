@@ -3,7 +3,6 @@ import { Montserrat, Bebas_Neue, DM_Sans } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import StarCanvas from "@/components/StarCanvas";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://dalili.study";
 
@@ -161,7 +160,6 @@ export default function RootLayout({
         <StarCanvas />
         <Navbar />
         {children}
-        <SpeedInsights />
       </body>
     </html>
   );
